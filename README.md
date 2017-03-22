@@ -1,5 +1,7 @@
-[![Build & Test](https://janicmikes.visualstudio.com/_apis/public/build/definitions/53d01f71-ae4d-4c13-be26-cecc9d264584/3/badge)](https://janicmikes.visualstudio.com/Engineering%20Project/_build)
-[![Coverity Scan Build Status](https://scan.coverity.com/projects/11980/badge.svg)](https://scan.coverity.com/projects/kandanda-client)
+[![Code Climate](https://img.shields.io/codeclimate/github/kandanda/Client.svg)](https://codeclimate.com/github/kandanda/Client)
+[![AppVeyor](https://img.shields.io/appveyor/ci/janicmikes/client.svg)](https://ci.appveyor.com/project/janicmikes/client)
+[![Coverity Scan](https://img.shields.io/coverity/scan/11980.svg)](https://scan.coverity.com/projects/kandanda-client)
+[![Coveralls](https://img.shields.io/coveralls/kandanda/Client.svg)](https://coveralls.io/github/kandanda/Client)
 
 # Kandanda Client
 The Client of Kandanda
