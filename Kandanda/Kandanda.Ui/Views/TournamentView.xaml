@@ -1,0 +1,30 @@
+﻿<UserControl x:Class="Kandanda.Ui.Views.TournamentView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:prism="http://prismlibrary.com/"             
+             prism:ViewModelLocator.AutoWireViewModel="True">
+    <WrapPanel Orientation="Vertical">
+        <StackPanel>
+            <Label Content="Tournament _Name" Target="{Binding ElementName=Name}"></Label>
+            <TextBox Name="Name" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+        </StackPanel>
+        <StackPanel>
+            <Label Content="Number of _Groups" Target="{Binding ElementName=NumberOfGroups}"></Label>
+            <TextBox Name="NumberOfGroups" Text="{Binding NumberOfGroups}" />
+        </StackPanel>
+        <StackPanel>
+            <Label Content="Number of Participants per Group" Target="{Binding ElementName=ParticipantsPerGroup}"></Label>
+            <TextBox Name="ParticipantsPerGroup" Text="{Binding ParticipantsPerGroup}" />
+        </StackPanel>
+        <StackPanel>
+            <Label Content="Game type" Target="{Binding ElementName=GameType}"></Label>
+            <ComboBox Name="GameType" />
+        </StackPanel>
+        <StackPanel>
+            <Label Content="KO Type" Target="{Binding ElementName=KoType}"></Label>
+            <ComboBox Name="KoType" />
+        </StackPanel>
+        <Button Content="Continue" Command="{Binding ContinueCommand}" 
+                VerticalAlignment="Bottom" HorizontalAlignment="Right"></Button>
+    </WrapPanel>
+</UserControl>
