@@ -24,6 +24,7 @@ namespace Kandanda.Ui
                 .RegisterTypeForNavigation<ParticipantView>();
             _regionManager
                 .RegisterViewWithRegion(RegionNames.ContentRegion, typeof(TournamentView))
+                .RegisterViewWithRegion(RegionNames.ContentRegion, typeof(SheduleView))
                 .RegisterViewWithRegion(RegionNames.ContentRegion, typeof(ParticipantView))
                 .RegisterViewWithRegion(RegionNames.ToolbarRegion, typeof(Toolbar))
                 .RegisterViewWithRegion(RegionNames.StatusbarRegion, typeof(Statusbar));
