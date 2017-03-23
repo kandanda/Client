@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace Kandanda.Ui
+namespace Kandanda.Ui.Views
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
