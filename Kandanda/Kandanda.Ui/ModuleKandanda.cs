@@ -20,9 +20,12 @@ namespace Kandanda.Ui
         public void Initialize()
         {
             _container
+                .RegisterTypeForNavigation<EditTournamentView>()
                 .RegisterTypeForNavigation<TournamentView>()
+                .RegisterTypeForNavigation<SheduleView>()
                 .RegisterTypeForNavigation<ParticipantView>();
             _regionManager
+                .RegisterViewWithRegion(RegionNames.WindowsRegion, typeof(ControlPanelView))
                 .RegisterViewWithRegion(RegionNames.ContentRegion, typeof(TournamentView))
                 .RegisterViewWithRegion(RegionNames.ContentRegion, typeof(SheduleView))
                 .RegisterViewWithRegion(RegionNames.ContentRegion, typeof(ParticipantView))

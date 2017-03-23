@@ -1,0 +1,18 @@
+﻿<UserControl x:Class="Kandanda.Ui.Views.EditTournamentView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:prism="http://prismlibrary.com/"
+             xmlns:ui="clr-namespace:Kandanda.Ui"
+             prism:ViewModelLocator.AutoWireViewModel="True">
+    <UserControl.Resources>
+        <Style TargetType="TabItem">
+            <Setter Property="Header" Value="{Binding DataContext.Title}" />
+        </Style>
+    </UserControl.Resources>
+    <DockPanel>
+        <ContentControl DockPanel.Dock="Top" prism:RegionManager.RegionName="{x:Static ui:RegionNames.ToolbarRegion}" />
+        <ContentControl DockPanel.Dock="Bottom" prism:RegionManager.RegionName="{x:Static ui:RegionNames.CommandRegion}" />
+        <ContentControl DockPanel.Dock="Bottom" prism:RegionManager.RegionName="{x:Static ui:RegionNames.StatusbarRegion}" />
+        <TabControl prism:RegionManager.RegionName="{x:Static ui:RegionNames.ContentRegion}" />
+    </DockPanel>
+</UserControl>

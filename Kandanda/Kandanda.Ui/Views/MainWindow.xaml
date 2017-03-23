@@ -5,17 +5,16 @@
         xmlns:ui="clr-namespace:Kandanda.Ui"
         prism:ViewModelLocator.AutoWireViewModel="True"
         Title="{Binding Title}" Height="350" Width="525">
-    <Window.Resources>
-        <Style TargetType="TabItem">
-            <Setter Property="Header" Value="{Binding DataContext.Title}" />
-        </Style>
-    </Window.Resources>
-    <DockPanel>
-        <ContentControl DockPanel.Dock="Top" prism:RegionManager.RegionName="{x:Static ui:RegionNames.ToolbarRegion}" />
-        <ContentControl DockPanel.Dock="Bottom" prism:RegionManager.RegionName="{x:Static ui:RegionNames.StatusbarRegion}" />
-        <TabControl prism:RegionManager.RegionName="{x:Static ui:RegionNames.ContentRegion}" />
-    </DockPanel>
+    <ContentControl prism:RegionManager.RegionName="{x:Static ui:RegionNames.WindowsRegion}"/>
 </Window>
+
+
+
+
+
+
+
+
 
 
 

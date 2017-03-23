@@ -114,12 +114,19 @@
     <Compile Include="Events\StateChangeEvent.cs" />
     <Compile Include="ModuleKandanda.cs" />
     <Compile Include="RegionNames.cs" />
+    <Compile Include="ViewModels\ControlPanelViewModel.cs" />
     <Compile Include="ViewModels\ParticipantViewModel.cs" />
     <Compile Include="ViewModels\SheduleViewModel.cs" />
     <Compile Include="ViewModels\StatusbarViewModel.cs" />
     <Compile Include="ViewModels\ToolbarViewModel.cs" />
     <Compile Include="ViewModels\TournamentViewModel.cs" />
     <Compile Include="Core\ViewModelBase.cs" />
+    <Compile Include="Views\ControlPanelView.xaml.cs">
+      <DependentUpon>ControlPanelView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\EditTournamentView.xaml.cs">
+      <DependentUpon>EditTournamentView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\ParticipantView.xaml.cs">
       <DependentUpon>ParticipantView.xaml</DependentUpon>
     </Compile>
@@ -135,6 +142,14 @@
     <Compile Include="Views\TournamentView.xaml.cs">
       <DependentUpon>TournamentView.xaml</DependentUpon>
     </Compile>
+    <Page Include="Views\ControlPanelView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\EditTournamentView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
