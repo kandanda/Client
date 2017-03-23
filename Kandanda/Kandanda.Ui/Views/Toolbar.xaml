@@ -1,23 +1,11 @@
-﻿<UserControl x:Class="Kandanda.Ui.Views.Menubar"
+﻿<UserControl x:Class="Kandanda.Ui.Views.Toolbar"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:prism="http://prismlibrary.com/"
-             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              prism:ViewModelLocator.AutoWireViewModel="True">
-    <Menu>
-        <MenuItem Header="_File">
-            <MenuItem Header="_New" Command="{Binding CloseCommand}"/>
-            <MenuItem Header="_Open" Command="{Binding CloseCommand}"/>
-            <MenuItem Header="_Close" Command="{Binding CloseCommand}"/>
-        </MenuItem>
-        <MenuItem Header="_Edit">
-            <MenuItem Header="_Generate Plan" Command="{Binding GeneratePlanCommand}"/>
-        </MenuItem>
-        <MenuItem Header="_Help">
-            <MenuItem Header="_Documentation" Command="{Binding OpenDocumentationCommand}"/>
-            <MenuItem Header="_About Kandanda" Command="{Binding ShowAboutCommand}"/>
-        </MenuItem>
-    </Menu>
+    <StackPanel Orientation="Horizontal">
+        <Button Content="Generate Plan" HorizontalAlignment="Right" Command="{Binding GeneratePlanCommand}"/>
+    </StackPanel>
 </UserControl>
 
 

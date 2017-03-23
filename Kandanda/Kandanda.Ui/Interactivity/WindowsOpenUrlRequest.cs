@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Kandanda.Ui.Interactivity
+﻿namespace Kandanda.Ui.Interactivity
 {
     public class WindowsOpenUrlRequest: IOpenUrlRequest
     {

@@ -1,9 +1,11 @@
-﻿using System.Reflection;
+﻿using System;
+using System.Reflection;
 
 namespace Kandanda.Ui.Interactivity
 {
-    class KandandaVersionInfo: IVersionInfo
+    public class KandandaVersionInfo: IVersionInfo
     {
-        public string Version => Assembly.GetEntryAssembly().GetName().Version.ToString();
+        private readonly Lazy<string> _version = new Lazy<string>(() => Assembly.GetEntryAssembly().GetName().Version.ToString());
+        public string Version => _version.Value;
     }
 }

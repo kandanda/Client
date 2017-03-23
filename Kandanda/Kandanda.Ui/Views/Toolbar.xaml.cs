@@ -3,11 +3,11 @@
 namespace Kandanda.Ui.Views
 {
     /// <summary>
-    /// Interaction logic for Menubar
+    /// Interaction logic for Toolbar
     /// </summary>
-    public partial class Menubar : UserControl
+    public partial class Toolbar : UserControl
     {
-        public Menubar()
+        public Toolbar()
         {
             InitializeComponent();
         }

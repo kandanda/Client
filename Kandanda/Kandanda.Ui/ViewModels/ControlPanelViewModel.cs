@@ -1,8 +1,4 @@
 ﻿using Prism.Commands;
-using Prism.Mvvm;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Windows.Input;
 using Kandanda.Ui.Core;
 using Prism.Regions;
@@ -12,7 +8,7 @@ namespace Kandanda.Ui.ViewModels
     public class ControlPanelViewModel : ViewModelBase
     {
         private readonly IRegionManager _regionManager;
-        public ICommand CreateTournamentCommand { get; set; }
+        public ICommand CreateTournamentCommand { get; }
 
         public ControlPanelViewModel(IRegionManager regionManager)
         {
@@ -22,7 +18,7 @@ namespace Kandanda.Ui.ViewModels
 
         private void NavigateToNewTournament()
         {
-            _regionManager.RequestNavigate(RegionNames.WindowsRegion, "EditTournamentView");
+            _regionManager.RequestNavigate(RegionNames.WindowsRegion, "/EditTournamentView");
         }
     }
 }
