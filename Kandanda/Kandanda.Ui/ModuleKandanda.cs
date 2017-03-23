@@ -1,4 +1,5 @@
-﻿using Kandanda.Ui.Views;
+﻿using Kandanda.Ui.Interactivity;
+using Kandanda.Ui.Views;
 using Microsoft.Practices.Unity;
 using Prism.Modularity;
 using Prism.Regions;
@@ -20,6 +21,10 @@ namespace Kandanda.Ui
         public void Initialize()
         {
             _container
+                .RegisterType<IVersionInfo, KandandaVersionInfo>()
+                .RegisterType<IOpenUrlRequest, WindowsOpenUrlRequest>();
+            _container
+                .RegisterTypeForNavigation<ControlPanelView>()
                 .RegisterTypeForNavigation<EditTournamentView>()
                 .RegisterTypeForNavigation<TournamentView>()
                 .RegisterTypeForNavigation<SheduleView>()
@@ -29,7 +34,7 @@ namespace Kandanda.Ui
                 .RegisterViewWithRegion(RegionNames.ContentRegion, typeof(TournamentView))
                 .RegisterViewWithRegion(RegionNames.ContentRegion, typeof(SheduleView))
                 .RegisterViewWithRegion(RegionNames.ContentRegion, typeof(ParticipantView))
-                .RegisterViewWithRegion(RegionNames.ToolbarRegion, typeof(Toolbar))
+                .RegisterViewWithRegion(RegionNames.MenuRegion, typeof(Menubar))
                 .RegisterViewWithRegion(RegionNames.StatusbarRegion, typeof(Statusbar));
         }
     }

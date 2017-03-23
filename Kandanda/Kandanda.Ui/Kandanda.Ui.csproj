@@ -112,13 +112,17 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Events\StateChangeEvent.cs" />
+    <Compile Include="Interactivity\IOpenUrlRequest.cs" />
+    <Compile Include="Interactivity\WindowsOpenUrlRequest.cs" />
     <Compile Include="ModuleKandanda.cs" />
     <Compile Include="RegionNames.cs" />
+    <Compile Include="Interactivity\IVersionInfo.cs" />
+    <Compile Include="Interactivity\KandandaVersionInfo.cs" />
     <Compile Include="ViewModels\ControlPanelViewModel.cs" />
     <Compile Include="ViewModels\ParticipantViewModel.cs" />
     <Compile Include="ViewModels\SheduleViewModel.cs" />
     <Compile Include="ViewModels\StatusbarViewModel.cs" />
-    <Compile Include="ViewModels\ToolbarViewModel.cs" />
+    <Compile Include="ViewModels\MenubarViewModel.cs" />
     <Compile Include="ViewModels\TournamentViewModel.cs" />
     <Compile Include="Core\ViewModelBase.cs" />
     <Compile Include="Views\ControlPanelView.xaml.cs">
@@ -136,8 +140,8 @@
     <Compile Include="Views\Statusbar.xaml.cs">
       <DependentUpon>Statusbar.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Toolbar.xaml.cs">
-      <DependentUpon>Toolbar.xaml</DependentUpon>
+    <Compile Include="Views\Menubar.xaml.cs">
+      <DependentUpon>Menubar.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\TournamentView.xaml.cs">
       <DependentUpon>TournamentView.xaml</DependentUpon>
@@ -176,7 +180,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Toolbar.xaml">
+    <Page Include="Views\Menubar.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
