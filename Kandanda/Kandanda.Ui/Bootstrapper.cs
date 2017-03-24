@@ -6,7 +6,7 @@ using Prism.Modularity;
 
 namespace Kandanda.Ui
 {
-    class Bootstrapper : UnityBootstrapper
+    internal class Bootstrapper : UnityBootstrapper
     {
         protected override DependencyObject CreateShell()
         {

@@ -3,22 +3,13 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:prism="http://prismlibrary.com/"
         xmlns:ui="clr-namespace:Kandanda.Ui"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         prism:ViewModelLocator.AutoWireViewModel="True"
-        Title="{Binding Title}" Height="350" Width="525">
-    <ContentControl prism:RegionManager.RegionName="{x:Static ui:RegionNames.WindowsRegion}"/>
+        Title="{Binding Title}" Height="600" Width="800">
+    <i:Interaction.Triggers>
+        <prism:InteractionRequestTrigger SourceObject="{Binding ShowAboutRequest}">
+            <prism:PopupWindowAction IsModal="True" CenterOverAssociatedObject="True" />
+        </prism:InteractionRequestTrigger>
+    </i:Interaction.Triggers>
+    <ContentControl prism:RegionManager.RegionName="{x:Static ui:RegionNames.WindowsRegion}" />
 </Window>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -3,14 +3,21 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:prism="http://prismlibrary.com/"
              xmlns:ui="clr-namespace:Kandanda.Ui"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              prism:ViewModelLocator.AutoWireViewModel="True">
     <UserControl.Resources>
         <Style TargetType="TabItem">
             <Setter Property="Header" Value="{Binding DataContext.Title}" />
         </Style>
     </UserControl.Resources>
+    <i:Interaction.Triggers>
+        <prism:InteractionRequestTrigger SourceObject="{Binding ConfirmationRequest}">
+            <prism:PopupWindowAction IsModal="True" CenterOverAssociatedObject="True" />
+        </prism:InteractionRequestTrigger>
+    </i:Interaction.Triggers>
     <DockPanel>
         <ContentControl DockPanel.Dock="Top" prism:RegionManager.RegionName="{x:Static ui:RegionNames.MenuRegion}" />
+        <ContentControl DockPanel.Dock="Top" prism:RegionManager.RegionName="{x:Static ui:RegionNames.ToolbarRegion}" />
         <ContentControl DockPanel.Dock="Bottom" prism:RegionManager.RegionName="{x:Static ui:RegionNames.CommandRegion}" />
         <ContentControl DockPanel.Dock="Bottom" prism:RegionManager.RegionName="{x:Static ui:RegionNames.StatusbarRegion}" />
         <TabControl prism:RegionManager.RegionName="{x:Static ui:RegionNames.ContentRegion}" />

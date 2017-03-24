@@ -4,7 +4,7 @@
              xmlns:prism="http://prismlibrary.com/"             
              prism:ViewModelLocator.AutoWireViewModel="True">
     <StackPanel>
-        <Button Content="New Tournament" Command="{Binding CreateTournamentCommand}"/>
+        <Button Content="New Tournament" Command="{Binding CreateTournamentCommand}" HorizontalAlignment="Left"/>
     </StackPanel>
 </UserControl>
 
