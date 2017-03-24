@@ -32,11 +32,11 @@ namespace Kandanda.Ui.ViewModels
         {
         }
 
-        public void ConfirmNavigationRequest(NavigationContext navigationContext, Action<bool> continuationCallback)
+        public async void ConfirmNavigationRequest(NavigationContext navigationContext, Action<bool> continuationCallback)
         {
-            ConfirmationRequest.Raise(
-                new Confirmation {Title = "Kandanda", Content = "Are you sure you want to close this Tournament?"},
-                c => continuationCallback(c.Confirmed));
+            var confirmation = await ConfirmationRequest.RaiseAsync(
+                new Confirmation {Title = "Kandanda", Content = "Are you sure you want to close this Tournament?"});
+            continuationCallback(confirmation.Confirmed);
         }
     }
 }
