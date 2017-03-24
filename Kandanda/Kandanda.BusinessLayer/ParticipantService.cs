@@ -1,30 +1,24 @@
-﻿using System.Collections.Generic;
-using Kandanda.Dal;
-using Kandanda.Dal.DataTransferObjects;
+﻿using Kandanda.Dal.DataTransferObjects;
 using Kandanda.Dal.Repository;
 
 namespace Kandanda.BusinessLayer
 {
-    public sealed class ParticipantService : IParticipantService
+    public sealed class ParticipantService : ServiceBase<Participant>, IParticipantService
     {
-        private readonly ParticipantRepository _repository;
-
-        public ParticipantService()
+        public ParticipantService(ParticipantRepository repository) : base(repository)
         {
-            _repository = new ParticipantRepository(new KandandaDatabaseContextFactory());
         }
 
-        public List<Participant> GetAll()
+        public Participant CreateEmpty(string name)
         {
-            return _repository.GetAll();
-        }
-
-        public void DeleteAll()
-        {
-            foreach (Participant participant in _repository.GetAll())
+            Participant participant = new Participant
             {
-                _repository.DeleteEntry(participant);
-            }
+                Name = name
+            };
+
+            Repository.Save(participant);
+
+            return participant;
         }
     }
 }

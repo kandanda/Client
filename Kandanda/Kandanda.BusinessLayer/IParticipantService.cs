@@ -1,10 +1,9 @@
-﻿using System.Collections.Generic;
-using Kandanda.Dal.DataTransferObjects;
+﻿using Kandanda.Dal.DataTransferObjects;
 
 namespace Kandanda.BusinessLayer
 {
-    interface IParticipantService
+    public interface IParticipantService
     {
-        List<Participant> GetAll();
+        Participant CreateEmpty(string name);
     }
 }
