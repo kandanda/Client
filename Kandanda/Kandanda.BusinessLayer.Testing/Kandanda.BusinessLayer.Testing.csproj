@@ -60,6 +60,8 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="ParticipantServiceTest.cs" />
+    <Compile Include="TestHelper.cs" />
     <Compile Include="TournamentServiceTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
