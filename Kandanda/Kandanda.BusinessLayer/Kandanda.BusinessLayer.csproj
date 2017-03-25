@@ -49,6 +49,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataAccessException.cs" />
     <Compile Include="ServiceInterfaces\IParticipantService.cs" />
     <Compile Include="ServiceInterfaces\ITournamentService.cs" />
     <Compile Include="ServiceImplementations\ParticipantService.cs" />
