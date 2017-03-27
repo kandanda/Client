@@ -25,8 +25,7 @@
   - provider: Slack
     incoming_webhook:
       secure: 6BE5MjWn5yOIvzNdttghz0Dqpr3AarkTiWzlqAe4OfvF8jtWYZId4I4Pr25sJb9jpTHCqOnpbprEPRWOKhr6X0rU3u+khIDKtBXBe00zxnU=
-    channel:
-      secure: JKtoOtAMGxkwBNmdlDjvq1xOtaxqDW4lBbdhmQ755PQ=
+    channel: epj-fs2017-builds
     on_build_success: true
     on_build_failure: true
     on_build_status_changed: true
@@ -75,8 +74,7 @@
   - provider: Slack
     incoming_webhook:
       secure: 6BE5MjWn5yOIvzNdttghz0Dqpr3AarkTiWzlqAe4OfvF8jtWYZId4I4Pr25sJb9jpTHCqOnpbprEPRWOKhr6X0rU3u+khIDKtBXBe00zxnU=
-    channel:
-      secure: JKtoOtAMGxkwBNmdlDjvq1xOtaxqDW4lBbdhmQ755PQ=
+    channel: epj-fs2017-builds
     on_build_success: true
     on_build_failure: true
     on_build_status_changed: true
@@ -115,3 +113,12 @@
   - cmd: nuget install PublishCoverity -ExcludeVersion
   - cmd: PublishCoverity\PublishCoverity.exe compress -o coverity.zip -i cov-int
   - cmd: PublishCoverity\PublishCoverity.exe publish -z coverity.zip -r janicmikes/client -t %CoverityProjectToken% -e janic.mikes@kandanda.ch --nologo
+
+  notifications:
+  - provider: Slack
+    incoming_webhook:
+      secure: 6BE5MjWn5yOIvzNdttghz0Dqpr3AarkTiWzlqAe4OfvF8jtWYZId4I4Pr25sJb9jpTHCqOnpbprEPRWOKhr6X0rU3u+khIDKtBXBe00zxnU=
+    channel: epj-fs2017-builds
+    on_build_success: true
+    on_build_failure: true
+    on_build_status_changed: true
