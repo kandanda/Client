@@ -105,6 +105,9 @@
   install:
     - nuget restore .\Kandanda\Kandanda.sln
 
+  before_build:
+    - cmd: cd Kandanda
+
   build_script:
   - ps: |
       $buildCmd = "msbuild.exe"
