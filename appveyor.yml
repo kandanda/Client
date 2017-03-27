@@ -58,8 +58,7 @@
     - cmd: nuget restore .\Kandanda.sln
   build:
     project: .\Kandanda\Kandanda.sln
-    verbosity: minimal
-  test: off
+    verbosity: detailed
   test_script:
     -cmd: .\OpenCover\tools\OpenCover.Console.exe -register:user -filter:"+[*]*" -target:"vstest.console" -targetargs:"/testcontainer:Kandanda.BusinessLayer.Testing\bin\Debug\Kandanda.BusinessLayer.Testing.dll" -output:coverage.xml
   after_test:
