@@ -114,8 +114,8 @@
       $buildArgs = @("/m", "/l:C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll")
       C:\Tools\Coverity\bin\cov-build.exe --dir cov-int $buildCmd $buildArgs
   - cmd: nuget install PublishCoverity -ExcludeVersion
-  - cmd: PublishCoverity\PublishCoverity.exe compress -o coverity.zip -i cov-int
-  - cmd: PublishCoverity\PublishCoverity.exe publish -z coverity.zip -r janicmikes/client -t %CoverityProjectToken% -e janic.mikes@kandanda.ch --nologo
+  - cmd: .\PublishCoverity\tools\PublishCoverity.exe compress -o coverity.zip -i cov-int
+  - cmd: .\PublishCoverity\tools\PublishCoverity.exe publish -z coverity.zip -r janicmikes/client -t %CoverityProjectToken% -e janic.mikes@kandanda.ch --nologo
 
   notifications:
   - provider: Slack
