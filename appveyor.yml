@@ -1,0 +1,117 @@
+-
+  branches:
+    only:
+      - master
+
+  version: 1.0.{build}
+
+  configuration: Release
+
+  assembly_info:
+    patch: true
+    file: AssemblyInfo.*
+    assembly_version: "{version}"
+    assembly_file_version: "{version}"
+    assembly_informational_version: "{version}"
+
+  install:
+    - nuget restore Kandanda\Kandanda.sln
+
+  build:
+    project: Kandanda\Kandanda.sln
+    verbosity: minimal
+
+  notifications:
+  - provider: Slack
+    incoming_webhook:
+      secure: 6BE5MjWn5yOIvzNdttghz0Dqpr3AarkTiWzlqAe4OfvF8jtWYZId4I4Pr25sJb9jpTHCqOnpbprEPRWOKhr6X0rU3u+khIDKtBXBe00zxnU=
+    channel:
+      secure: JKtoOtAMGxkwBNmdlDjvq1xOtaxqDW4lBbdhmQ755PQ=
+    on_build_success: true
+    on_build_failure: true
+    on_build_status_changed: true
+
+-
+  branches:
+    only:
+      - development
+
+  version: 1.0.{build}-beta
+
+  configuration: Debug
+
+  assembly_info:
+    patch: true
+    file: AssemblyInfo.*
+    assembly_version: "{version}"
+    assembly_file_version: "{version}"
+    assembly_informational_version: "{version}"
+
+  cache:
+    - packages
+
+  environment:
+    COVERALLS_REPO_TOKEN:
+      secure: JmyJ++UYDdjr0MUPfKt3WzYyP8b9scCmJPxjX0ODxjYD3mwov5yBXBp2cpAoAE/2
+
+  before_build:
+    - nuget install OpenCover -Version 4.6.519 -OutputDirectory .\OpenCover
+    - nuget install coveralls.io -Version 1.3.4 -OutputDirectory .\coveralls.io
+    - nuget install NUnit -Version 3.6.1 -OutputDirectory .\NUnit
+    - nuget install NUnit.Console -Version 3.6.1 -OutputDirectory .\Nunit.Console
+    - nuget restore .\Kandanda\Kandanda.sln
+
+  build:
+    project: .\Kandanda\Kandanda.sln
+    verbosity: minimal
+
+test_script:
+  -cmd: .\OpenCover\OpenCover.Console.exe -register:user -filter:"+[Kandanda*]*" -oldstyle -target:"nunit3-console" -targetargs:"**\*.Testing.dll" -output:coverage.xml
+
+  after_test:
+    -cmd: .\coveralls.io\tools\coveralls.net.exe --opencover coverage.xml
+
+  notifications:
+  - provider: Slack
+    incoming_webhook:
+      secure: 6BE5MjWn5yOIvzNdttghz0Dqpr3AarkTiWzlqAe4OfvF8jtWYZId4I4Pr25sJb9jpTHCqOnpbprEPRWOKhr6X0rU3u+khIDKtBXBe00zxnU=
+    channel:
+      secure: JKtoOtAMGxkwBNmdlDjvq1xOtaxqDW4lBbdhmQ755PQ=
+    on_build_success: true
+    on_build_failure: true
+    on_build_status_changed: true
+
+-
+  branches:
+    only:
+      - analyze
+
+  version: 1.0.{build}-alpha
+
+  configuration: Debug
+
+  assembly_info:
+    patch: true
+    file: AssemblyInfo.*
+    assembly_version: "{version}"
+    assembly_file_version: "{version}"
+    assembly_informational_version: "{version}"
+
+  cache:
+    - packages
+
+  environment:
+    CoverityProjectToken:
+      secure: iPxVjdOFnFj4jFrcBTt+ug2M4qpSyI80zDFDWcbSmro=
+
+  install:
+    - nuget restore .\Kandanda\Kandanda.sln
+
+  build_script:
+  - ps: |
+      $buildCmd = "msbuild.exe"
+      $buildArgs = @("/m", "/l:C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll")
+      C:\Tools\Coverity\bin\cov-build.exe --dir cov-int $buildCmd $buildArgs
+  - cmd: nuget install PublishCoverity -ExcludeVersion
+  - cmd: PublishCoverity\PublishCoverity.exe compress -o coverity.zip -i cov-int
+  - cmd: PublishCoverity\PublishCoverity.exe publish -z coverity.zip -r janicmikes/client -t %CoverityProjectToken% -e janic.mikes@kandanda.ch --nologo
