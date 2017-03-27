@@ -65,8 +65,8 @@
     project: .\Kandanda\Kandanda.sln
     verbosity: minimal
 
-test_script:
-  -cmd: .\OpenCover\OpenCover.Console.exe -register:user -filter:"+[Kandanda*]*" -oldstyle -target:"nunit3-console" -targetargs:"**\*.Testing.dll" -output:coverage.xml
+  test_script:
+    -cmd: .\OpenCover\OpenCover.Console.exe -register:user -filter:"+[Kandanda*]*" -oldstyle -target:"nunit3-console" -targetargs:"**\*.Testing.dll" -output:coverage.xml
 
   after_test:
     -cmd: .\coveralls.io\tools\coveralls.net.exe --opencover coverage.xml
