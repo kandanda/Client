@@ -55,13 +55,12 @@
     - cmd: cd Kandanda
     - cmd: nuget install OpenCover -Version 4.6.519 -ExcludeVersion
     - cmd: nuget install coveralls.io -Version 1.3.4 -ExcludeVersion
-    - cmd: nuget restore .\Kandanda.sln
   build:
     project: .\Kandanda\Kandanda.sln
     verbosity: minimal
-  after_test:
-    -ps: >-
-      .\OpenCover\tools\OpenCover.Console.exe -register:user -filter:"+[*]*" -target:"C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\IDE\mstest.exe" -targetargs:"/testcontainer:.\Kandanda.BusinessLayer.Testing\bin\Debug\Kandanda.BusinessLayer.Testing.dll" -output:coverage.xml
+  test_script:
+    - ps: >-
+      .\OpenCover\tools\OpenCover.Console.exe -register:user -filter:"+[*]*" -target:"C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\IDE\mstest.exe" -targetargs:"/testcontainer:.\Kandanda.BusinessLayer.Testing\bin\$env:configuration\Kandanda.BusinessLayer.Testing.dll" -output:coverage.xml
 
       .\coveralls.io\tools\coveralls.net.exe --opencover coverage.xml
 -
