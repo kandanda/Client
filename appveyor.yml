@@ -58,12 +58,12 @@
     - cmd: nuget restore .\Kandanda.sln
   build:
     project: .\Kandanda\Kandanda.sln
-    verbosity: detailed
-#  test_script:
-#    -cmd: .\OpenCover\tools\OpenCover.Console.exe -register:user -filter:"+[*]*" -target:"C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\IDE\mstest.exe" -targetargs:"/testcontainer:.\Kandanda.BusinessLayer.Testing\bin\Debug\Kandanda.BusinessLayer.Testing.dll" -output:coverage.xml
+    verbosity: minimal
   after_test:
-    -cmd: .\OpenCover\tools\OpenCover.Console.exe -register:user -filter:"+[*]*" -target:"C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\IDE\mstest.exe" -targetargs:"/testcontainer:.\Kandanda.BusinessLayer.Testing\bin\Debug\Kandanda.BusinessLayer.Testing.dll" -output:coverage.xml
-    -cmd: .\coveralls.io\tools\coveralls.net.exe --opencover coverage.xml
+    -ps: >-
+      .\OpenCover\tools\OpenCover.Console.exe -register:user -filter:"+[*]*" -target:"C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\IDE\mstest.exe" -targetargs:"/testcontainer:.\Kandanda.BusinessLayer.Testing\bin\Debug\Kandanda.BusinessLayer.Testing.dll" -output:coverage.xml
+
+      .\coveralls.io\tools\coveralls.net.exe --opencover coverage.xml
 -
   branches:
     only:
