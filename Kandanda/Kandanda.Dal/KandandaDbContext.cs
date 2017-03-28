@@ -19,5 +19,7 @@ namespace Kandanda.Dal
         public DbSet<Place> Places { get; set; }
 
         public DbSet<Phase> Phases { get; set; }
+
+        public DbSet<TournamentParticipant> TournamentParticipants { get; set; }
     }
 }
