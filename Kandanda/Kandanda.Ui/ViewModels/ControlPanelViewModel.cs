@@ -14,6 +14,7 @@ namespace Kandanda.Ui.ViewModels
         private readonly IRegionManager _regionManager;
         private readonly ITournamentService _tournamentService;
         public ICommand CreateTournamentCommand { get; }
+        public ICommand OpenTournamentCommand { get; }
         public List<Tournament> Tournaments { get; set; }
         
         public ControlPanelViewModel(IRegionManager regionManager, ITournamentService tournamentService)
@@ -21,10 +22,16 @@ namespace Kandanda.Ui.ViewModels
             _regionManager = regionManager;
             _tournamentService = tournamentService;
             CreateTournamentCommand = new DelegateCommand(NavigateToNewTournament);
+            OpenTournamentCommand = new DelegateCommand(NavigateToOpenTournament);
             Tournaments = tournamentService.GetAllTournaments();
         }
 
         private void NavigateToNewTournament()
+        {
+            _regionManager.RequestNavigate(RegionNames.WindowsRegion, "/EditTournamentView");
+        }
+
+        private void NavigateToOpenTournament()
         {
             _regionManager.RequestNavigate(RegionNames.WindowsRegion, "/EditTournamentView");
         }
