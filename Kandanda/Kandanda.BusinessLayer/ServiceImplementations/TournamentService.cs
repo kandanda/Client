@@ -51,7 +51,7 @@ namespace Kandanda.BusinessLayer.ServiceImplementations
                 on entry.ParticipantId equals participant.Id
                 select participant).ToList());
         }
-
+        
         public void DeleteTournament(Tournament tournament)
         {
             Delete(tournament);

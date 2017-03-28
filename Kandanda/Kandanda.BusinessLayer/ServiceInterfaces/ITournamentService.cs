@@ -10,6 +10,7 @@ namespace Kandanda.BusinessLayer.ServiceInterfaces
         void DeregisterParticipant(Tournament tournament, Participant participant);
         List<Participant> GetParticipantsByTournament(Tournament tournament);
         List<Tournament> GetAllTournaments();
+        Tournament GetTournamentById(int id);
         void DeleteTournament(Tournament tournament);
     }
 }
