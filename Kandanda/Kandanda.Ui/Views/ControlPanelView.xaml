@@ -5,6 +5,6 @@
              prism:ViewModelLocator.AutoWireViewModel="True">
     <StackPanel>
         <Button Content="New Tournament" Command="{Binding CreateTournamentCommand}" HorizontalAlignment="Left"/>
+        <ListView ItemsSource="{Binding Tournaments}" DisplayMemberPath="Name" />
     </StackPanel>
 </UserControl>
-
