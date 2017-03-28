@@ -50,6 +50,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataAccessException.cs" />
+    <Compile Include="Phases\GroupPhaseGenerator.cs" />
+    <Compile Include="Phases\IPhaseGenerator.cs" />
+    <Compile Include="Phases\KnockoutPhaseGenerator.cs" />
+    <Compile Include="ServiceImplementations\MatchService.cs" />
+    <Compile Include="ServiceInterfaces\IMatchService.cs" />
     <Compile Include="ServiceInterfaces\IParticipantService.cs" />
     <Compile Include="ServiceInterfaces\ITournamentService.cs" />
     <Compile Include="ServiceImplementations\ParticipantService.cs" />

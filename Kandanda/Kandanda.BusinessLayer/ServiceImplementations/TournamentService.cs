@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Kandanda.BusinessLayer.Phases;
 using Kandanda.BusinessLayer.ServiceInterfaces;
 using Kandanda.Dal.DataTransferObjects;
 
@@ -13,6 +14,25 @@ namespace Kandanda.BusinessLayer.ServiceImplementations
             {
                 Name = name
             });
+        }
+        
+        public Phase GeneratePhase(Tournament tournament, int groupSize)
+        {
+            var participants = GetParticipantsByTournament(tournament);
+
+            GroupPhaseGenerator groupPhaseGenerator = new GroupPhaseGenerator(participants, groupSize);
+            var matches = groupPhaseGenerator.GenerateMatches();
+
+            var matchService = new MatchService();
+
+            foreach (var match in matches)
+            {
+                matchService.SaveMatch(match);
+            }
+
+            var phase = new Phase();
+
+            return phase;
         }
 
         public Tournament GetTournamentById(int id)
