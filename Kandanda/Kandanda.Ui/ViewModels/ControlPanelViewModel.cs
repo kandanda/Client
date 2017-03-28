@@ -33,7 +33,8 @@ namespace Kandanda.Ui.ViewModels
 
         private void NavigateToOpenTournament()
         {
-            _regionManager.RequestNavigate(RegionNames.WindowsRegion, "/EditTournamentView");
+            var navigationParameters = new NavigationParameters { {"Tournament", 2 } };
+            _regionManager.RequestNavigate(RegionNames.WindowsRegion, "/EditTournamentView", navigationParameters);
         }
     }
 }

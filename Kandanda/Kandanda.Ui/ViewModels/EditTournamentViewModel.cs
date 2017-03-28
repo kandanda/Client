@@ -3,6 +3,9 @@ using Prism.Mvvm;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Windows;
+using Kandanda.BusinessLayer.ServiceImplementations;
+using Kandanda.BusinessLayer.ServiceInterfaces;
 using Kandanda.Ui.Core;
 using Prism.Interactivity.InteractionRequest;
 using Prism.Regions;
@@ -20,7 +23,9 @@ namespace Kandanda.Ui.ViewModels
 
         public void OnNavigatedTo(NavigationContext navigationContext)
         {
-            
+            var tournamentId = (int) navigationContext.Parameters["Tournament"];
+            ITournamentService tournamentService = new TournamentService();
+            tournamentService.GetTournamentById(tournamentId);
         }
 
         public bool IsNavigationTarget(NavigationContext navigationContext)
