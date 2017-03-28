@@ -2,7 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Kandanda.BusinessLayer.Net
+namespace Kandanda.BusinessLayer.ServiceInterfaces
 {
     public interface IPublishTournamentService : IDisposable
     {

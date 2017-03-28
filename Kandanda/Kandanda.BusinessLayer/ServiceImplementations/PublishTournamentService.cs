@@ -7,9 +7,10 @@ using System.Security.Authentication;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Kandanda.BusinessLayer.ServiceInterfaces;
 using Newtonsoft.Json.Linq;
 
-namespace Kandanda.BusinessLayer.Net
+namespace Kandanda.BusinessLayer.ServiceImplementations
 {
     public class PublishTournamentService : IPublishTournamentService
     {

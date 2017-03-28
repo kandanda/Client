@@ -30,16 +30,17 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+<<<<<<< HEAD
     <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.10.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
+=======
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+>>>>>>> develop
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -53,15 +54,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+<<<<<<< HEAD
+    <Compile Include="IParticipantService.cs" />
+    <Compile Include="Net\IPublishTournamentService.cs" />
+    <Compile Include="ParticipantService.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Net\PublishTournamentService.cs" />
+=======
     <Compile Include="DataAccessException.cs" />
-    <Compile Include="ServiceInterfaces\IPublishTournamentService.cs" />
     <Compile Include="ServiceInterfaces\IParticipantService.cs" />
     <Compile Include="ServiceInterfaces\ITournamentService.cs" />
     <Compile Include="ServiceImplementations\ParticipantService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ServiceImplementations\PublishTournamentService.cs" />
     <Compile Include="ServiceBase.cs" />
     <Compile Include="ServiceImplementations\TournamentService.cs" />
+>>>>>>> develop
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Kandanda.Dal\Kandanda.Dal.csproj">
@@ -70,7 +77,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+<<<<<<< HEAD
+=======
     <None Include="App.config" />
+>>>>>>> develop
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
