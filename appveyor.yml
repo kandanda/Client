@@ -1,0 +1,94 @@
+-
+  branches:
+    only:
+      - master
+  version: 1.0.{build}
+  configuration: Release
+  assembly_info:
+    patch: true
+    file: AssemblyInfo.*
+    assembly_version: "{version}"
+    assembly_file_version: "{version}"
+    assembly_informational_version: "{version}"
+  install:
+    - nuget restore Kandanda\Kandanda.sln
+  build:
+    project: Kandanda\Kandanda.sln
+    verbosity: minimal
+-
+  branches:
+    only:
+      - /release*/
+  version: 1.0.{build}-beta
+  configuration: Release
+  assembly_info:
+    patch: true
+    file: AssemblyInfo.*
+    assembly_version: "{version}"
+    assembly_file_version: "{version}"
+    assembly_informational_version: "{version}"
+  install:
+    - nuget restore Kandanda\Kandanda.sln
+  build:
+    project: Kandanda\Kandanda.sln
+    verbosity: detailed
+-
+  branches:
+    only:
+      - develop
+  version: 1.0.{build}-alpha
+  configuration: Debug
+  assembly_info:
+    patch: true
+    file: AssemblyInfo.*
+    assembly_version: "{version}"
+    assembly_file_version: "{version}"
+    assembly_informational_version: "{version}"
+  cache:
+    - Kandanda/packages
+  environment:
+    COVERALLS_REPO_TOKEN:
+      secure: JmyJ++UYDdjr0MUPfKt3WzYyP8b9scCmJPxjX0ODxjYD3mwov5yBXBp2cpAoAE/2
+  install:
+    - cmd: nuget restore .\Kandanda\Kandanda.sln
+  before_build:
+    - cmd: cd Kandanda
+    - cmd: nuget install OpenCover -Version 4.6.519 -ExcludeVersion
+    - cmd: nuget install coveralls.io -Version 1.3.4 -ExcludeVersion
+  build:
+    project: .\Kandanda\Kandanda.sln
+    verbosity: minimal
+  test_script:
+    - ps: >-
+        .\OpenCover\tools\OpenCover.Console.exe -register:user -filter:"+[*]*" -target:"C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\IDE\mstest.exe" -targetargs:"/testcontainer:.\Kandanda.BusinessLayer.Testing\bin\$env:configuration\Kandanda.BusinessLayer.Testing.dll" -output:coverage.xml
+        
+        .\coveralls.io\tools\coveralls.net.exe --opencover coverage.xml
+-
+  branches:
+    only:
+      - analyze
+  version: 1.0.{build}-pre
+  configuration: Debug
+  assembly_info:
+    patch: true
+    file: AssemblyInfo.*
+    assembly_version: "{version}"
+    assembly_file_version: "{version}"
+    assembly_informational_version: "{version}"
+  cache:
+    - Kandanda/packages
+  environment:
+    CoverityProjectToken:
+      secure: iPxVjdOFnFj4jFrcBTt+ug2M4qpSyI80zDFDWcbSmro=
+  install:
+    - cmd: nuget restore .\Kandanda\Kandanda.sln
+  before_build:
+    - cmd: cd Kandanda
+  build_script:
+  - ps: |
+      $buildCmd = "msbuild.exe"
+      $buildArgs = @("/m", "/l:C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll")
+      C:\Tools\Coverity\bin\cov-build.exe --dir cov-int $buildCmd $buildArgs
+  - cmd: nuget install PublishCoverity -ExcludeVersion
+  - cmd: .\PublishCoverity\tools\PublishCoverity.exe compress -o coverity.zip -i cov-int
+  - cmd: .\PublishCoverity\tools\PublishCoverity.exe publish -z coverity.zip -r kandanda/Client -t %CoverityProjectToken% -e janic.mikes@kandanda.ch --nologo
