@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Security.Authentication;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
 
-namespace Kandanda.BusinessLayer
+namespace Kandanda.BusinessLayer.Net
 {
     public class PublishTournamentService : IPublishTournamentService
     {
@@ -21,13 +22,20 @@ namespace Kandanda.BusinessLayer
             _client.BaseAddress = new Uri(baseUri, $"/api/{ApiVersion}/");
         }
 
-        public async Task<string> AuthenticateAsync(string username, string password, CancellationToken cancellationToken)
+        /// <summary>
+        /// Get a auth token from API. 
+        /// </summary>
+        /// <param name="email"></param>
+        /// <param name="password"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns>Returns JWT Token or null if failed</returns>
+        public async Task<string> AuthenticateAsync(string email, string password, CancellationToken cancellationToken)
         {
             var request = new HttpRequestMessage(HttpMethod.Post, "auth")
             {
                 Content = new FormUrlEncodedContent(new Dictionary<string, string>
                 {
-                    ["email"] = username,
+                    ["email"] = email,
                     ["password"] = password
                 })
             };
@@ -42,6 +50,15 @@ namespace Kandanda.BusinessLayer
             }
         }
 
+        /// <summary>
+        /// Post a new tournament plan online
+        /// </summary>
+        /// <param name="payload"></param>
+        /// <param name="authToken"></param>
+        /// <param name="cancellationToken"></param>
+        /// <exception cref="ArgumentException">Throws if auth token is null or empty</exception>
+        /// <exception cref="AuthenticationException">Throws if the auth token is exipired</exception>
+        /// <returns></returns>
         public async Task<string> PostTournamentAsync(string payload, string authToken, CancellationToken cancellationToken)
         {
             if (string.IsNullOrWhiteSpace(authToken))
@@ -54,9 +71,16 @@ namespace Kandanda.BusinessLayer
             request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", authToken);
 
             using (var response = await _client.SendAsync(request, cancellationToken))
-            using (var content = response.Content)
             {
-                return await content.ReadAsStringAsync();
+                // Api redirects to sign in page if the auth token is expired
+                if (response.StatusCode == HttpStatusCode.Redirect)
+                {
+                    throw new AuthenticationException("JWT Token expired");
+                }
+                using (var content = response.Content)
+                {
+                    return await content.ReadAsStringAsync();
+                }
             }
         }
 

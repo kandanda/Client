@@ -1,15 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Kandanda.BusinessLayer
+namespace Kandanda.BusinessLayer.Net
 {
     public interface IPublishTournamentService : IDisposable
     {
-        Task<string> AuthenticateAsync(string username, string password, CancellationToken cancellationToken);
+        Task<string> AuthenticateAsync(string email, string password, CancellationToken cancellationToken);
         Task<string> PostTournamentAsync(string payload, string authToken, CancellationToken cancellationToken);
     }
 }

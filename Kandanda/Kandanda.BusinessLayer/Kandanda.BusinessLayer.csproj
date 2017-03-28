@@ -45,10 +45,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IParticipantService.cs" />
-    <Compile Include="IPublishTournamentService.cs" />
+    <Compile Include="Net\IPublishTournamentService.cs" />
     <Compile Include="ParticipantService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="PublishTournamentService.cs" />
+    <Compile Include="Net\PublishTournamentService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Kandanda.Dal\Kandanda.Dal.csproj">
