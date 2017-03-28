@@ -12,6 +12,9 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kandanda.BusinessLayer", "Kandanda.BusinessLayer\Kandanda.BusinessLayer.csproj", "{8FE36BD3-6C6E-498A-8F7E-1A18F3D4C4FD}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kandanda.BusinessLayer.Testing", "Kandanda.BusinessLayer.Testing\Kandanda.BusinessLayer.Testing.csproj", "{1F815A83-A104-4B7A-A84E-2EF61D778A17}"
+	ProjectSection(ProjectDependencies) = postProject
+		{8FE36BD3-6C6E-498A-8F7E-1A18F3D4C4FD} = {8FE36BD3-6C6E-498A-8F7E-1A18F3D4C4FD}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kandanda.Ui", "Kandanda.Ui\Kandanda.Ui.csproj", "{99C9E82C-C594-446D-AA59-8FFBC43AD226}"
 EndProject
