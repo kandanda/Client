@@ -18,6 +18,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kandanda.BusinessLayer.Test
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kandanda.Ui", "Kandanda.Ui\Kandanda.Ui.csproj", "{99C9E82C-C594-446D-AA59-8FFBC43AD226}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kandanda.Dal.Testing", "Kandanda.Dal.Testing\Kandanda.Dal.Testing.csproj", "{7F5FCB4D-B724-451C-A957-550F29391C4B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -44,6 +46,10 @@ Global
 		{99C9E82C-C594-446D-AA59-8FFBC43AD226}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{99C9E82C-C594-446D-AA59-8FFBC43AD226}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{99C9E82C-C594-446D-AA59-8FFBC43AD226}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7F5FCB4D-B724-451C-A957-550F29391C4B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7F5FCB4D-B724-451C-A957-550F29391C4B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7F5FCB4D-B724-451C-A957-550F29391C4B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7F5FCB4D-B724-451C-A957-550F29391C4B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -51,5 +57,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{FCC980A2-76C4-403A-AF18-CE8BE8883BE3} = {1329628E-2754-4B66-A15C-2B9CAEC8541C}
 		{1F815A83-A104-4B7A-A84E-2EF61D778A17} = {1329628E-2754-4B66-A15C-2B9CAEC8541C}
+		{7F5FCB4D-B724-451C-A957-550F29391C4B} = {1329628E-2754-4B66-A15C-2B9CAEC8541C}
 	EndGlobalSection
 EndGlobal
