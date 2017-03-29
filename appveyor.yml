@@ -59,10 +59,14 @@
     project: .\Kandanda\Kandanda.sln
     verbosity: minimal
   test_script:
-    - ps: >-
-        .\OpenCover\tools\OpenCover.Console.exe -register:user -filter:"+[*]*" -target:"C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\IDE\mstest.exe" -targetargs:"/testcontainer:.\Kandanda.BusinessLayer.Testing\bin\$env:configuration\Kandanda.BusinessLayer.Testing.dll" -output:coverage.xml
-        
-        .\coveralls.io\tools\coveralls.net.exe --opencover coverage.xml
+    - vstest.console /logger:Appveyor ".\Kandanda.BusinessLayer.Testing\bin\%CONFIGURATION%\Kandanda.Ui.Testing.dll"
+    - vstest.console /logger:Appveyor ".\Kandanda.BusinessLayer.Testing\bin\%CONFIGURATION%\Kandanda.BusinessLayer.Testing.dll"
+    - vstest.console /logger:Appveyor ".\Kandanda.BusinessLayer.Testing\bin\%CONFIGURATION%\Kandanda.Dal.Testing.dll"
+  after_test:
+    - .\OpenCover\tools\OpenCover.Console.exe -register:user -filter:"+[*]*" -target:"vstest.console.exe" -targetargs:".\Kandanda.Ui.Testing\bin\%CONFIGURATION%\Kandanda.Ui.Testing.dll"  -excludebyattribute:*.ExcludeFromCodeCoverage* -hideskipped:All -output:coverage.xml
+    - .\OpenCover\tools\OpenCover.Console.exe -register:user -filter:"+[*]*" -target:"vstest.console.exe" -targetargs:".\Kandanda.BusinessLayer.Testing\bin\%CONFIGURATION%\Kandanda.Ui.Testing.dll"  -excludebyattribute:*.ExcludeFromCodeCoverage* -hideskipped:All -output:coverage.xml -mergeoutput
+    - .\OpenCover\tools\OpenCover.Console.exe -register:user -filter:"+[*]*" -target:"vstest.console.exe" -targetargs:".\Kandanda.Dal.Testing\bin\%CONFIGURATION%\Kandanda.Ui.Testing.dll"  -excludebyattribute:*.ExcludeFromCodeCoverage* -hideskipped:All -output:coverage.xml -mergeoutput
+    - .\coveralls.io\tools\coveralls.net.exe --opencover coverage.xml
 -
   branches:
     only:
