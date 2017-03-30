@@ -54,6 +54,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataAccessException.cs" />
+    <Compile Include="ServiceImplementations\PublishTournamentRequestBuilder.cs" />
+    <Compile Include="ServiceInterfaces\IPublishTournamentRequestBuilder.cs" />
     <Compile Include="ServiceInterfaces\IPublishTournamentService.cs" />
     <Compile Include="ServiceInterfaces\IParticipantService.cs" />
     <Compile Include="ServiceInterfaces\ITournamentService.cs" />

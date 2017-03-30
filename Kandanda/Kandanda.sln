@@ -6,6 +6,9 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Testing", "Testing", "{1329628E-2754-4B66-A15C-2B9CAEC8541C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kandanda.Ui.Testing", "Kandanda.Ui.Testing\Kandanda.Ui.Testing.csproj", "{FCC980A2-76C4-403A-AF18-CE8BE8883BE3}"
+	ProjectSection(ProjectDependencies) = postProject
+		{99C9E82C-C594-446D-AA59-8FFBC43AD226} = {99C9E82C-C594-446D-AA59-8FFBC43AD226}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kandanda.Dal", "Kandanda.Dal\Kandanda.Dal.csproj", "{E5C625A2-F602-4EC1-905F-50EDFF95104B}"
 EndProject
@@ -17,6 +20,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kandanda.BusinessLayer.Test
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kandanda.Ui", "Kandanda.Ui\Kandanda.Ui.csproj", "{99C9E82C-C594-446D-AA59-8FFBC43AD226}"
+	ProjectSection(ProjectDependencies) = postProject
+		{E5C625A2-F602-4EC1-905F-50EDFF95104B} = {E5C625A2-F602-4EC1-905F-50EDFF95104B}
+		{8FE36BD3-6C6E-498A-8F7E-1A18F3D4C4FD} = {8FE36BD3-6C6E-498A-8F7E-1A18F3D4C4FD}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

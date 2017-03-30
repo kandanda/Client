@@ -4,6 +4,7 @@
              xmlns:prism="http://prismlibrary.com/"
              xmlns:ui="clr-namespace:Kandanda.Ui"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:views="clr-namespace:Kandanda.Ui.Views"
              prism:ViewModelLocator.AutoWireViewModel="True">
     <UserControl.Resources>
         <Style TargetType="TabItem">
@@ -14,6 +15,13 @@
         <prism:InteractionRequestTrigger SourceObject="{Binding ConfirmationRequest}">
             <prism:PopupWindowAction IsModal="True" CenterOverAssociatedObject="True" />
         </prism:InteractionRequestTrigger>
+        <prism:InteractionRequestTrigger SourceObject="{Binding SignInRequest}">
+            <prism:PopupWindowAction IsModal="True">
+                <prism:PopupWindowAction.WindowContent>
+                    <views:SignInPopupView />
+                </prism:PopupWindowAction.WindowContent>
+            </prism:PopupWindowAction>
+        </prism:InteractionRequestTrigger>
     </i:Interaction.Triggers>
     <DockPanel>
         <ContentControl DockPanel.Dock="Top" prism:RegionManager.RegionName="{x:Static ui:RegionNames.MenuRegion}" />
@@ -23,3 +31,4 @@
         <TabControl prism:RegionManager.RegionName="{x:Static ui:RegionNames.ContentRegion}" />
     </DockPanel>
 </UserControl>
+

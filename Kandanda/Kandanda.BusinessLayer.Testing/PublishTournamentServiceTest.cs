@@ -6,7 +6,10 @@ using System.Security.Authentication;
 using System.Threading;
 using System.Threading.Tasks;
 using Kandanda.BusinessLayer.ServiceImplementations;
+using Kandanda.BusinessLayer.ServiceInterfaces;
+using Kandanda.Dal.DataTransferObjects;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
 
 namespace Kandanda.BusinessLayer.Testing
 {
@@ -17,7 +20,7 @@ namespace Kandanda.BusinessLayer.Testing
         public async Task AuthenticateAsyncShouldReturnNullWhenCrendialsAreWrong()
         {
             var fakeHandler = new FakeResponseHandler { Response = () =>  new HttpResponseMessage(HttpStatusCode.Unauthorized)};
-            var service = new PublishTournamentService(new Uri("https://someurl.com/"), fakeHandler);
+            var service = new PublishTournamentService(new Uri("https://someurl.com/"), CreateFakeTournamentBuilder(), fakeHandler);
 
             var actual = await service.AuthenticateAsync("abc@def.com", "password", CancellationToken.None);
             Assert.IsNull(actual);
@@ -27,7 +30,7 @@ namespace Kandanda.BusinessLayer.Testing
         public async Task AuthenticateAsyncShouldSendACorrectRequest()
         {
             var fakeHandler = new FakeResponseHandler {Response = () => CreateSuccessfulFakeAuthResponse()};
-            var service = new PublishTournamentService(new Uri("https://someurl.com/"), fakeHandler);
+            var service = new PublishTournamentService(new Uri("https://someurl.com/"), CreateFakeTournamentBuilder(), fakeHandler);
 
             await service.AuthenticateAsync("abc@def.com", "password", CancellationToken.None);
 
@@ -43,7 +46,7 @@ namespace Kandanda.BusinessLayer.Testing
         {
             const string authToken = "xxxx.xxxx.xxxx";
             var fakeHandler = new FakeResponseHandler { Response = () => CreateSuccessfulFakeAuthResponse(authToken) };
-            var service = new PublishTournamentService(new Uri("https://someurl.com/"), fakeHandler);
+            var service = new PublishTournamentService(new Uri("https://someurl.com/"), CreateFakeTournamentBuilder(), fakeHandler);
 
             var actual = await service.AuthenticateAsync("abc@def.com", "password", CancellationToken.None);
             Assert.AreEqual(authToken, actual);
@@ -54,9 +57,9 @@ namespace Kandanda.BusinessLayer.Testing
         public async Task PostTournamentAsyncShouldSendACorrectRequest()
         {
             var fakeHandler = new FakeResponseHandler();
-            var service = new PublishTournamentService(new Uri("https://someurl.com/"), fakeHandler);
+            var service = new PublishTournamentService(new Uri("https://someurl.com/"), CreateFakeTournamentBuilder(), fakeHandler);
 
-            await service.PostTournamentAsync("payload", "token", CancellationToken.None);
+            await service.PostTournamentAsync(new Tournament(), "token", CancellationToken.None);
 
             var request = fakeHandler.Requests[0].Item1;
             var content = fakeHandler.Requests[0].Item2;
@@ -71,9 +74,16 @@ namespace Kandanda.BusinessLayer.Testing
         public async Task PostTournamentAsyncShouldThrowIfAuthTokenExpired()
         {
             var fakeHandler = new FakeResponseHandler { Response = () => new HttpResponseMessage(HttpStatusCode.Redirect) };
-            var service = new PublishTournamentService(new Uri("https://someurl.com/"), fakeHandler);
+            var service = new PublishTournamentService(new Uri("https://someurl.com/"), CreateFakeTournamentBuilder(), fakeHandler);
 
-            await service.PostTournamentAsync("payload", "token", CancellationToken.None);
+            await service.PostTournamentAsync(new Tournament(), "token", CancellationToken.None);
+        }
+
+        private IPublishTournamentRequestBuilder CreateFakeTournamentBuilder()
+        {
+            var builder = new Mock<IPublishTournamentRequestBuilder>();
+            builder.Setup(t => t.BuildJsonRequest(It.IsAny<Tournament>())).Returns("payload");
+            return builder.Object;
         }
 
         private HttpResponseMessage CreateSuccessfulFakeAuthResponse(string authToken="xxxx.xxxx.xxxx")
