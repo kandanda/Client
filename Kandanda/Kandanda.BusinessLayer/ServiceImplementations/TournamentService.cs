@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Kandanda.BusinessLayer.Phases;
+using Kandanda.BusinessLayer.PhaseGenerators;
 using Kandanda.BusinessLayer.ServiceInterfaces;
 using Kandanda.Dal.DataTransferObjects;
 

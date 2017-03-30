@@ -54,7 +54,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataAccessException.cs" />
+    <Compile Include="PhaseGenerators\GroupPhaseGenerator.cs" />
+    <Compile Include="PhaseGenerators\IPhaseGenerator.cs" />
+    <Compile Include="PhaseGenerators\KnockoutPhaseGenerator.cs" />
+    <Compile Include="ServiceImplementations\MatchService.cs" />
     <Compile Include="ServiceImplementations\PublishTournamentRequestBuilder.cs" />
+    <Compile Include="ServiceInterfaces\IMatchService.cs" />
     <Compile Include="ServiceInterfaces\IPublishTournamentRequestBuilder.cs" />
     <Compile Include="ServiceInterfaces\IPublishTournamentService.cs" />
     <Compile Include="ServiceInterfaces\IParticipantService.cs" />

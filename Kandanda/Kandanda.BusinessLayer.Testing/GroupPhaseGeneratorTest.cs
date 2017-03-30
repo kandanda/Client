@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Kandanda.BusinessLayer.ServiceImplementations;
+using Kandanda.Dal.DataTransferObjects;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Kandanda.BusinessLayer.Testing
@@ -20,7 +21,9 @@ namespace Kandanda.BusinessLayer.Testing
         [TestMethod]
         public void TestGroupPhaseGeneration()
         {
+            const int groupSize = 4;
             var tournament = tournamentService.CreateEmpty("SwissCup");
+
             var participants = new List<string>
             {
                 "FC St. Gallen", "FC Thun", "FC Solothurn", "FC Zürich",
@@ -33,7 +36,8 @@ namespace Kandanda.BusinessLayer.Testing
                 tournamentService.EnrolParticipant(tournament, participant);
             }
 
-            tournamentService.GeneratePhase(tournament, 4);
+            var phase = tournamentService.GeneratePhase(tournament, groupSize);
+            
         }
     }
 }
