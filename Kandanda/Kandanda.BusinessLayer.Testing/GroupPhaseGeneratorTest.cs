@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Kandanda.BusinessLayer.ServiceImplementations;
 using Kandanda.Dal.DataTransferObjects;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -16,6 +17,7 @@ namespace Kandanda.BusinessLayer.Testing
         {
             participantService = new ParticipantService();
             tournamentService = new TournamentService();
+            TestHelper.ResetDatabase();
         }
 
         [TestMethod]
@@ -37,7 +39,34 @@ namespace Kandanda.BusinessLayer.Testing
             }
 
             var phase = tournamentService.GeneratePhase(tournament, groupSize);
+            var matchList = tournamentService.GetMatchesByPhase(phase);
             
+            Assert.AreEqual(12, matchList.Count);
+        }
+
+        [TestMethod]
+        public void TestDifferentGroupSizes()
+        {
+            const int groupSize = 5;
+            var tournament = tournamentService.CreateEmpty("SwissCup");
+
+            var participants = new List<string>
+            {
+                "Berlin", "Hamburg", "Wuppertal", "Essen",
+                "München", "Bonn", "Leipzig", "Stuttgart",
+                "Salzburg"
+            };
+
+            foreach (var participantName in participants)
+            {
+                var participant = participantService.CreateEmpty(participantName);
+                tournamentService.EnrolParticipant(tournament, participant);
+            }
+
+            var phase = tournamentService.GeneratePhase(tournament, groupSize);
+            var matchList = tournamentService.GetMatchesByPhase(phase);
+
+            Assert.AreEqual(16, matchList.Count);
         }
     }
 }
