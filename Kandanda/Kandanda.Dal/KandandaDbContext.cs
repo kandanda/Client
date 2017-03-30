@@ -7,7 +7,8 @@ namespace Kandanda.Dal
     {
         public KandandaDbContext()
         {
-            Database.SetInitializer(new SampleDataDbInitializer());
+            // TODO fix SetInitializer for tests
+            Database.SetInitializer(new DropCreateDatabaseAlways<KandandaDbContext>());
         }
 
         public DbSet<Tournament> Tournaments { get; set; }
