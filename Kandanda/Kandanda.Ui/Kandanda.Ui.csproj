@@ -9,11 +9,12 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Kandanda.Ui</RootNamespace>
     <AssemblyName>Kandanda.Ui</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -64,7 +65,10 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Prism.Wpf.6.2.0\lib\net45\System.Windows.Interactivity.dll</HintPath>
       <Private>True</Private>
@@ -122,6 +126,7 @@
     <Compile Include="ViewModels\EditTournamentViewModel.cs" />
     <Compile Include="ViewModels\ParticipantViewModel.cs" />
     <Compile Include="ViewModels\SheduleViewModel.cs" />
+    <Compile Include="ViewModels\SignInPopupViewModel.cs" />
     <Compile Include="ViewModels\StatusbarViewModel.cs" />
     <Compile Include="ViewModels\MenubarViewModel.cs" />
     <Compile Include="ViewModels\TournamentViewModel.cs" />
@@ -140,6 +145,9 @@
     </Compile>
     <Compile Include="Views\SheduleView.xaml.cs">
       <DependentUpon>SheduleView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SignInPopupView.xaml.cs">
+      <DependentUpon>SignInPopupView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Statusbar.xaml.cs">
       <DependentUpon>Statusbar.xaml</DependentUpon>
@@ -181,6 +189,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\SheduleView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SignInPopupView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -226,7 +238,16 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\Kandanda.BusinessLayer\Kandanda.BusinessLayer.csproj">
+      <Project>{8fe36bd3-6c6e-498a-8f7e-1a18f3d4c4fd}</Project>
+      <Name>Kandanda.BusinessLayer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Kandanda.Dal\Kandanda.Dal.csproj">
+      <Project>{e5c625a2-f602-4ec1-905f-50edff95104b}</Project>
+      <Name>Kandanda.Dal</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

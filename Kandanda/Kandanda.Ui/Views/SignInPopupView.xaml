@@ -1,0 +1,54 @@
+﻿<UserControl x:Class="Kandanda.Ui.Views.SignInPopupView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:prism="http://prismlibrary.com/"             
+             prism:ViewModelLocator.AutoWireViewModel="True">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <Label Content="Email:" Target="{Binding ElementName=Email}" />
+        <TextBox Grid.Row="0" Grid.Column="1" Name="Email" />
+        <Label Grid.Row="1" Grid.Column="0" Content="Password:" Target="{Binding ElementName=Password}" />
+        <TextBox Grid.Row="1" Grid.Column="1" Name="Password" />
+        <Button Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Content="Sign in" 
+                HorizontalAlignment="Right" Command="{Binding SignInCommand}"/>
+    </Grid>
+</UserControl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
