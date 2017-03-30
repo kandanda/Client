@@ -9,21 +9,21 @@ namespace Kandanda.BusinessLayer.Testing
     [TestClass]
     public class TournamentServiceTest
     {
-        private const string participantName1 = "FC St. Gallen";
-        private const string participantName2 = "GC Zürich";
-        private const string tournamentName = "Schweizer Cup";
+        private const string ParticipantName1 = "FC St. Gallen";
+        private const string ParticipantName2 = "GC Zürich";
+        private const string TournamentName = "Schweizer Cup";
 
-        private Participant participant1;
-        private Participant participant2;
-        private Tournament initialTournament;
+        private Participant _participant1;
+        private Participant _participant2;
+        private Tournament _initialTournament;
 
         [TestInitialize]
         public void Setup()
         {
             TestHelper.ResetDatabase();
-            participant1 = CreateParticipant(participantName1);
-            participant2 = CreateParticipant(participantName2);
-            initialTournament = CreateTournament(tournamentName);
+            _participant1 = CreateParticipant(ParticipantName1);
+            _participant2 = CreateParticipant(ParticipantName2);
+            _initialTournament = CreateTournament(TournamentName);
         }
         
         [TestMethod]
@@ -41,28 +41,28 @@ namespace Kandanda.BusinessLayer.Testing
         [TestMethod]
         public void TestEnrolParticipantToTournament()
         {
-            EnrolParticipant(initialTournament, participant1);
-            EnrolParticipant(initialTournament, participant2);
+            EnrolParticipant(_initialTournament, _participant1);
+            EnrolParticipant(_initialTournament, _participant2);
 
-            var participants = GetParticipants(initialTournament);
+            var participants = GetParticipants(_initialTournament);
 
             Assert.AreEqual(2, participants.Count);
-            Assert.AreEqual(participantName1, participants[0].Name);
-            Assert.AreEqual(participantName2, participants[1].Name);
+            Assert.AreEqual(ParticipantName1, participants[0].Name);
+            Assert.AreEqual(ParticipantName2, participants[1].Name);
         }
 
         [TestMethod]
         public void TestDeregisterParticipantFromTournament()
         {
-            EnrolParticipant(initialTournament, participant1);
-            EnrolParticipant(initialTournament, participant2);
+            EnrolParticipant(_initialTournament, _participant1);
+            EnrolParticipant(_initialTournament, _participant2);
             
-            DeregisterParticipant(initialTournament, participant1);
+            DeregisterParticipant(_initialTournament, _participant1);
 
-            var participants = GetParticipants(initialTournament);
+            var participants = GetParticipants(_initialTournament);
 
             Assert.AreEqual(1, participants.Count);
-            Assert.AreEqual(participantName2, participants[0].Name);
+            Assert.AreEqual(ParticipantName2, participants[0].Name);
         }
 
         [TestMethod]

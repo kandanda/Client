@@ -1,4 +1,3 @@
-[![Code Climate](https://img.shields.io/codeclimate/github/kandanda/Client.svg)](https://codeclimate.com/github/kandanda/Client)
 [![AppVeyor](https://img.shields.io/appveyor/ci/janicmikes/client.svg)](https://ci.appveyor.com/project/janicmikes/client)
 [![Coverity Scan](https://img.shields.io/coverity/scan/11980.svg)](https://scan.coverity.com/projects/kandanda-client)
 [![Coveralls](https://img.shields.io/coveralls/kandanda/Client.svg)](https://coveralls.io/github/kandanda/Client)
