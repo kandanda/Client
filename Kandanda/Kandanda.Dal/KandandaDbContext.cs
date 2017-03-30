@@ -7,6 +7,7 @@ namespace Kandanda.Dal
     {
         public KandandaDbContext()
         {
+            // TODO fix SetInitializer for tests
             Database.SetInitializer(new DropCreateDatabaseAlways<KandandaDbContext>());
         }
 

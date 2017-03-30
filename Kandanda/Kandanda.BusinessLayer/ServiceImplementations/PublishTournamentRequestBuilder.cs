@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Data.Entity;
-using System.Linq;
+﻿using System.Linq;
 using Kandanda.BusinessLayer.ServiceInterfaces;
 using Kandanda.Dal;
 using Kandanda.Dal.DataTransferObjects;

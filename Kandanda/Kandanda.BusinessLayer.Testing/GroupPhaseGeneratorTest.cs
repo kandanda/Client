@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Kandanda.BusinessLayer.ServiceImplementations;
-using Kandanda.Dal.DataTransferObjects;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Kandanda.BusinessLayer.Testing
@@ -9,14 +7,14 @@ namespace Kandanda.BusinessLayer.Testing
     [TestClass]
     public class GroupPhaseGeneratorTest
     {
-        private ParticipantService participantService;
-        private TournamentService tournamentService;
+        private ParticipantService _participantService;
+        private TournamentService _tournamentService;
 
         [TestInitialize]
         public void Setup()
         {
-            participantService = new ParticipantService();
-            tournamentService = new TournamentService();
+            _participantService = new ParticipantService();
+            _tournamentService = new TournamentService();
             TestHelper.ResetDatabase();
         }
 
@@ -24,7 +22,7 @@ namespace Kandanda.BusinessLayer.Testing
         public void TestGroupPhaseGeneration()
         {
             const int groupSize = 4;
-            var tournament = tournamentService.CreateEmpty("SwissCup");
+            var tournament = _tournamentService.CreateEmpty("SwissCup");
 
             var participants = new List<string>
             {
@@ -34,12 +32,12 @@ namespace Kandanda.BusinessLayer.Testing
 
             foreach (var participantName in participants)
             {
-                var participant = participantService.CreateEmpty(participantName);
-                tournamentService.EnrolParticipant(tournament, participant);
+                var participant = _participantService.CreateEmpty(participantName);
+                _tournamentService.EnrolParticipant(tournament, participant);
             }
 
-            var phase = tournamentService.GeneratePhase(tournament, groupSize);
-            var matchList = tournamentService.GetMatchesByPhase(phase);
+            var phase = _tournamentService.GeneratePhase(tournament, groupSize);
+            var matchList = _tournamentService.GetMatchesByPhase(phase);
             
             Assert.AreEqual(12, matchList.Count);
         }
@@ -48,7 +46,7 @@ namespace Kandanda.BusinessLayer.Testing
         public void TestDifferentGroupSizes()
         {
             const int groupSize = 5;
-            var tournament = tournamentService.CreateEmpty("SwissCup");
+            var tournament = _tournamentService.CreateEmpty("SwissCup");
 
             var participants = new List<string>
             {
@@ -59,12 +57,12 @@ namespace Kandanda.BusinessLayer.Testing
 
             foreach (var participantName in participants)
             {
-                var participant = participantService.CreateEmpty(participantName);
-                tournamentService.EnrolParticipant(tournament, participant);
+                var participant = _participantService.CreateEmpty(participantName);
+                _tournamentService.EnrolParticipant(tournament, participant);
             }
 
-            var phase = tournamentService.GeneratePhase(tournament, groupSize);
-            var matchList = tournamentService.GetMatchesByPhase(phase);
+            var phase = _tournamentService.GeneratePhase(tournament, groupSize);
+            var matchList = _tournamentService.GetMatchesByPhase(phase);
 
             Assert.AreEqual(16, matchList.Count);
         }

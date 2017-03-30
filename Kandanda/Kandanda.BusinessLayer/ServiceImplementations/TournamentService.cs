@@ -41,7 +41,7 @@ namespace Kandanda.BusinessLayer.ServiceImplementations
         {
             var participants = GetParticipantsByTournament(tournament);
 
-            GroupPhaseGenerator groupPhaseGenerator = new GroupPhaseGenerator(participants, groupSize);
+            var groupPhaseGenerator = new GroupPhaseGenerator(participants, groupSize);
             var matches = groupPhaseGenerator.GenerateMatches();
 
             var matchService = new MatchService();
@@ -92,7 +92,7 @@ namespace Kandanda.BusinessLayer.ServiceImplementations
                 on entry.ParticipantId equals participant.Id
                 select participant).ToList());
         }
-
+        
         public void DeleteTournament(Tournament tournament)
         {
             Delete(tournament);

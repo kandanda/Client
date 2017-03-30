@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using Kandanda.BusinessLayer.ServiceImplementations;
 using Kandanda.BusinessLayer.ServiceInterfaces;
 using Kandanda.Dal.DataTransferObjects;
 using Kandanda.Ui.Core;
@@ -31,7 +32,6 @@ namespace Kandanda.Ui.ViewModels
 
         public void OnNavigatedTo(NavigationContext navigationContext)
         {
-            
         }
 
         public bool IsNavigationTarget(NavigationContext navigationContext)
