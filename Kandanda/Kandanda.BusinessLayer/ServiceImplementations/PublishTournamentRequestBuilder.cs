@@ -6,13 +6,10 @@ using Newtonsoft.Json.Linq;
 
 namespace Kandanda.BusinessLayer.ServiceImplementations
 {
-    public class PublishTournamentRequestBuilder : IPublishTournamentRequestBuilder
+    public class PublishTournamentRequestBuilder : ServiceBase, IPublishTournamentRequestBuilder
     {
-        private readonly KandandaDbContext _dbContext;
-
-        public PublishTournamentRequestBuilder(KandandaDbContext dbContext)
+        public PublishTournamentRequestBuilder(KandandaDbContext dbContext) : base(dbContext)
         {
-            _dbContext = dbContext;
         }
 
         public string BuildJsonRequest(Tournament tournament)

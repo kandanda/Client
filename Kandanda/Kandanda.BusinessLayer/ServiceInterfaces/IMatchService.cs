@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Kandanda.Dal.DataTransferObjects;
 
 namespace Kandanda.BusinessLayer.ServiceInterfaces
@@ -7,6 +8,7 @@ namespace Kandanda.BusinessLayer.ServiceInterfaces
     {
         Match CreateMatch(Participant firstParticipant, Participant secondParticipant);
         void SaveMatch(Match match);
+        Task<List<Match>> GetMatchesByTournamentAsync(Tournament tournament);
         List<Match> GetMatchesByTournament(Tournament tournament);
         Match GetMatchById(int id);
     }
