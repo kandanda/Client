@@ -1,4 +1,5 @@
-﻿using Kandanda.BusinessLayer.ServiceImplementations;
+﻿using Kandanda.BusinessLayer;
+using Kandanda.BusinessLayer.ServiceImplementations;
 using Kandanda.BusinessLayer.ServiceInterfaces;
 using Kandanda.Ui.Interactivity;
 using Kandanda.Ui.Views;
@@ -25,7 +26,8 @@ namespace Kandanda.Ui
             _container
                 .RegisterType<IVersionInfo, KandandaVersionInfo>()
                 .RegisterType<IOpenUrlRequest, WindowsOpenUrlRequest>()
-                .RegisterType<ITournamentService, TournamentService>();
+                .RegisterType<ITournamentService, TournamentService>()
+                .RegisterType<ServiceFactory, ServiceFactory>();
             _container
                 .RegisterTypeForNavigation<TournamentMasterView>()
                 .RegisterTypeForNavigation<TournamentDetailView>()

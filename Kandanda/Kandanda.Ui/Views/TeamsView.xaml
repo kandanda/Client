@@ -4,6 +4,20 @@
              xmlns:prism="http://prismlibrary.com/"             
              prism:ViewModelLocator.AutoWireViewModel="True">
     <Grid>
-            
+        <DataGrid ItemsSource="{Binding Participants}" 
+                  ScrollViewer.CanContentScroll="True" 
+                  ScrollViewer.VerticalScrollBarVisibility="Auto"
+                  ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                  HorizontalContentAlignment="Stretch"
+                  IsReadOnly="False" 
+                  SelectionMode="Single"
+                  AutoGenerateColumns="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Name" Binding="{Binding Name}"/>
+                <DataGridTextColumn Header="Captain" Binding="{Binding Captain}"/>
+                <DataGridTextColumn Header="Phone" Binding="{Binding Phone}"/>
+                <DataGridTextColumn Header="Email" Binding="{Binding Email}"/>
+            </DataGrid.Columns>
+        </DataGrid>
     </Grid>
 </UserControl>
