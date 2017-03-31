@@ -13,7 +13,7 @@ using Prism.Regions;
 
 namespace Kandanda.Ui.ViewModels
 {
-    public class EditTournamentViewModel : ViewModelBase, IConfirmNavigationRequest
+    public class TournamentDetailViewModel : ViewModelBase, IConfirmNavigationRequest
     {
         private readonly IPublishTournamentService _publishTournamentService;
         private readonly IEventAggregator _eventAggregator;
@@ -21,7 +21,7 @@ namespace Kandanda.Ui.ViewModels
         public InteractionRequest<SignInPopupViewModel> SignInRequest { get; }
         public bool IsReady { get; set; }
 
-        public EditTournamentViewModel(IEventAggregator eventAggregator)
+        public TournamentDetailViewModel(IEventAggregator eventAggregator)
         {
             _eventAggregator = eventAggregator;
             _publishTournamentService = new PublishTournamentService(new Uri("https://www.kandanda.ch/"), new PublishTournamentRequestBuilder(new KandandaDbContext()));

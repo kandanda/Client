@@ -147,23 +147,24 @@
     <Compile Include="RegionNames.cs" />
     <Compile Include="Interactivity\IVersionInfo.cs" />
     <Compile Include="Interactivity\KandandaVersionInfo.cs" />
+    <Compile Include="ViewModels\TeamsViewModel.cs" />
     <Compile Include="ViewModels\TournamentsViewModel.cs" />
-    <Compile Include="ViewModels\EditTournamentViewModel.cs" />
+    <Compile Include="ViewModels\TournamentDetailViewModel.cs" />
     <Compile Include="ViewModels\ParticipantViewModel.cs" />
     <Compile Include="ViewModels\SheduleViewModel.cs" />
     <Compile Include="ViewModels\SignInPopupViewModel.cs" />
     <Compile Include="ViewModels\MenubarViewModel.cs" />
     <Compile Include="ViewModels\TournamentCommandViewModel.cs" />
-    <Compile Include="ViewModels\TournamentViewModel.cs" />
+    <Compile Include="ViewModels\TournamentInfoViewModel.cs" />
     <Compile Include="Core\ViewModelBase.cs" />
     <Compile Include="Views\TeamsView.xaml.cs">
       <DependentUpon>TeamsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\TournamentsMasterView.xaml.cs">
-      <DependentUpon>TournamentsMasterView.xaml</DependentUpon>
+    <Compile Include="Views\TournamentMasterView.xaml.cs">
+      <DependentUpon>TournamentMasterView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\TournamentsDetailView.xaml.cs">
-      <DependentUpon>TournamentsDetailView.xaml</DependentUpon>
+    <Compile Include="Views\TournamentDetailView.xaml.cs">
+      <DependentUpon>TournamentDetailView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Menubar.xaml.cs">
       <DependentUpon>Menubar.xaml</DependentUpon>
@@ -190,11 +191,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\TournamentsMasterView.xaml">
+    <Page Include="Views\TournamentMasterView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\TournamentsDetailView.xaml">
+    <Page Include="Views\TournamentDetailView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

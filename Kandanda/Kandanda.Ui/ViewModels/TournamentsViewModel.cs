@@ -10,6 +10,7 @@ namespace Kandanda.Ui.ViewModels
 {
     public class TournamentsViewModel : ViewModelBase
     {
+
         private readonly IRegionManager _regionManager;
         private readonly ITournamentService _tournamentService;
         public ICommand CreateTournamentCommand { get; }
@@ -18,6 +19,7 @@ namespace Kandanda.Ui.ViewModels
         
         public TournamentsViewModel(IRegionManager regionManager, ITournamentService tournamentService)
         {
+            Title = "Tournaments";
             _regionManager = regionManager;
             _tournamentService = tournamentService;
             CreateTournamentCommand = new DelegateCommand(NavigateToNewTournament);
@@ -27,13 +29,13 @@ namespace Kandanda.Ui.ViewModels
 
         private void NavigateToNewTournament()
         {
-            _regionManager.RequestNavigate(RegionNames.MainRegion, "/EditTournamentView");
+            _regionManager.RequestNavigate(RegionNames.TournamentsRegion, "/TournamentDetailView");
         }
 
         private void NavigateToOpenTournament()
         {
             var navigationParameters = new NavigationParameters { {"Tournament", 2 } };
-            _regionManager.RequestNavigate(RegionNames.MainRegion, "/EditTournamentView", navigationParameters);
+            _regionManager.RequestNavigate(RegionNames.TournamentsRegion, "/TournamentDetailView", navigationParameters);
         }
     }
 }

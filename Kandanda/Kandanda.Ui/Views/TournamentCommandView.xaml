@@ -4,6 +4,6 @@
              xmlns:prism="http://prismlibrary.com/"
              prism:ViewModelLocator.AutoWireViewModel="True">
     <StackPanel Orientation="Horizontal">
-        <Button Content="Generate Plan" HorizontalAlignment="Right" Command="{Binding GeneratePlanCommand}"/>
+        <Button Content="Close" HorizontalAlignment="Right" Command="{Binding CloseCommand}"/>
     </StackPanel>
 </UserControl>

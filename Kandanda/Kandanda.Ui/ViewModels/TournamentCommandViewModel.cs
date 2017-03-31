@@ -6,23 +6,26 @@ using System.Linq;
 using System.Windows.Input;
 using Kandanda.Ui.Events;
 using Prism.Events;
+using Prism.Regions;
 
 namespace Kandanda.Ui.ViewModels
 {
     public class TournamentCommandViewModel : BindableBase
     {
         private readonly IEventAggregator _eventAggregator;
-        public ICommand GeneratePlanCommand;
+        private readonly IRegionManager _regionManager;
+        public ICommand CloseCommand { get; }
 
-        public TournamentCommandViewModel(IEventAggregator eventAggregator)
+        public TournamentCommandViewModel(IEventAggregator eventAggregator, IRegionManager regionManager)
         {
             _eventAggregator = eventAggregator;
-            GeneratePlanCommand = new DelegateCommand(RequestGeneratePlan);
+            _regionManager = regionManager;
+            CloseCommand = new DelegateCommand(Close);
         }
 
-        private void RequestGeneratePlan()
+        private void Close()
         {
-            _eventAggregator.GetEvent<PublishRequestEvent>().Publish();
+            _regionManager.RequestNavigate(RegionNames.TournamentsRegion, "/TournamentMasterView");
         }
     }
 }
