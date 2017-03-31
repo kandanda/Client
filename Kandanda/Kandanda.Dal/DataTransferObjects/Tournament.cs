@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -11,13 +11,14 @@ namespace Kandanda.Dal.DataTransferObjects
 
         [StringLength(50)]
         public string Name { get; set; }
+        
+        [Column(TypeName = "datetime2")]
+        public DateTime From { get; set; }
 
-        public virtual ICollection<Phase> Phases { get; set; }
-
-        public virtual ICollection<Place> Places { get; set; }
-
-        [InverseProperty("Tournaments")]
-        public virtual ICollection<Participant> Participants { get; set; } = new HashSet<Participant>();
+        [Column(TypeName = "datetime2")]
+        public DateTime Until { get; set; }
+        
+        public int OrganizerId { get; set; }
 
         [Timestamp]
         public byte[] RowVersion { get; set; }

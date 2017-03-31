@@ -9,11 +9,19 @@ namespace Kandanda.Dal.DataTransferObjects
         [Key]
         public int Id { get; set; }
 
-        [Column(TypeName = "datetime")]
+        [Column(TypeName = "datetime2")]
         public DateTime From { get; set; }
 
-        [Column(TypeName = "datetime")]
+        [Column(TypeName = "datetime2")]
         public DateTime Until { get; set; }
+
+        public int FirstParticipantId { get; set; }
+
+        public int SecondParticipantId { get; set; }
+
+        public int PhaseId { get; set; }
+
+        public int PlaceId { get; set; }
 
         [Timestamp]
         public byte[] RowVersion { get; set; }

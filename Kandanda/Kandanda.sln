@@ -6,14 +6,26 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Testing", "Testing", "{1329628E-2754-4B66-A15C-2B9CAEC8541C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kandanda.Ui.Testing", "Kandanda.Ui.Testing\Kandanda.Ui.Testing.csproj", "{FCC980A2-76C4-403A-AF18-CE8BE8883BE3}"
+	ProjectSection(ProjectDependencies) = postProject
+		{99C9E82C-C594-446D-AA59-8FFBC43AD226} = {99C9E82C-C594-446D-AA59-8FFBC43AD226}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kandanda.Dal", "Kandanda.Dal\Kandanda.Dal.csproj", "{E5C625A2-F602-4EC1-905F-50EDFF95104B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kandanda.BusinessLayer", "Kandanda.BusinessLayer\Kandanda.BusinessLayer.csproj", "{8FE36BD3-6C6E-498A-8F7E-1A18F3D4C4FD}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kandanda.BusinessLayer.Testing", "Kandanda.BusinessLayer.Testing\Kandanda.BusinessLayer.Testing.csproj", "{1F815A83-A104-4B7A-A84E-2EF61D778A17}"
+	ProjectSection(ProjectDependencies) = postProject
+		{8FE36BD3-6C6E-498A-8F7E-1A18F3D4C4FD} = {8FE36BD3-6C6E-498A-8F7E-1A18F3D4C4FD}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kandanda.Ui", "Kandanda.Ui\Kandanda.Ui.csproj", "{99C9E82C-C594-446D-AA59-8FFBC43AD226}"
+	ProjectSection(ProjectDependencies) = postProject
+		{E5C625A2-F602-4EC1-905F-50EDFF95104B} = {E5C625A2-F602-4EC1-905F-50EDFF95104B}
+		{8FE36BD3-6C6E-498A-8F7E-1A18F3D4C4FD} = {8FE36BD3-6C6E-498A-8F7E-1A18F3D4C4FD}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kandanda.Dal.Testing", "Kandanda.Dal.Testing\Kandanda.Dal.Testing.csproj", "{7F5FCB4D-B724-451C-A957-550F29391C4B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,6 +53,10 @@ Global
 		{99C9E82C-C594-446D-AA59-8FFBC43AD226}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{99C9E82C-C594-446D-AA59-8FFBC43AD226}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{99C9E82C-C594-446D-AA59-8FFBC43AD226}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7F5FCB4D-B724-451C-A957-550F29391C4B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7F5FCB4D-B724-451C-A957-550F29391C4B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7F5FCB4D-B724-451C-A957-550F29391C4B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7F5FCB4D-B724-451C-A957-550F29391C4B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -48,5 +64,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{FCC980A2-76C4-403A-AF18-CE8BE8883BE3} = {1329628E-2754-4B66-A15C-2B9CAEC8541C}
 		{1F815A83-A104-4B7A-A84E-2EF61D778A17} = {1329628E-2754-4B66-A15C-2B9CAEC8541C}
+		{7F5FCB4D-B724-451C-A957-550F29391C4B} = {1329628E-2754-4B66-A15C-2B9CAEC8541C}
 	EndGlobalSection
 EndGlobal

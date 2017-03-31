@@ -9,15 +9,17 @@ namespace Kandanda.Dal.DataTransferObjects
         [Key]
         public int Id { get; set; }
 
-        [Column(TypeName = "datetime")]
+        [StringLength(50)]
+        public string Name { get; set; }
+
+        [Column(TypeName = "datetime2")]
         public DateTime From { get; set; }
 
-        [Column(TypeName = "datetime")]
+        [Column(TypeName = "datetime2")]
         public DateTime Until { get; set; }
 
-        [InverseProperty("Phases")]
-        public virtual Tournament Tournament { get; set; }
-
+        public int TournamentId { get; set; }
+        
         [Timestamp]
         public byte[] RowVersion { get; set; }
     }

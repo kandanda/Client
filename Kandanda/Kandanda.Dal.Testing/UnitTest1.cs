@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Kandanda.BusinessLayer.Testing
+namespace Kandanda.Dal.Testing
 {
     [TestClass]
     public class UnitTest1

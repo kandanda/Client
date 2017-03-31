@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Kandanda.Dal.DataTransferObjects
 {
@@ -15,10 +14,7 @@ namespace Kandanda.Dal.DataTransferObjects
         public string Comment { get; set; }
 
         public int TournamentId { get; set; }
-
-        [InverseProperty("Places")]
-        public virtual Tournament Tournament { get; set; }
-
+        
         [Timestamp]
         public byte[] RowVersion { get; set; }
     }

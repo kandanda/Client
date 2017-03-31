@@ -55,17 +55,18 @@
     - cmd: cd Kandanda
     - cmd: nuget install OpenCover -Version 4.6.519 -ExcludeVersion
     - cmd: nuget install coveralls.io -Version 1.3.4 -ExcludeVersion
-    - cmd: nuget restore .\Kandanda.sln
   build:
     project: .\Kandanda\Kandanda.sln
     verbosity: minimal
-  test:
-    assemblies:
-      - '**\*.Testing.*'
   test_script:
-    -cmd: .\OpenCover\tools\OpenCover.Console.exe -register:user -filter:"+[*]*" -target:"vstest.console" -targetargs:"/testcontainer:Kandanda.BusinessLayer.Testing/bin/Debug/Kandanda.BusinessLayer.Testing.dll" -output:coverage.xml
+    - vstest.console /logger:Appveyor ".\Kandanda.Ui.Testing\bin\%CONFIGURATION%\Kandanda.Ui.Testing.dll"
+    - vstest.console /logger:Appveyor ".\Kandanda.BusinessLayer.Testing\bin\%CONFIGURATION%\Kandanda.BusinessLayer.Testing.dll"
+    - vstest.console /logger:Appveyor ".\Kandanda.Dal.Testing\bin\%CONFIGURATION%\Kandanda.Dal.Testing.dll"
   after_test:
-    -cmd: .\coveralls.io\tools\coveralls.net.exe --opencover coverage.xml
+    - .\OpenCover\tools\OpenCover.Console.exe -register:user -filter:"+[*]*" -target:"vstest.console.exe" -targetargs:".\Kandanda.Ui.Testing\bin\%CONFIGURATION%\Kandanda.Ui.Testing.dll"  -excludebyattribute:*.ExcludeFromCodeCoverage* -hideskipped:All -output:coverage.xml
+    - .\OpenCover\tools\OpenCover.Console.exe -register:user -filter:"+[*]*" -target:"vstest.console.exe" -targetargs:".\Kandanda.BusinessLayer.Testing\bin\%CONFIGURATION%\Kandanda.BusinessLayer.Testing.dll"  -excludebyattribute:*.ExcludeFromCodeCoverage* -hideskipped:All -output:coverage.xml -mergeoutput
+    - .\OpenCover\tools\OpenCover.Console.exe -register:user -filter:"+[*]*" -target:"vstest.console.exe" -targetargs:".\Kandanda.Dal.Testing\bin\%CONFIGURATION%\Kandanda.Dal.Testing.dll"  -excludebyattribute:*.ExcludeFromCodeCoverage* -hideskipped:All -output:coverage.xml -mergeoutput
+    - .\coveralls.io\tools\coveralls.net.exe --opencover coverage.xml
 -
   branches:
     only:

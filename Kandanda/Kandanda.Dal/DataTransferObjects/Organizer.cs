@@ -10,7 +10,7 @@ namespace Kandanda.Dal.DataTransferObjects
         [StringLength(50)]
         public string UserName { get; set; }
 
-        [StringLength(30)]
+        [StringLength(32)]
         public string Password { get; set; }
 
         [Timestamp]
