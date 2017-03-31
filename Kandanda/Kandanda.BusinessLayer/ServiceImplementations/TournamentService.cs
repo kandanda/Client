@@ -116,5 +116,10 @@ namespace Kandanda.BusinessLayer.ServiceImplementations
         {
             return GetAll<Tournament>();
         }
+
+        public void Update(Tournament tournament)
+        {
+            Update<Tournament>(tournament);
+        }
     }
 }

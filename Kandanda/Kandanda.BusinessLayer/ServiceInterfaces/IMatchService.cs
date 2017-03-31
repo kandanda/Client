@@ -11,5 +11,6 @@ namespace Kandanda.BusinessLayer.ServiceInterfaces
         Task<List<Match>> GetMatchesByTournamentAsync(Tournament tournament);
         List<Match> GetMatchesByTournament(Tournament tournament);
         Match GetMatchById(int id);
+        void Update(Match match);
     }
 }

@@ -33,5 +33,10 @@ namespace Kandanda.BusinessLayer.ServiceImplementations
         {
             Delete(participant);
         }
+
+        public void Update(Participant participant)
+        {
+            Update<Participant>(participant);
+        }
     }
 }
