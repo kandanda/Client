@@ -1,11 +1,16 @@
 ﻿using System.Collections.Generic;
 using Kandanda.BusinessLayer.ServiceInterfaces;
+using Kandanda.Dal;
 using Kandanda.Dal.DataTransferObjects;
 
 namespace Kandanda.BusinessLayer.ServiceImplementations
 {
     public sealed class ParticipantService : ServiceBase, IParticipantService
     {
+        public ParticipantService(KandandaDbContext dbContext) : base(dbContext)
+        {
+        }
+
         public Participant CreateEmpty(string name)
         {
             return Create(new Participant

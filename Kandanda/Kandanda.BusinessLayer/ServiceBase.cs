@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure.Pluralization;
-using System.Data.Entity.Validation;
 using System.Linq;
-using System.Text;
+using System.Threading.Tasks;
 using Kandanda.Dal;
 using Kandanda.Dal.DataTransferObjects;
 
@@ -12,93 +11,58 @@ namespace Kandanda.BusinessLayer
 {
     public abstract class ServiceBase
     {
+        protected readonly KandandaDbContext _dbContext;
+
+        protected ServiceBase(KandandaDbContext dbContext)
+        {
+            _dbContext = dbContext;
+        }
+
         protected virtual T Create<T>(T entry) where T : class, IEntry
         {
-            using (var db = new KandandaDbContext())
-            {
-                var set = GetDbSet<T>(db);
-                set.Add(entry);
-                db.SaveChanges();
-                return entry;
-            }
+            var set = GetDbSet<T>(_dbContext);
+            set.Add(entry);
+            _dbContext.SaveChanges();
+
+            return entry;
         }
 
         protected virtual void Delete<T>(T entry) where T : class, IEntry
         {
-            using (var db = new KandandaDbContext())
-            {
-                var set = GetDbSet<T>(db);
-                set.Attach(entry);
-                set.Remove(entry);
-                db.SaveChanges();
-            }
+            var set = GetDbSet<T>(_dbContext);
+            set.Attach(entry);
+            set.Remove(entry);
+
+            _dbContext.SaveChanges();
         }
 
         protected virtual T GetEntryById<T>(int id) where T : class, IEntry
         {
-            using (var db = new KandandaDbContext())
-            {
-                var set = GetDbSet<T>(db);
-                return set.FirstOrDefault(entry => entry.Id == id);
-            }
+            var set = GetDbSet<T>(_dbContext);
+            return set.FirstOrDefault(entry => entry.Id == id);
+        }
+
+        protected virtual async Task<List<T>> GetAllAsync<T>() where T : class, IEntry
+        {
+            return await GetDbSet<T>(_dbContext).ToListAsync();
         }
 
         protected virtual List<T> GetAll<T>() where T : class, IEntry
         {
-            using (var db = new KandandaDbContext())
-            {
-                return GetDbSet<T>(db).ToList();
-            }
+            return GetAllAsync<T>().Result;
         }
 
         protected virtual T GetEntry<T>(Predicate<T> predicate) where T : class, IEntry
         {
-            using (var db = new KandandaDbContext())
-            {
-                var set = GetDbSet<T>(db);
-                return set.FirstOrDefault(entry => predicate(entry));
-            }
+            var set = GetDbSet<T>(_dbContext);
+            return set.FirstOrDefault(entry => predicate(entry));
         }
         
         protected void ExecuteDatabaseAction(Action<KandandaDbContext> action)
         {
-            ExecuteDatabaseFunc(db =>
-            {
-                action(db);
-                return 0;
-            });
-        }
-
-        protected T ExecuteDatabaseFunc<T>(Func<KandandaDbContext, T> func)
-        {
-            try
-            {
-                using (var db = new KandandaDbContext())
-                {
-                    return func(db);
-                }
-            }
-            catch (DbEntityValidationException exception)
-            {
-                throw HandleEntityValidationException(exception);
-            }
+            action(_dbContext);
         }
         
-        protected DataAccessException HandleEntityValidationException(DbEntityValidationException exception)
-        {
-            StringBuilder exceptionText = new StringBuilder();
-
-            foreach (var error in exception.EntityValidationErrors)
-            {
-                foreach (var validationError in error.ValidationErrors)
-                {
-                    exceptionText.AppendLine(validationError.PropertyName + ", " + validationError.ErrorMessage);
-                }
-            }
-
-            return new DataAccessException(exceptionText.ToString(), exception);
-        }
-
         private DbSet<T> GetDbSet<T>(DbContext db) where T : class
         {
             var pluralizedName = GetPluralizedName<T>();

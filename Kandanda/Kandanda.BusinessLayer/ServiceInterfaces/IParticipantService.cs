@@ -8,5 +8,6 @@ namespace Kandanda.BusinessLayer.ServiceInterfaces
         Participant CreateEmpty(string name);
         void DeleteParticipant(Participant participant);
         List<Participant> GetAllParticipants();
+        Participant GetParticipantById(int id);
     }
 }
