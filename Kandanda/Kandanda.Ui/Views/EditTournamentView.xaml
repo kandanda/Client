@@ -25,9 +25,9 @@
     </i:Interaction.Triggers>
     <DockPanel>
         <ContentControl DockPanel.Dock="Top" prism:RegionManager.RegionName="{x:Static ui:RegionNames.MenuRegion}" />
-        <ContentControl DockPanel.Dock="Top" prism:RegionManager.RegionName="{x:Static ui:RegionNames.ToolbarRegion}" />
-        <ContentControl DockPanel.Dock="Bottom" prism:RegionManager.RegionName="{x:Static ui:RegionNames.CommandRegion}" />
+        <ContentControl DockPanel.Dock="Bottom" prism:RegionManager.RegionName="{x:Static ui:RegionNames.ToolbarRegion}" />
         <ContentControl DockPanel.Dock="Bottom" prism:RegionManager.RegionName="{x:Static ui:RegionNames.StatusbarRegion}" />
+        <ContentControl DockPanel.Dock="Bottom" prism:RegionManager.RegionName="{x:Static ui:RegionNames.CommandRegion}" />
         <TabControl prism:RegionManager.RegionName="{x:Static ui:RegionNames.ContentRegion}" />
     </DockPanel>
 </UserControl>

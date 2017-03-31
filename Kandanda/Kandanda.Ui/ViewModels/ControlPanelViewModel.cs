@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using Prism.Commands;
 using System.Windows.Input;
-using Kandanda.BusinessLayer.ServiceImplementations;
 using Kandanda.BusinessLayer.ServiceInterfaces;
 using Kandanda.Dal.DataTransferObjects;
 using Kandanda.Ui.Core;

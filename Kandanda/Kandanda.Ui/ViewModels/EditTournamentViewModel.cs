@@ -1,15 +1,13 @@
-﻿using Prism.Commands;
-using Prism.Mvvm;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System;
 using System.Threading;
+using System.Threading.Tasks;
 using Kandanda.BusinessLayer.ServiceImplementations;
 using Kandanda.BusinessLayer.ServiceInterfaces;
+using Kandanda.Dal;
 using Kandanda.Dal.DataTransferObjects;
 using Kandanda.Ui.Core;
-using Kandanda.Ui.Views;
-using Microsoft.Practices.Unity;
+using Kandanda.Ui.Events;
+using Prism.Events;
 using Prism.Interactivity.InteractionRequest;
 using Prism.Regions;
 
@@ -17,17 +15,20 @@ namespace Kandanda.Ui.ViewModels
 {
     public class EditTournamentViewModel : ViewModelBase, IConfirmNavigationRequest
     {
-        private readonly IUnityContainer _unityContainer;
         private readonly IPublishTournamentService _publishTournamentService;
+        private readonly IEventAggregator _eventAggregator;
         public InteractionRequest<IConfirmation> ConfirmationRequest { get; }
         public InteractionRequest<SignInPopupViewModel> SignInRequest { get; }
+        public bool IsReady { get; set; }
 
-        public EditTournamentViewModel(IUnityContainer unityContainer, IPublishTournamentService publishTournamentService)
+        public EditTournamentViewModel(IEventAggregator eventAggregator)
         {
-            _unityContainer = unityContainer;
-            _publishTournamentService = publishTournamentService;
+            _eventAggregator = eventAggregator;
+            _publishTournamentService = new PublishTournamentService(new Uri("https://www.kandanda.ch/"), new PublishTournamentRequestBuilder(new KandandaDbContext()));
             ConfirmationRequest = new InteractionRequest<IConfirmation>();
             SignInRequest = new InteractionRequest<SignInPopupViewModel>();
+            eventAggregator.GetEvent<GeneratePlanRequestEvent>().Subscribe(GeneratePlanAsync);
+            eventAggregator.GetEvent<PublishRequestEvent>().Subscribe(SignInAsync);
         }
 
         public void OnNavigatedTo(NavigationContext navigationContext)
@@ -50,14 +51,24 @@ namespace Kandanda.Ui.ViewModels
             continuationCallback(confirmation.Confirmed);
         }
 
-        private async void SignIn()
+        private async void SignInAsync()
         {
-            var signInViewModel = _unityContainer.Resolve<SignInPopupViewModel>();
+            var signInViewModel = new SignInPopupViewModel(_publishTournamentService);
             await SignInRequest.RaiseAsync(signInViewModel);
             if (signInViewModel.Confirmed)
             {
                 await _publishTournamentService.PostTournamentAsync(new Tournament(), signInViewModel.AuthToken, CancellationToken.None);
             }
+        }
+
+        private async void GeneratePlanAsync()
+        {
+            var stateChangeEvent = _eventAggregator.GetEvent<StateChangeEvent>();
+            stateChangeEvent.Publish("Generating Plan ...");
+            IsReady = false;
+            await Task.Delay(3000);
+            stateChangeEvent.Publish("Plan generated");
+            IsReady = true;
         }
     }
 }

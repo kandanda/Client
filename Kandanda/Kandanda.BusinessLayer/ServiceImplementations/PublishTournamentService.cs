@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Security;
 using System.Security.Authentication;
 using System.Text;
 using System.Threading;
@@ -20,21 +21,24 @@ namespace Kandanda.BusinessLayer.ServiceImplementations
         private readonly IPublishTournamentRequestBuilder _publishTournamentRequestBuilder;
         public string ApiVersion { get; } = "v1";
 
+        public Uri BaseUri { get; }
+
         public PublishTournamentService(Uri baseUri, IPublishTournamentRequestBuilder publishTournamentRequestBuilder, HttpMessageHandler handler = null)
         {
             _publishTournamentRequestBuilder = publishTournamentRequestBuilder;
             _client = handler == null ? new HttpClient() : new HttpClient(handler);
             _client.BaseAddress = new Uri(baseUri, $"/api/{ApiVersion}/");
+            BaseUri = baseUri;
         }
 
-        public async Task<string> AuthenticateAsync(string email, string password, CancellationToken cancellationToken)
+        public async Task<string> AuthenticateAsync(string email, SecureString password, CancellationToken cancellationToken)
         {
             var request = new HttpRequestMessage(HttpMethod.Post, "auth")
             {
                 Content = new FormUrlEncodedContent(new Dictionary<string, string>
                 {
                     ["email"] = email,
-                    ["password"] = password
+                    ["password"] = password.ToString()
                 })
             };
 

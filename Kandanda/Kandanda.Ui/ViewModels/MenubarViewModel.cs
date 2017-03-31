@@ -25,7 +25,7 @@ namespace Kandanda.Ui.ViewModels
             _eventAggregator = eventAggregator;
             _regionManager = regionManager;
             _openUrlRequest = openUrlRequest;
-            GeneratePlanCommand = new DelegateCommand(GeneratePlan).ObservesCanExecute(o => IsReady);
+            GeneratePlanCommand = new DelegateCommand(RequestGeneratePlan).ObservesCanExecute(o => IsReady);
             OpenDocumentationCommand = new DelegateCommand(OpenDocumentation);
             CloseCommand = new DelegateCommand(GoToControlPanel);
             ShowAboutCommand = new DelegateCommand(ShowAboutRequest);
@@ -52,14 +52,9 @@ namespace Kandanda.Ui.ViewModels
             _regionManager.RequestNavigate(RegionNames.WindowsRegion, "/ControlPanelView");
         }
 
-        private async void GeneratePlan()
+        private void RequestGeneratePlan()
         {
-            var stateChangeEvent = _eventAggregator.GetEvent<StateChangeEvent>();
-            stateChangeEvent.Publish("Generating Plan ...");
-            IsReady = false;
-            await Task.Delay(3000);
-            stateChangeEvent.Publish("Plan generated");
-            IsReady = true;
+            _eventAggregator.GetEvent<PublishRequestEvent>().Publish();
         }
     }
 }
