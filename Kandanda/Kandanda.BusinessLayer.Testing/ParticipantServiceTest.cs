@@ -1,5 +1,4 @@
 ﻿using Kandanda.BusinessLayer.ServiceImplementations;
-using Kandanda.Dal.DataTransferObjects;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Kandanda.BusinessLayer.Testing
@@ -7,16 +6,15 @@ namespace Kandanda.BusinessLayer.Testing
     [TestClass]
     public class ParticipantServiceTest
     {
-        private const string participantName = "FC Thun";
-        private Participant initialParticipant;
-        private ParticipantService service;
+        private const string _participantName = "FC Thun";
+        private ParticipantService _service;
 
         [TestInitialize]
         public void Setup()
         {
             TestHelper.ResetDatabase();
-            service = new ParticipantService();
-            initialParticipant = service.CreateEmpty(participantName);
+            _service = new ParticipantService();
+            _service.CreateEmpty(_participantName);
         }
 
         [TestMethod]
@@ -24,8 +22,8 @@ namespace Kandanda.BusinessLayer.Testing
         {
             const string newParticipantName = "FC Kandanda";
 
-            var createdParticipant = service.CreateEmpty(newParticipantName);
-            var reloadedParticipant = service.GetParticipantById(createdParticipant.Id);
+            var createdParticipant = _service.CreateEmpty(newParticipantName);
+            var reloadedParticipant = _service.GetParticipantById(createdParticipant.Id);
 
             Assert.AreEqual(createdParticipant.Id, reloadedParticipant.Id);
             Assert.AreEqual(newParticipantName, reloadedParticipant.Name);
@@ -36,8 +34,8 @@ namespace Kandanda.BusinessLayer.Testing
         {
             const string newParticipantName = "FC Kandanda";
 
-            var createdParticipant = service.CreateEmpty(newParticipantName);
-            var reloadedParticipant = service.GetParticipantById(createdParticipant.Id);
+            var createdParticipant = _service.CreateEmpty(newParticipantName);
+            var reloadedParticipant = _service.GetParticipantById(createdParticipant.Id);
 
             Assert.AreEqual(newParticipantName, reloadedParticipant.Name);
         }
@@ -45,29 +43,29 @@ namespace Kandanda.BusinessLayer.Testing
         [TestMethod]
         public void TestDeleteParticipant()
         {
-            var participants = service.GetAllParticipants();
+            var participants = _service.GetAllParticipants();
             var participantCount = participants.Count;
 
-            var participant = service.CreateEmpty(string.Empty);
+            var participant = _service.CreateEmpty(string.Empty);
 
-            participants = service.GetAllParticipants();
+            participants = _service.GetAllParticipants();
             Assert.AreEqual(participantCount + 1, participants.Count);
 
-            service.DeleteParticipant(participant);
+            _service.DeleteParticipant(participant);
 
-            participants = service.GetAllParticipants();
+            participants = _service.GetAllParticipants();
             Assert.AreEqual(participantCount, participants.Count);
         }
 
         [TestMethod]
         public void TestGetAllParticipants()
         {
-            var participants = service.GetAllParticipants();
+            var participants = _service.GetAllParticipants();
             
             Assert.AreEqual(1, participants.Count);
 
-            service.CreateEmpty("Empty");
-            participants = service.GetAllParticipants();
+            _service.CreateEmpty("Empty");
+            participants = _service.GetAllParticipants();
 
             Assert.AreEqual(2, participants.Count);
         }
