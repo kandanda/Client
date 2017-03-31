@@ -12,7 +12,7 @@ namespace Kandanda.Ui.ViewModels
     public class SignInPopupViewModel : BindableBase, IConfirmation, IInteractionRequestAware
     {
         private string _email;
-        private SecureString _password;
+        private string _password;
         private readonly EmailAddressAttribute _emailAddressAttribute = new EmailAddressAttribute();
         private readonly IPublishTournamentService _publishTournamentService;
         private bool _isReady = true;
@@ -39,7 +39,7 @@ namespace Kandanda.Ui.ViewModels
             Title = $"Sign in {_publishTournamentService.BaseUri}";
         }
 
-        public void PasswordChanged(SecureString password)
+        public void PasswordChanged(string password)
         {
             _password = password;
             SignInCommand.RaiseCanExecuteChanged();

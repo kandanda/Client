@@ -27,19 +27,20 @@ namespace Kandanda.Ui
                 .RegisterType<IOpenUrlRequest, WindowsOpenUrlRequest>()
                 .RegisterType<ITournamentService, TournamentService>();
             _container
-                .RegisterTypeForNavigation<ControlPanelView>()
-                .RegisterTypeForNavigation<EditTournamentView>()
-                .RegisterTypeForNavigation<TournamentView>()
+                .RegisterTypeForNavigation<TournamentsMasterView>()
+                .RegisterTypeForNavigation<TournamentsDetailView>()
+                .RegisterTypeForNavigation<TournamentInfoView>()
                 .RegisterTypeForNavigation<SheduleView>()
                 .RegisterTypeForNavigation<ParticipantView>();
             _regionManager
-                .RegisterViewWithRegion(RegionNames.WindowsRegion, typeof(ControlPanelView))
-                .RegisterViewWithRegion(RegionNames.ContentRegion, typeof(TournamentView))
-                .RegisterViewWithRegion(RegionNames.ContentRegion, typeof(SheduleView))
-                .RegisterViewWithRegion(RegionNames.ContentRegion, typeof(ParticipantView))
-                .RegisterViewWithRegion(RegionNames.ToolbarRegion, typeof(Toolbar))
-                .RegisterViewWithRegion(RegionNames.MenuRegion, typeof(Menubar))
-                .RegisterViewWithRegion(RegionNames.StatusbarRegion, typeof(Statusbar));
+                .RegisterViewWithRegion(RegionNames.MainRegion, typeof(TournamentsView))
+                .RegisterViewWithRegion(RegionNames.TournamentsRegion, typeof(TournamentsMasterView))
+                .RegisterViewWithRegion(RegionNames.TournamentDetailRegion, typeof(TournamentInfoView))
+                .RegisterViewWithRegion(RegionNames.TournamentDetailRegion, typeof(SheduleView))
+                .RegisterViewWithRegion(RegionNames.TournamentDetailRegion, typeof(ParticipantView))
+                .RegisterViewWithRegion(RegionNames.TournamentCommandRegion, typeof(TournamentCommandView))
+                .RegisterViewWithRegion(RegionNames.MainRegion, typeof(TeamsView))
+                .RegisterViewWithRegion(RegionNames.MenuRegion, typeof(Menubar));
         }
     }
 }

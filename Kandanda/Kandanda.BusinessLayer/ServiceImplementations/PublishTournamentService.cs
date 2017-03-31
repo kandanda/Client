@@ -31,14 +31,14 @@ namespace Kandanda.BusinessLayer.ServiceImplementations
             BaseUri = baseUri;
         }
 
-        public async Task<string> AuthenticateAsync(string email, SecureString password, CancellationToken cancellationToken)
+        public async Task<string> AuthenticateAsync(string email, string password, CancellationToken cancellationToken)
         {
             var request = new HttpRequestMessage(HttpMethod.Post, "auth")
             {
                 Content = new FormUrlEncodedContent(new Dictionary<string, string>
                 {
                     ["email"] = email,
-                    ["password"] = password.ToString()
+                    ["password"] = password
                 })
             };
 

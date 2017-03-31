@@ -29,7 +29,7 @@ namespace Kandanda.Ui.ViewModels
 
         private void ContinueToNextStep()
         {
-            _regionManager.RequestNavigate(RegionNames.ContentRegion, "/ParticipantView");
+            _regionManager.RequestNavigate(RegionNames.TournamentsRegion, "/ParticipantView");
         }
 
         private bool CanContinue()

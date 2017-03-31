@@ -49,7 +49,7 @@ namespace Kandanda.Ui.ViewModels
 
         private void GoToControlPanel()
         {
-            _regionManager.RequestNavigate(RegionNames.WindowsRegion, "/ControlPanelView");
+            _regionManager.RequestNavigate(RegionNames.MainRegion, "/ControlPanelView");
         }
 
         private void RequestGeneratePlan()

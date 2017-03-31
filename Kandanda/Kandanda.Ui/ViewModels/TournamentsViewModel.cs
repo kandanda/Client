@@ -8,7 +8,7 @@ using Prism.Regions;
 
 namespace Kandanda.Ui.ViewModels
 {
-    public class ControlPanelViewModel : ViewModelBase
+    public class TournamentsViewModel : ViewModelBase
     {
         private readonly IRegionManager _regionManager;
         private readonly ITournamentService _tournamentService;
@@ -16,7 +16,7 @@ namespace Kandanda.Ui.ViewModels
         public ICommand OpenTournamentCommand { get; }
         public List<Tournament> Tournaments { get; set; }
         
-        public ControlPanelViewModel(IRegionManager regionManager, ITournamentService tournamentService)
+        public TournamentsViewModel(IRegionManager regionManager, ITournamentService tournamentService)
         {
             _regionManager = regionManager;
             _tournamentService = tournamentService;
@@ -27,13 +27,13 @@ namespace Kandanda.Ui.ViewModels
 
         private void NavigateToNewTournament()
         {
-            _regionManager.RequestNavigate(RegionNames.WindowsRegion, "/EditTournamentView");
+            _regionManager.RequestNavigate(RegionNames.MainRegion, "/EditTournamentView");
         }
 
         private void NavigateToOpenTournament()
         {
             var navigationParameters = new NavigationParameters { {"Tournament", 2 } };
-            _regionManager.RequestNavigate(RegionNames.WindowsRegion, "/EditTournamentView", navigationParameters);
+            _regionManager.RequestNavigate(RegionNames.MainRegion, "/EditTournamentView", navigationParameters);
         }
     }
 }

@@ -147,21 +147,23 @@
     <Compile Include="RegionNames.cs" />
     <Compile Include="Interactivity\IVersionInfo.cs" />
     <Compile Include="Interactivity\KandandaVersionInfo.cs" />
-    <Compile Include="ViewModels\ControlPanelViewModel.cs" />
+    <Compile Include="ViewModels\TournamentsViewModel.cs" />
     <Compile Include="ViewModels\EditTournamentViewModel.cs" />
     <Compile Include="ViewModels\ParticipantViewModel.cs" />
     <Compile Include="ViewModels\SheduleViewModel.cs" />
     <Compile Include="ViewModels\SignInPopupViewModel.cs" />
-    <Compile Include="ViewModels\StatusbarViewModel.cs" />
     <Compile Include="ViewModels\MenubarViewModel.cs" />
-    <Compile Include="ViewModels\ToolbarViewModel.cs" />
+    <Compile Include="ViewModels\TournamentCommandViewModel.cs" />
     <Compile Include="ViewModels\TournamentViewModel.cs" />
     <Compile Include="Core\ViewModelBase.cs" />
-    <Compile Include="Views\ControlPanelView.xaml.cs">
-      <DependentUpon>ControlPanelView.xaml</DependentUpon>
+    <Compile Include="Views\TeamsView.xaml.cs">
+      <DependentUpon>TeamsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\EditTournamentView.xaml.cs">
-      <DependentUpon>EditTournamentView.xaml</DependentUpon>
+    <Compile Include="Views\TournamentsMasterView.xaml.cs">
+      <DependentUpon>TournamentsMasterView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\TournamentsDetailView.xaml.cs">
+      <DependentUpon>TournamentsDetailView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Menubar.xaml.cs">
       <DependentUpon>Menubar.xaml</DependentUpon>
@@ -175,20 +177,24 @@
     <Compile Include="Views\SignInPopupView.xaml.cs">
       <DependentUpon>SignInPopupView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Statusbar.xaml.cs">
-      <DependentUpon>Statusbar.xaml</DependentUpon>
+    <Compile Include="Views\TournamentCommandView.xaml.cs">
+      <DependentUpon>TournamentCommandView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Toolbar.xaml.cs">
-      <DependentUpon>Toolbar.xaml</DependentUpon>
+    <Compile Include="Views\TournamentInfoView.xaml.cs">
+      <DependentUpon>TournamentInfoView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\TournamentView.xaml.cs">
-      <DependentUpon>TournamentView.xaml</DependentUpon>
+    <Compile Include="Views\TournamentsView.xaml.cs">
+      <DependentUpon>TournamentsView.xaml</DependentUpon>
     </Compile>
-    <Page Include="Views\ControlPanelView.xaml">
+    <Page Include="Views\TeamsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\EditTournamentView.xaml">
+    <Page Include="Views\TournamentsMasterView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\TournamentsDetailView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -222,15 +228,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Statusbar.xaml">
+    <Page Include="Views\TournamentCommandView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Toolbar.xaml">
+    <Page Include="Views\TournamentInfoView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\TournamentView.xaml">
+    <Page Include="Views\TournamentsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

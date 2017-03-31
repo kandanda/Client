@@ -9,12 +9,12 @@ using Prism.Events;
 
 namespace Kandanda.Ui.ViewModels
 {
-    public class ToolbarViewModel : BindableBase
+    public class TournamentCommandViewModel : BindableBase
     {
         private readonly IEventAggregator _eventAggregator;
         public ICommand GeneratePlanCommand;
 
-        public ToolbarViewModel(IEventAggregator eventAggregator)
+        public TournamentCommandViewModel(IEventAggregator eventAggregator)
         {
             _eventAggregator = eventAggregator;
             GeneratePlanCommand = new DelegateCommand(RequestGeneratePlan);

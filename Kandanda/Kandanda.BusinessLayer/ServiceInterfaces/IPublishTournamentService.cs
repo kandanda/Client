@@ -16,7 +16,7 @@ namespace Kandanda.BusinessLayer.ServiceInterfaces
         /// <param name="password"></param>
         /// <param name="cancellationToken"></param>
         /// <returns>Returns JWT Token or null if failed</returns>
-        Task<string> AuthenticateAsync(string email, SecureString password, CancellationToken cancellationToken);
+        Task<string> AuthenticateAsync(string email, string password, CancellationToken cancellationToken);
 
         /// <summary>
         /// Post a new tournament plan online
