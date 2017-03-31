@@ -272,16 +272,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Kandanda.BusinessLayer\Kandanda.BusinessLayer.csproj">
-      <Project>{8fe36bd3-6c6e-498a-8f7e-1a18f3d4c4fd}</Project>
-      <Name>Kandanda.BusinessLayer</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Kandanda.Dal\Kandanda.Dal.csproj">
-      <Project>{e5c625a2-f602-4ec1-905f-50edff95104b}</Project>
-      <Name>Kandanda.Dal</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.6.1">
       <Visible>False</Visible>
       <ProductName>Microsoft .NET Framework 4.6.1 %28x86 and x64%29</ProductName>
@@ -292,6 +282,16 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Kandanda.BusinessLayer\Kandanda.BusinessLayer.csproj">
+      <Project>{8fe36bd3-6c6e-498a-8f7e-1a18f3d4c4fd}</Project>
+      <Name>Kandanda.BusinessLayer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Kandanda.Dal\Kandanda.Dal.csproj">
+      <Project>{e5c625a2-f602-4ec1-905f-50edff95104b}</Project>
+      <Name>Kandanda.Dal</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
