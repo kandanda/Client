@@ -19,11 +19,11 @@ namespace Kandanda.BusinessLayer.Testing
         [TestInitialize]
         public void Setup()
         {
+            _serviceFactory = new ServiceFactory();
             TestHelper.ResetDatabase();
             _participant1 = CreateParticipant(ParticipantName1);
             _participant2 = CreateParticipant(ParticipantName2);
             _initialTournament = CreateTournament(TournamentName);
-            _serviceFactory = new ServiceFactory();
         }
         
         [TestMethod]
