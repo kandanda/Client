@@ -49,7 +49,7 @@ namespace Kandanda.BusinessLayer
 
         protected virtual List<T> GetAll<T>() where T : class, IEntry
         {
-            return GetAllAsync<T>().Result;
+            return GetDbSet<T>(_dbContext).ToList();
         }
 
         protected virtual T GetEntry<T>(Predicate<T> predicate) where T : class, IEntry
