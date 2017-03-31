@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Kandanda.BusinessLayer.ServiceImplementations;
+using Kandanda.BusinessLayer.ServiceInterfaces;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Kandanda.BusinessLayer.Testing
@@ -7,14 +7,16 @@ namespace Kandanda.BusinessLayer.Testing
     [TestClass]
     public class GroupPhaseGeneratorTest
     {
-        private ParticipantService _participantService;
-        private TournamentService _tournamentService;
+        private IParticipantService _participantService;
+        private ITournamentService _tournamentService;
+        private ServiceFactory _serviceFactory;
 
         [TestInitialize]
         public void Setup()
         {
-            _participantService = new ParticipantService();
-            _tournamentService = new TournamentService();
+            _serviceFactory = new ServiceFactory();
+            _participantService = _serviceFactory.CreateParticipantService();
+            _tournamentService = _serviceFactory.CreateTournamentService();
             TestHelper.ResetDatabase();
         }
 

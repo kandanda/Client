@@ -1,6 +1,4 @@
 ﻿using System.Collections.Generic;
-using Kandanda.BusinessLayer.ServiceImplementations;
-using Kandanda.Dal;
 using Kandanda.Dal.DataTransferObjects;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -16,10 +14,12 @@ namespace Kandanda.BusinessLayer.Testing
         private Participant _participant1;
         private Participant _participant2;
         private Tournament _initialTournament;
+        private ServiceFactory _serviceFactory;
 
         [TestInitialize]
         public void Setup()
         {
+            _serviceFactory = new ServiceFactory();
             TestHelper.ResetDatabase();
             _participant1 = CreateParticipant(ParticipantName1);
             _participant2 = CreateParticipant(ParticipantName2);
@@ -82,51 +82,51 @@ namespace Kandanda.BusinessLayer.Testing
             Assert.AreEqual(tournamentCount, tournaments.Count);
         }
 
-        private static void DeleteTournament(Tournament tournament)
+        private void DeleteTournament(Tournament tournament)
         {
-            var tournamentService = new TournamentService();
+            var tournamentService = _serviceFactory.CreateTournamentService();
             tournamentService.DeleteTournament(tournament);
         }
 
-        private static Tournament GetTournament(int id)
+        private Tournament GetTournament(int id)
         {
-            var tournamentService = new TournamentService();
+            var tournamentService = _serviceFactory.CreateTournamentService();
             return tournamentService.GetTournamentById(id);
         }
 
-        private static List<Tournament> GetAllTournaments()
+        private List<Tournament> GetAllTournaments()
         {
-            var tournamentService = new TournamentService();
+            var tournamentService = _serviceFactory.CreateTournamentService();
             return tournamentService.GetAllTournaments();
         }
 
-        private static List<Participant> GetParticipants(Tournament tournament)
+        private List<Participant> GetParticipants(Tournament tournament)
         {
-            var tournamentService = new TournamentService();
+            var tournamentService = _serviceFactory.CreateTournamentService();
             return tournamentService.GetParticipantsByTournament(tournament);
         }
 
-        private static void EnrolParticipant(Tournament tournament, Participant participant)
+        private void EnrolParticipant(Tournament tournament, Participant participant)
         {
-            var tournamentService = new TournamentService();
+            var tournamentService = _serviceFactory.CreateTournamentService();
             tournamentService.EnrolParticipant(tournament, participant);
         }
 
-        private static void DeregisterParticipant(Tournament tournament, Participant participant)
+        private void DeregisterParticipant(Tournament tournament, Participant participant)
         {
-            var tournamentService = new TournamentService();
+            var tournamentService = _serviceFactory.CreateTournamentService();
             tournamentService.DeregisterParticipant(tournament, participant);
         }
 
-        private static Participant CreateParticipant(string name)
+        private Participant CreateParticipant(string name)
         {
-            var participantService = new ParticipantService();
+            var participantService = _serviceFactory.CreateParticipantService();
             return participantService.CreateEmpty(name);
         }
 
-        private static Tournament CreateTournament(string name)
+        private Tournament CreateTournament(string name)
         {
-            var tournamentService = new TournamentService();
+            var tournamentService = _serviceFactory.CreateTournamentService();
             return tournamentService.CreateEmpty(name);
         }
     }
