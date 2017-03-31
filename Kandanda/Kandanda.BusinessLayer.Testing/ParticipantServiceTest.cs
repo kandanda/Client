@@ -20,7 +20,7 @@ namespace Kandanda.BusinessLayer.Testing
         }
 
         [TestMethod]
-        public void CreateEmptyParticipant()
+        public void TestCreateEmptyParticipant()
         {
             const string newParticipantName = "FC Kandanda";
 
@@ -32,7 +32,18 @@ namespace Kandanda.BusinessLayer.Testing
         }
 
         [TestMethod]
-        public void DeleteParticipantTest()
+        public void TestGetParticipantById()
+        {
+            const string newParticipantName = "FC Kandanda";
+
+            var createdParticipant = service.CreateEmpty(newParticipantName);
+            var reloadedParticipant = service.GetParticipantById(createdParticipant.Id);
+
+            Assert.AreEqual(newParticipantName, reloadedParticipant.Name);
+        }
+
+        [TestMethod]
+        public void TestDeleteParticipant()
         {
             var participants = service.GetAllParticipants();
             var participantCount = participants.Count;
@@ -46,6 +57,19 @@ namespace Kandanda.BusinessLayer.Testing
 
             participants = service.GetAllParticipants();
             Assert.AreEqual(participantCount, participants.Count);
+        }
+
+        [TestMethod]
+        public void TestGetAllParticipants()
+        {
+            var participants = service.GetAllParticipants();
+            
+            Assert.AreEqual(1, participants.Count);
+
+            service.CreateEmpty("Empty");
+            participants = service.GetAllParticipants();
+
+            Assert.AreEqual(2, participants.Count);
         }
     }
 }
