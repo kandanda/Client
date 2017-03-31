@@ -5,9 +5,9 @@ namespace Kandanda.Ui.Views
     /// <summary>
     /// Interaction logic for TournamentView
     /// </summary>
-    public partial class TournamentView : UserControl
+    public partial class TournamentInfoView : UserControl
     {
-        public TournamentView()
+        public TournamentInfoView()
         {
             InitializeComponent();
         }

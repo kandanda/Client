@@ -3,11 +3,11 @@
 namespace Kandanda.Ui.Views
 {
     /// <summary>
-    /// Interaction logic for EditTournamentView
+    /// Interaction logic for TeamsView
     /// </summary>
-    public partial class EditTournamentView : UserControl
+    public partial class TeamsView : UserControl
     {
-        public EditTournamentView()
+        public TeamsView()
         {
             InitializeComponent();
         }

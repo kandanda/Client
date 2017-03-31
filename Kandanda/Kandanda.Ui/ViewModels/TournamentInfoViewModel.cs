@@ -9,7 +9,7 @@ using Prism.Regions;
 
 namespace Kandanda.Ui.ViewModels
 {
-    public class TournamentViewModel : ViewModelBase, INotifyDataErrorInfo
+    public class TournamentInfoViewModel : ViewModelBase, INotifyDataErrorInfo
     {
         private readonly IRegionManager _regionManager;
         private string _name = "Tournament1";
@@ -17,10 +17,10 @@ namespace Kandanda.Ui.ViewModels
         private Dictionary<string, string> _errorDictionary;
         public ICommand ContinueCommand { get; set; }
 
-        public TournamentViewModel(IRegionManager regionManager)
+        public TournamentInfoViewModel(IRegionManager regionManager)
         {
             _regionManager = regionManager;
-            Title = "Tournament";
+            Title = "Information";
             _errorDictionary = new Dictionary<string, string>();
             ContinueCommand = new DelegateCommand(ContinueToNextStep, CanContinue)
                 .ObservesProperty(() => Name)
@@ -29,7 +29,7 @@ namespace Kandanda.Ui.ViewModels
 
         private void ContinueToNextStep()
         {
-            _regionManager.RequestNavigate(RegionNames.ContentRegion, "/ParticipantView");
+            _regionManager.RequestNavigate(RegionNames.TournamentsRegion, "/ParticipantView");
         }
 
         private bool CanContinue()

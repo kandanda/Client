@@ -7,9 +7,9 @@ namespace Kandanda.Ui.Views
     /// <summary>
     /// Interaction logic for ControlPanelView
     /// </summary>
-    public partial class ControlPanelView : UserControl
+    public partial class TournamentMasterView : UserControl
     {
-        public ControlPanelView()
+        public TournamentMasterView()
         {
             InitializeComponent();
         }

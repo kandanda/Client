@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="Kandanda.Ui.Views.TournamentView"
+﻿<UserControl x:Class="Kandanda.Ui.Views.TournamentInfoView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:prism="http://prismlibrary.com/"             
