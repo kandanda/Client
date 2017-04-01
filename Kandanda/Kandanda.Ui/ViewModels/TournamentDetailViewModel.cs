@@ -21,10 +21,10 @@ namespace Kandanda.Ui.ViewModels
         public InteractionRequest<SignInPopupViewModel> SignInRequest { get; }
         public bool IsReady { get; set; }
 
-        public TournamentDetailViewModel(IEventAggregator eventAggregator, IPublishTournamentRequestBuilder publishTournamentRequestBuilder)
+        public TournamentDetailViewModel(IEventAggregator eventAggregator, IPublishTournamentService publishTournamentService)
         {
             _eventAggregator = eventAggregator;
-            _publishTournamentService = new PublishTournamentService(new Uri("https://www.kandanda.ch/"), publishTournamentRequestBuilder);
+            _publishTournamentService = publishTournamentService;
             ConfirmationRequest = new InteractionRequest<IConfirmation>();
             SignInRequest = new InteractionRequest<SignInPopupViewModel>();
             eventAggregator.GetEvent<GeneratePlanRequestEvent>().Subscribe(GeneratePlanAsync);

@@ -1,4 +1,5 @@
-﻿using System.Data.Entity;
+﻿using System;
+using System.Data.Entity;
 using Kandanda.BusinessLayer.ServiceImplementations;
 using Kandanda.BusinessLayer.ServiceInterfaces;
 using Kandanda.Dal;
@@ -24,12 +25,12 @@ namespace Kandanda.BusinessLayer
         public void Initialize()
         {
             _container
-                .RegisterInstance(typeof(KandandaDbContext), BuildKandandaContext())
+                .RegisterInstance(BuildKandandaContext())
                 .RegisterType<IMatchService, MatchService>(new ContainerControlledLifetimeManager())
                 .RegisterType<ITournamentService, TournamentService>(new ContainerControlledLifetimeManager())
                 .RegisterType<IParticipantService, ParticipantService>(new ContainerControlledLifetimeManager())
-                .RegisterType<IPublishTournamentService, PublishTournamentService>(
-                    new ContainerControlledLifetimeManager())
+                .RegisterType<IPublishTournamentService, PublishTournamentService>(new ContainerControlledLifetimeManager(),
+                    new InjectionConstructor(new Uri("https://www.kandanda.ch/"), typeof(IPublishTournamentRequestBuilder)))
                 .RegisterType<IPublishTournamentRequestBuilder, PublishTournamentRequestBuilder>(
                     new ContainerControlledLifetimeManager());
         }
