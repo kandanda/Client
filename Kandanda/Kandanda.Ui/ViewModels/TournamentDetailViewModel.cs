@@ -44,21 +44,20 @@ namespace Kandanda.Ui.ViewModels
         {
         }
 
-        public async void ConfirmNavigationRequest(NavigationContext navigationContext, Action<bool> continuationCallback)
+        public void ConfirmNavigationRequest(NavigationContext navigationContext, Action<bool> continuationCallback)
         {
-            var confirmation = await ConfirmationRequest.RaiseAsync(
-                new Confirmation {Title = "Kandanda", Content = "Are you sure you want to close this Tournament?"});
-            continuationCallback(confirmation.Confirmed);
+            ConfirmationRequest.Raise(
+                new Confirmation {Title = "Kandanda", Content = "Are you sure you want to close this Tournament?"}, c => continuationCallback(c.Confirmed));
         }
 
-        private async void SignInAsync()
+        private void SignInAsync()
         {
             var signInViewModel = new SignInPopupViewModel(_publishTournamentService);
-            await SignInRequest.RaiseAsync(signInViewModel);
-            if (signInViewModel.Confirmed)
+            SignInRequest.Raise(signInViewModel, c =>
             {
-                await _publishTournamentService.PostTournamentAsync(new Tournament(), signInViewModel.AuthToken, CancellationToken.None);
-            }
+                if (c.Confirmed)
+                    _publishTournamentService.PostTournamentAsync(new Tournament(), signInViewModel.AuthToken, CancellationToken.None);
+            });
         }
 
         private async void GeneratePlanAsync()

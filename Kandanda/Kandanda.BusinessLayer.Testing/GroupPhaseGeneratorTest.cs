@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
+using Kandanda.BusinessLayer.ServiceImplementations;
 using Kandanda.BusinessLayer.ServiceInterfaces;
+using Kandanda.Dal;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Kandanda.BusinessLayer.Testing
@@ -9,14 +11,14 @@ namespace Kandanda.BusinessLayer.Testing
     {
         private IParticipantService _participantService;
         private ITournamentService _tournamentService;
-        private ServiceFactory _serviceFactory;
+        private KandandaDbContext _context;
 
         [TestInitialize]
         public void Setup()
         {
-            _serviceFactory = new ServiceFactory();
-            _participantService = _serviceFactory.CreateParticipantService();
-            _tournamentService = _serviceFactory.CreateTournamentService();
+            _context = new KandandaDbContext();
+            _participantService = new ParticipantService(_context);
+            _tournamentService = new TournamentService(_context);
             TestHelper.ResetDatabase();
         }
 
