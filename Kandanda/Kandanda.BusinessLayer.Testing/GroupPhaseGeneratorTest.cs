@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Effort;
 using Kandanda.BusinessLayer.ServiceImplementations;
 using Kandanda.BusinessLayer.ServiceInterfaces;
 using Kandanda.Dal;
@@ -16,10 +17,9 @@ namespace Kandanda.BusinessLayer.Testing
         [TestInitialize]
         public void Setup()
         {
-            _context = new KandandaDbContext();
+            _context = new KandandaDbContext(DbConnectionFactory.CreateTransient());
             _participantService = new ParticipantService(_context);
             _tournamentService = new TournamentService(_context);
-            TestHelper.ResetDatabase();
         }
 
         [TestMethod]

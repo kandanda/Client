@@ -1,4 +1,5 @@
-﻿using Kandanda.BusinessLayer.ServiceImplementations;
+﻿using Effort;
+using Kandanda.BusinessLayer.ServiceImplementations;
 using Kandanda.BusinessLayer.ServiceInterfaces;
 using Kandanda.Dal;
 using Kandanda.Dal.DataTransferObjects;
@@ -16,8 +17,7 @@ namespace Kandanda.BusinessLayer.Testing
         [TestInitialize]
         public void Setup()
         {
-            TestHelper.ResetDatabase();
-            var context = new KandandaDbContext();
+            var context = new KandandaDbContext(DbConnectionFactory.CreateTransient());
             _participantService = new ParticipantService(context);
             _initialParticipant = _participantService.CreateEmpty(ParticipantName);
         }

@@ -12,7 +12,7 @@ namespace Kandanda.BusinessLayer
 
         public ServiceFactory()
         {
-            _context = new KandandaDbContext();
+            _context = new KandandaDbContext(new SampleDataDbInitializer());
         }
 
         public IMatchService CreateMatchService()
