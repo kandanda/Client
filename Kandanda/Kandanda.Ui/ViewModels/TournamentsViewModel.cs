@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using Prism.Commands;
 using System.Windows.Input;
 using Kandanda.BusinessLayer.ServiceInterfaces;
@@ -13,9 +14,10 @@ namespace Kandanda.Ui.ViewModels
 
         private readonly IRegionManager _regionManager;
         private readonly ITournamentService _tournamentService;
+        public ObservableCollection<Tournament> Tournaments { get; }
+
         public ICommand CreateTournamentCommand { get; }
         public ICommand OpenTournamentCommand { get; }
-        public List<Tournament> Tournaments { get; set; }
         
         public TournamentsViewModel(IRegionManager regionManager, ITournamentService tournamentService)
         {
@@ -24,7 +26,7 @@ namespace Kandanda.Ui.ViewModels
             _tournamentService = tournamentService;
             CreateTournamentCommand = new DelegateCommand(NavigateToNewTournament);
             OpenTournamentCommand = new DelegateCommand(NavigateToOpenTournament);
-            Tournaments = tournamentService.GetAllTournaments();
+            Tournaments = new ObservableCollection<Tournament>(tournamentService.GetAllTournaments());
         }
 
         private void NavigateToNewTournament()
