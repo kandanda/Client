@@ -1,5 +1,6 @@
 ﻿using Kandanda.BusinessLayer.ServiceImplementations;
 using Kandanda.BusinessLayer.ServiceInterfaces;
+using Kandanda.Dal;
 using Kandanda.Dal.DataTransferObjects;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -8,18 +9,17 @@ namespace Kandanda.BusinessLayer.Testing
     [TestClass]
     public class ParticipantServiceTest
     {
-        private const string _participantName = "FC Thun";
+        private const string ParticipantName = "FC Thun";
         private Participant _initialParticipant;
         private IParticipantService _participantService;
-        private ServiceFactory _serviceFactory;
 
         [TestInitialize]
         public void Setup()
         {
             TestHelper.ResetDatabase();
-            _serviceFactory = new ServiceFactory();
-            _participantService = _serviceFactory.CreateParticipantService();
-            _initialParticipant = _participantService.CreateEmpty(_participantName);
+            var context = new KandandaDbContext();
+            _participantService = new ParticipantService(context);
+            _initialParticipant = _participantService.CreateEmpty(ParticipantName);
         }
 
         [TestMethod]

@@ -1,4 +1,6 @@
-﻿using Kandanda.BusinessLayer.ServiceInterfaces;
+﻿using Kandanda.BusinessLayer.ServiceImplementations;
+using Kandanda.BusinessLayer.ServiceInterfaces;
+using Kandanda.Dal;
 using Kandanda.Dal.DataTransferObjects;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -14,16 +16,16 @@ namespace Kandanda.BusinessLayer.Testing
         private Participant _participant1;
         private Participant _participant2;
         private Tournament _initialTournament;
-        private ServiceFactory _serviceFactory;
         private ITournamentService _tournamentService;
         private IParticipantService _participantService;
+        private KandandaDbContext _context;
 
         [TestInitialize]
         public void Setup()
         {
-            _serviceFactory = new ServiceFactory();
-            _tournamentService = _serviceFactory.CreateTournamentService();
-            _participantService = _serviceFactory.CreateParticipantService();
+            _context = new KandandaDbContext();
+            _tournamentService = new TournamentService(_context);
+            _participantService = new ParticipantService(_context);
 
             TestHelper.ResetDatabase();
             _participant1 = _participantService.CreateEmpty(ParticipantName1);
