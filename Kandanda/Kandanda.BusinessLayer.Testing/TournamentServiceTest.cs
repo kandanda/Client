@@ -1,4 +1,5 @@
-﻿using Kandanda.BusinessLayer.ServiceImplementations;
+﻿using Effort;
+using Kandanda.BusinessLayer.ServiceImplementations;
 using Kandanda.BusinessLayer.ServiceInterfaces;
 using Kandanda.Dal;
 using Kandanda.Dal.DataTransferObjects;
@@ -23,11 +24,10 @@ namespace Kandanda.BusinessLayer.Testing
         [TestInitialize]
         public void Setup()
         {
-            _context = new KandandaDbContext();
+            _context = new KandandaDbContext(DbConnectionFactory.CreateTransient());
             _tournamentService = new TournamentService(_context);
             _participantService = new ParticipantService(_context);
-
-            TestHelper.ResetDatabase();
+            
             _participant1 = _participantService.CreateEmpty(ParticipantName1);
             _participant2 = _participantService.CreateEmpty(ParticipantName2);
             _initialTournament = _tournamentService.CreateEmpty(TournamentName);
