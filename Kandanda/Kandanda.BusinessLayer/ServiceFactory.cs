@@ -1,9 +1,11 @@
-﻿using Kandanda.BusinessLayer.ServiceImplementations;
+﻿using System;
+using Kandanda.BusinessLayer.ServiceImplementations;
 using Kandanda.BusinessLayer.ServiceInterfaces;
 using Kandanda.Dal;
 
 namespace Kandanda.BusinessLayer
 {
+    [Obsolete("Use Dependency Injection with Unity Constructors instead.")]
     public sealed class ServiceFactory
     {
         private readonly KandandaDbContext _context;
