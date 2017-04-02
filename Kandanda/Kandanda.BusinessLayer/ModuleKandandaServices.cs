@@ -29,6 +29,7 @@ namespace Kandanda.BusinessLayer
                 .RegisterType<IMatchService, MatchService>(new ContainerControlledLifetimeManager())
                 .RegisterType<ITournamentService, TournamentService>(new ContainerControlledLifetimeManager())
                 .RegisterType<IParticipantService, ParticipantService>(new ContainerControlledLifetimeManager())
+                .RegisterType<IPhaseService, PhaseService>(new ContainerControlledLifetimeManager())
                 .RegisterType<IPublishTournamentService, PublishTournamentService>(new ContainerControlledLifetimeManager(),
                     new InjectionConstructor(new Uri("https://www.kandanda.ch/"), typeof(IPublishTournamentRequestBuilder)))
                 .RegisterType<IPublishTournamentRequestBuilder, PublishTournamentRequestBuilder>(
