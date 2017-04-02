@@ -14,6 +14,7 @@ namespace Kandanda.Ui.Views
         {
             InitializeComponent();
 
+            //TODO: Fix duplicated code
             RegionContext.GetObservableContext(this).PropertyChanged += (s, e)
                                                                         =>
             {

@@ -10,7 +10,7 @@ using Prism.Regions;
 
 namespace Kandanda.Ui.ViewModels
 {
-    public class TournamentMasterViewModel: TournamentViewModelBase
+    public class TournamentMasterViewModel: TournamentViewModelBase, INavigationAware
     {
         private readonly IRegionManager _regionManager;
         private readonly ITournamentService _tournamentService;
@@ -40,6 +40,21 @@ namespace Kandanda.Ui.ViewModels
         {
             _eventAggregator.GetEvent<ChangeCurrentTournamentEvent>().Publish(CurrentTournament.Id);
             _regionManager.RequestNavigate(RegionNames.TournamentsRegion, "/TournamentDetailView");
+        }
+
+        public void OnNavigatedTo(NavigationContext navigationContext)
+        {
+        }
+
+        public bool IsNavigationTarget(NavigationContext navigationContext)
+        {
+            return true;
+        }
+
+        public void OnNavigatedFrom(NavigationContext navigationContext)
+        {
+            Tournaments.Clear();
+            Tournaments.AddRange(_tournamentService.GetAllTournaments());
         }
     }
 }

@@ -15,13 +15,15 @@ namespace Kandanda.Ui.ViewModels
     {
         private readonly IPublishTournamentService _publishTournamentService;
         private readonly IEventAggregator _eventAggregator;
+        private readonly ITournamentService _tournamentService;
         public InteractionRequest<IConfirmation> ConfirmationRequest { get; }
         public InteractionRequest<SignInPopupViewModel> SignInRequest { get; }
         public bool IsReady { get; set; }
 
-        public TournamentDetailViewModel(IEventAggregator eventAggregator, IPublishTournamentService publishTournamentService)
+        public TournamentDetailViewModel(IEventAggregator eventAggregator, ITournamentService tournamentService, IPublishTournamentService publishTournamentService)
         {
             _eventAggregator = eventAggregator;
+            _tournamentService = tournamentService;
             _publishTournamentService = publishTournamentService;
             ConfirmationRequest = new InteractionRequest<IConfirmation>();
             SignInRequest = new InteractionRequest<SignInPopupViewModel>();
@@ -45,7 +47,15 @@ namespace Kandanda.Ui.ViewModels
         public void ConfirmNavigationRequest(NavigationContext navigationContext, Action<bool> continuationCallback)
         {
             ConfirmationRequest.Raise(
-                new Confirmation {Title = "Kandanda", Content = "Are you sure you want to close this Tournament?"}, c => continuationCallback(c.Confirmed));
+                new Confirmation {Title = $"Save {CurrentTournament.Name}", Content = "Save this Tournament?"},
+                c =>
+                {
+                    if (c.Confirmed)
+                    {
+                        _tournamentService.Update(CurrentTournament); 
+                    }
+                    continuationCallback(c.Confirmed);
+                });
         }
 
         private void SignInAsync()
