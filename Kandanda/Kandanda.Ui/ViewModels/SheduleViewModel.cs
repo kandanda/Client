@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Linq;
+using System.Windows.Input;
 using Kandanda.BusinessLayer.ServiceInterfaces;
 using Kandanda.Dal.DataTransferObjects;
 using Kandanda.Ui.Core;
+using Prism.Commands;
 using Prism.Regions;
 
 namespace Kandanda.Ui.ViewModels
@@ -11,11 +13,13 @@ namespace Kandanda.Ui.ViewModels
     {
         private readonly IPhaseService _phaseService;
         private Phase _currentPhase;
+        public ICommand SaveCommand { get; set; }
 
         public SheduleViewModel(IPhaseService phaseService)
         {
             Title = "Shedules";
             _phaseService = phaseService;
+            SaveCommand = new DelegateCommand(Save);
         }
 
         //TODO CurrentTournament should not be overwriten 
@@ -39,8 +43,9 @@ namespace Kandanda.Ui.ViewModels
 
         public void OnNavigatedTo(NavigationContext navigationContext)
         {
-            _phaseService.Update(CurrentPhase);
+            Save();
         }
+
 
         public bool IsNavigationTarget(NavigationContext navigationContext)
         {
@@ -49,6 +54,10 @@ namespace Kandanda.Ui.ViewModels
 
         public void OnNavigatedFrom(NavigationContext navigationContext)
         {
+        }
+        private void Save()
+        {
+            _phaseService.Update(CurrentPhase);
         }
 
         //TODO should be handled by BLL
