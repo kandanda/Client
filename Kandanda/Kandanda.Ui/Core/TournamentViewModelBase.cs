@@ -6,7 +6,7 @@ namespace Kandanda.Ui.Core
     {
         private Tournament _currentTournament;
 
-        public Tournament CurrentTournament
+        public virtual Tournament CurrentTournament
         {
             get { return _currentTournament; }
             set { SetProperty(ref _currentTournament, value); }

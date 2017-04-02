@@ -7,11 +7,11 @@
     <WrapPanel Orientation="Vertical">
         <StackPanel>
             <Label Content="Begin on" Target="{Binding ElementName=Start}" />
-            <xctk:DateTimePicker Name="Start" />
+            <xctk:DateTimePicker Name="Start" Value="{Binding Path=CurrentPhase.From}" />
         </StackPanel>
         <StackPanel>
-            <Label Content="and end on" Target="{Binding ElementName=End}" />
-            <xctk:DateTimePicker Name="End"/>
+            <Label Content="and end on" Target="{Binding ElementName=End}"/>
+            <xctk:DateTimePicker Name="End" Value="{Binding Path=CurrentPhase.Until}" />
         </StackPanel>
         <StackPanel>
             <Label Content="Match days" />
