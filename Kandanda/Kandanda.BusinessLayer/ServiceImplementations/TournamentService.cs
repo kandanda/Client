@@ -11,8 +11,11 @@ namespace Kandanda.BusinessLayer.ServiceImplementations
 {
     public sealed class TournamentService : ServiceBase, ITournamentService
     {
+        private readonly IPhaseService _phaseService;
+
         public TournamentService(KandandaDbContext dbContext) : base(dbContext)
         {
+            _phaseService = new PhaseService(dbContext);
         }
 
         public Tournament CreateEmpty(string name)
@@ -55,13 +58,17 @@ namespace Kandanda.BusinessLayer.ServiceImplementations
             var matches = groupPhaseGenerator.GenerateMatches();
 
             var matchService = new MatchService(_dbContext);
-
+            var phase = _phaseService.CreateEmpty();
+            
             foreach (var match in matches)
             {
+                match.PhaseId = phase.Id;
                 matchService.SaveMatch(match);
             }
 
-            var phase = new Phase();
+            phase.TournamentId = tournament.Id;
+            
+            _phaseService.Update(phase);
 
             return phase;
         }

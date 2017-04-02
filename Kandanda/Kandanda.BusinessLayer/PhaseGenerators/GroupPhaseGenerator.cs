@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace Kandanda.BusinessLayer.PhaseGenerators
 {
-    internal sealed class GroupPhaseGenerator : IPhaseGenerator
+    public sealed class GroupPhaseGenerator : IPhaseGenerator
     {
         private const int _shuffleIterationCount = 5000;
         private readonly List<Participant> _participants;

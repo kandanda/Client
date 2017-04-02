@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using Kandanda.Dal.DataTransferObjects;
+﻿using Kandanda.Dal.DataTransferObjects;
 
 namespace Kandanda.BusinessLayer.ServiceInterfaces
 {
