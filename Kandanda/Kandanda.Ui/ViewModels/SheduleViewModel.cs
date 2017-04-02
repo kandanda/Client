@@ -2,7 +2,7 @@
 
 namespace Kandanda.Ui.ViewModels
 {
-    public class SheduleViewModel : ViewModelBase
+    public class SheduleViewModel : TournamentViewModelBase
     {
         public SheduleViewModel()
         {

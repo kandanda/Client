@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Kandanda.BusinessLayer.ServiceImplementations;
 using Kandanda.BusinessLayer.ServiceInterfaces;
-using Kandanda.Dal;
 using Kandanda.Dal.DataTransferObjects;
 using Kandanda.Ui.Core;
 using Kandanda.Ui.Events;
@@ -13,7 +11,7 @@ using Prism.Regions;
 
 namespace Kandanda.Ui.ViewModels
 {
-    public class TournamentDetailViewModel : ViewModelBase, IConfirmNavigationRequest
+    public class TournamentDetailViewModel : TournamentViewModelBase, IConfirmNavigationRequest
     {
         private readonly IPublishTournamentService _publishTournamentService;
         private readonly IEventAggregator _eventAggregator;

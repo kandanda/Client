@@ -5,39 +5,32 @@ using System.Windows.Input;
 using Kandanda.BusinessLayer.ServiceInterfaces;
 using Kandanda.Dal.DataTransferObjects;
 using Kandanda.Ui.Core;
+using Kandanda.Ui.Events;
+using Prism.Events;
 using Prism.Regions;
 
 namespace Kandanda.Ui.ViewModels
 {
-    public class TournamentsViewModel : ViewModelBase
+    public class TournamentsViewModel : TournamentViewModelBase
     {
 
         private readonly IRegionManager _regionManager;
         private readonly ITournamentService _tournamentService;
-        public ObservableCollection<Tournament> Tournaments { get; }
+        private readonly IEventAggregator _eventAggregator;
 
-        public ICommand CreateTournamentCommand { get; }
-        public ICommand OpenTournamentCommand { get; }
-        
-        public TournamentsViewModel(IRegionManager regionManager, ITournamentService tournamentService)
+        public TournamentsViewModel(IRegionManager regionManager, ITournamentService tournamentService, IEventAggregator eventAggregator)
         {
             Title = "Tournaments";
             _regionManager = regionManager;
             _tournamentService = tournamentService;
-            CreateTournamentCommand = new DelegateCommand(NavigateToNewTournament);
-            OpenTournamentCommand = new DelegateCommand(NavigateToOpenTournament);
-            Tournaments = new ObservableCollection<Tournament>(tournamentService.GetAllTournaments());
+            _eventAggregator = eventAggregator;
+            eventAggregator.GetEvent<ChangeCurrentTournamentEvent>().Subscribe(PropagateNewTournament);
         }
 
-        private void NavigateToNewTournament()
+        private void PropagateNewTournament(int tournamentId)
         {
-            _regionManager.RequestNavigate(RegionNames.TournamentsRegion, "/TournamentDetailView");
-        }
-
-        private void NavigateToOpenTournament()
-        {
-            var navigationParameters = new NavigationParameters { {"Tournament", 2 } };
-            _regionManager.RequestNavigate(RegionNames.TournamentsRegion, "/TournamentDetailView", navigationParameters);
+            var tournament = _tournamentService.GetTournamentById(tournamentId);
+            CurrentTournament = tournament;
         }
     }
 }

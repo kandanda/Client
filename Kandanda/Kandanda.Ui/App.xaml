@@ -39,5 +39,9 @@
             <Setter Property="Margin" Value="5"/>
             <Setter Property="Height" Value="2"/>
         </Style>
+        <Style TargetType="{x:Type ListView}">
+            <Setter Property="Margin" Value="5"/>
+        </Style>
     </Application.Resources>
 </Application>
+

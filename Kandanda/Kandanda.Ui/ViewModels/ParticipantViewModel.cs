@@ -1,13 +1,8 @@
-﻿using System.Threading.Tasks;
-using System.Windows.Input;
-using Kandanda.Ui.Core;
-using Kandanda.Ui.Events;
-using Prism.Commands;
-using Prism.Events;
+﻿using Kandanda.Ui.Core;
 
 namespace Kandanda.Ui.ViewModels
 {
-    public class ParticipantViewModel: ViewModelBase
+    public class ParticipantViewModel: TournamentViewModelBase
     {
         public ParticipantViewModel()
         {

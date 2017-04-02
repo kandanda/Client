@@ -6,7 +6,7 @@
     <WrapPanel Orientation="Vertical">
         <StackPanel>
             <Label Content="Tournament _Name" Target="{Binding ElementName=Name}" />
-            <TextBox Name="Name" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" />
+            <TextBox Name="Name" Text="{Binding Path=CurrentTournament.Name, UpdateSourceTrigger=PropertyChanged}" />
         </StackPanel>
         <StackPanel>
             <Label Content="Number of _Groups" Target="{Binding ElementName=NumberOfGroups}" />
