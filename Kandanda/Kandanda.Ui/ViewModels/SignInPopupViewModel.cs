@@ -1,6 +1,5 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-using System.Security;
 using System.Threading;
 using Kandanda.BusinessLayer.ServiceInterfaces;
 using Prism.Commands;

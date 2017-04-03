@@ -6,14 +6,11 @@
              prism:ViewModelLocator.AutoWireViewModel="True">
     <StackPanel>
         <Button Content="New Tournament" Command="{Binding CreateTournamentCommand}" HorizontalAlignment="Left"/>
-        <ListView ItemsSource="{Binding Tournaments}" DisplayMemberPath="Name">
+        <ListView ItemsSource="{Binding Tournaments}" DisplayMemberPath="Name" SelectedItem="{Binding CurrentTournament}">
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="MouseDoubleClick">
                     <i:InvokeCommandAction Command="{Binding OpenTournamentCommand}" />
                 </i:EventTrigger>
-                <prism:InteractionRequestTrigger SourceObject="{Binding ShowAboutRequest}">
-                    <prism:PopupWindowAction IsModal="True" CenterOverAssociatedObject="True" />
-                </prism:InteractionRequestTrigger>
             </i:Interaction.Triggers>
         </ListView>
     </StackPanel>

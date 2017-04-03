@@ -4,5 +4,7 @@
              xmlns:prism="http://prismlibrary.com/"
              xmlns:ui="clr-namespace:Kandanda.Ui"
              prism:ViewModelLocator.AutoWireViewModel="True">
-    <ContentControl DockPanel.Dock="Top" prism:RegionManager.RegionName="{x:Static ui:RegionNames.TournamentsRegion}" />
+    <ContentControl DockPanel.Dock="Top" 
+                    prism:RegionManager.RegionName="{x:Static ui:RegionNames.TournamentsRegion}" 
+                    prism:RegionManager.RegionContext="{Binding CurrentTournament}"/>
 </UserControl>
