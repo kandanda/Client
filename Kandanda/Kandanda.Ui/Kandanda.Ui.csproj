@@ -138,6 +138,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Core\TournamentViewModelBase.cs" />
+    <Compile Include="Events\ChangeCurrentTournamentEvent.cs" />
     <Compile Include="Events\GeneratePlanRequestEvent.cs" />
     <Compile Include="Events\PublishRequestEvent.cs" />
     <Compile Include="Events\StateChangeEvent.cs" />
@@ -148,6 +150,7 @@
     <Compile Include="Interactivity\IVersionInfo.cs" />
     <Compile Include="Interactivity\KandandaVersionInfo.cs" />
     <Compile Include="ViewModels\TeamsViewModel.cs" />
+    <Compile Include="ViewModels\TournamentMasterViewModel.cs" />
     <Compile Include="ViewModels\TournamentsViewModel.cs" />
     <Compile Include="ViewModels\TournamentDetailViewModel.cs" />
     <Compile Include="ViewModels\ParticipantViewModel.cs" />

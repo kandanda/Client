@@ -24,8 +24,10 @@
         </prism:InteractionRequestTrigger>
     </i:Interaction.Triggers>
     <DockPanel>
-        <ContentControl DockPanel.Dock="Bottom" prism:RegionManager.RegionName="{x:Static ui:RegionNames.TournamentCommandRegion}" />
-        <TabControl prism:RegionManager.RegionName="{x:Static ui:RegionNames.TournamentDetailRegion}" />
+        <ContentControl DockPanel.Dock="Bottom" prism:RegionManager.RegionName="{x:Static ui:RegionNames.TournamentCommandRegion}" 
+                        prism:RegionManager.RegionContext="{Binding CurrentTournament}"/>
+        <TabControl prism:RegionManager.RegionName="{x:Static ui:RegionNames.TournamentDetailRegion}" 
+                    prism:RegionManager.RegionContext="{Binding CurrentTournament}"/>
     </DockPanel>
 </UserControl>
 
