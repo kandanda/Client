@@ -36,6 +36,12 @@ namespace Kandanda.BusinessLayer.Testing
             _initialTournament = _tournamentService.CreateEmpty(TournamentName);
         }
 
+        [TestCleanup]
+        public void CleanUp()
+        {
+            _context.Dispose();
+        }
+
         [TestMethod]
         public void TestUpdateTournament()
         {

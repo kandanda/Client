@@ -17,8 +17,8 @@
             <prism:PopupWindowAction IsModal="True" CenterOverAssociatedObject="True" />
             </prism:InteractionRequestTrigger>
         </i:Interaction.Triggers>
-        <ContentControl DockPanel.Dock="Top" prism:RegionManager.RegionName="{x:Static ui:RegionNames.MenuRegion}" />
-        <ContentControl DockPanel.Dock="Bottom" prism:RegionManager.RegionName="{x:Static ui:RegionNames.StatusbarRegion}" />
+        <!--ContentControl DockPanel.Dock="Top" prism:RegionManager.RegionName="{x:Static ui:RegionNames.MenuRegion}" /-->
+        <!--ContentControl DockPanel.Dock="Bottom" prism:RegionManager.RegionName="{x:Static ui:RegionNames.StatusbarRegion}" /-->
         <TabControl prism:RegionManager.RegionName="{x:Static ui:RegionNames.MainRegion}" />
     </DockPanel>
 </Window>

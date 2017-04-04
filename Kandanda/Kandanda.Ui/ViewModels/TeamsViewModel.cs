@@ -13,7 +13,7 @@ namespace Kandanda.Ui.ViewModels
     //TODO: Refactor to ParticipantViewModel
     public class TeamsViewModel : ViewModelBase
     {
-        private IParticipantService _participantService;
+        private readonly IParticipantService _participantService;
 
         public ICommand SaveCommand { get; }
 
