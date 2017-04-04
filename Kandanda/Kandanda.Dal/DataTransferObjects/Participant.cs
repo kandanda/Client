@@ -9,7 +9,13 @@ namespace Kandanda.Dal.DataTransferObjects
 
         [StringLength(50)]
         public string Name { get; set; }
-        
+        [StringLength(50)]
+        public string Captain { get; set; }
+        [StringLength(50)]
+        public string Phone { get; set; }
+        [StringLength(100)]
+        public string Email { get; set; }
+
         [Timestamp]
         public byte[] RowVersion { get; set; }
     }
