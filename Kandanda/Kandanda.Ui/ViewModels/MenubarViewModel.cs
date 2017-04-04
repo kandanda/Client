@@ -49,7 +49,7 @@ namespace Kandanda.Ui.ViewModels
 
         private void GoToControlPanel()
         {
-            _regionManager.RequestNavigate(RegionNames.MainRegion, "/ControlPanelView");
+            _regionManager.RequestNavigate(RegionNames.TournamentsRegion, "/TournamentMasterView");
         }
 
         private void RequestGeneratePlan()

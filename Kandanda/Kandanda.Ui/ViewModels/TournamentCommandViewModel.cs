@@ -1,8 +1,5 @@
 ﻿using Prism.Commands;
 using Prism.Mvvm;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Windows.Input;
 using Kandanda.Ui.Events;
 using Prism.Events;
@@ -15,17 +12,24 @@ namespace Kandanda.Ui.ViewModels
         private readonly IEventAggregator _eventAggregator;
         private readonly IRegionManager _regionManager;
         public ICommand CloseCommand { get; }
+        public ICommand PublishCommand { get; }
 
         public TournamentCommandViewModel(IEventAggregator eventAggregator, IRegionManager regionManager)
         {
             _eventAggregator = eventAggregator;
             _regionManager = regionManager;
             CloseCommand = new DelegateCommand(Close);
+            PublishCommand = new DelegateCommand(Publish);
         }
 
         private void Close()
         {
             _regionManager.RequestNavigate(RegionNames.TournamentsRegion, "/TournamentMasterView");
+        }
+
+        private void Publish()
+        {
+            _eventAggregator.GetEvent<PublishRequestEvent>().Publish();
         }
     }
 }

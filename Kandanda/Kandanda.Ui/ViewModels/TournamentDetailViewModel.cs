@@ -18,8 +18,8 @@ namespace Kandanda.Ui.ViewModels
     {
         private readonly IPublishTournamentService _publishTournamentService;
         private readonly IOpenUrlRequest _openUrlRequest;
-        private readonly IEventAggregator _eventAggregator;
         private readonly ITournamentService _tournamentService;
+        private int _groupSize;
         public InteractionRequest<IConfirmation> ConfirmationRequest { get; }
         public InteractionRequest<SignInPopupViewModel> SignInRequest { get; }
         public ICommand SaveCommand { get; set; }
@@ -28,13 +28,11 @@ namespace Kandanda.Ui.ViewModels
         public TournamentDetailViewModel(IEventAggregator eventAggregator, ITournamentService tournamentService, 
             IPublishTournamentService publishTournamentService, IOpenUrlRequest openUrlRequest)
         {
-            _eventAggregator = eventAggregator;
             _tournamentService = tournamentService;
             _publishTournamentService = publishTournamentService;
             _openUrlRequest = openUrlRequest;
             ConfirmationRequest = new InteractionRequest<IConfirmation>();
             SignInRequest = new InteractionRequest<SignInPopupViewModel>();
-            eventAggregator.GetEvent<GeneratePlanRequestEvent>().Subscribe(GeneratePlanAsync);
             eventAggregator.GetEvent<PublishRequestEvent>().Subscribe(SignInAsync);
             SaveCommand = new DelegateCommand(Save);
         }
@@ -73,24 +71,28 @@ namespace Kandanda.Ui.ViewModels
 
         private void SignInAsync()
         {
+            IsReady = false;
+            GeneratePlanAsync();
             var signInViewModel = new SignInPopupViewModel(_publishTournamentService);
             SignInRequest.Raise(signInViewModel, async c =>
             {
                 if (!c.Confirmed)
                     return;
-                var response = await _publishTournamentService.PostTournamentAsync(CurrentTournament, signInViewModel.AuthToken, CancellationToken.None);
-                _openUrlRequest.Open(response.Link);
+                await Publish(signInViewModel.AuthToken);
+                IsReady = true;
             });
         }
 
-        private async void GeneratePlanAsync()
+        private async Task Publish(string authToken)
         {
-            var stateChangeEvent = _eventAggregator.GetEvent<StateChangeEvent>();
-            stateChangeEvent.Publish("Generating Plan ...");
-            IsReady = false;
-            await Task.Delay(3000);
-            stateChangeEvent.Publish("Plan generated");
-            IsReady = true;
+            var response = await _publishTournamentService.PostTournamentAsync(CurrentTournament, authToken, CancellationToken.None);
+            _openUrlRequest.Open(response.Link);
+        }
+
+        private void GeneratePlanAsync()
+        {
+            // TODO: Fix Generate Plan
+            //_tournamentService.GeneratePhase(CurrentTournament, 4);
         }
     }
 }

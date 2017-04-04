@@ -7,6 +7,7 @@ namespace Kandanda.BusinessLayer.ServiceImplementations
     { 
         public static PublishTournamentResponse Create(string payload, Uri baseUri)
         {
+            //TODO Add Error Handling
             var json = JObject.Parse(payload)["tournament"];
             return new PublishTournamentResponse
             {
