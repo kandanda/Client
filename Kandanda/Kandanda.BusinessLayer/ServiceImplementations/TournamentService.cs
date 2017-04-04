@@ -96,8 +96,11 @@ namespace Kandanda.BusinessLayer.ServiceImplementations
                             entry.TournamentId == tournament.Id
                     select entry).FirstOrDefault();
 
-                db.TournamentParticipants.Remove(tournamentParticipant);
-                db.SaveChanges();
+                if (tournamentParticipant != null)
+                {
+                    db.TournamentParticipants.Remove(tournamentParticipant);
+                    db.SaveChanges();
+                }
             });
         }
         
