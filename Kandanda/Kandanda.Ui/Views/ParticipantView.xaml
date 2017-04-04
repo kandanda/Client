@@ -25,12 +25,12 @@
                     <RowDefinition Height="8*" />
                 </Grid.RowDefinitions>
                 <TextBox Text="TextSearch" />
-                <DataGrid Grid.Row="1">
+                <DataGrid Grid.Row="1" DataContext="{Binding Source=list}">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="Name"/>
-                        <DataGridTextColumn Header="Captaion"/>
-                        <DataGridTextColumn Header="Phone"/>
-                        <DataGridTextColumn Header="Email"/>
+                        <DataGridTextColumn Header="Name" Binding="{Binding Path=Name}" />
+                        <DataGridTextColumn Header="Captain" Binding="{Binding Path=Captain}" />
+                        <DataGridTextColumn Header="Phone" Binding="{Binding Path=Phone}" />
+                        <DataGridTextColumn Header="Email" Binding="{Binding Path=Email}" />
                         <DataGridTextColumn Header="Actions"/>
                     </DataGrid.Columns>
                 </DataGrid>
@@ -48,9 +48,9 @@
                     <RowDefinition Height="8*"  />
                 </Grid.RowDefinitions>
                 <TextBox Text="TextSearch" />
-                <DataGrid Grid.Row="1">
+                <DataGrid Grid.Row="1" DataContext="{Binding Source=list}">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="Name"/>
+                        <DataGridTextColumn Header="Name" Binding="{Binding Path=Name}" />
                     </DataGrid.Columns>
                 </DataGrid>
             </Grid>

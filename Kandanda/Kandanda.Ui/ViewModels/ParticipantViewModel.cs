@@ -3,6 +3,8 @@ using Kandanda.BusinessLayer.ServiceInterfaces;
 using Kandanda.Dal.DataTransferObjects;
 using Kandanda.Ui.Core;
 using Prism.Commands;
+using Prism.Events;
+using System.Windows;
 
 namespace Kandanda.Ui.ViewModels
 {
