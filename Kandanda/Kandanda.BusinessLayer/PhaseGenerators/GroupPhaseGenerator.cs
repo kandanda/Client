@@ -13,6 +13,14 @@ namespace Kandanda.BusinessLayer.PhaseGenerators
         
         public GroupPhaseGenerator(IEnumerable<Participant> participants, int groupSize)
         {
+            var participantList = participants.ToList();
+
+            if (participants == null || participantList.Count == 0)
+                throw new ArgumentException($"{nameof(participants)} must not be empty or null");
+
+            if (groupSize < 1)
+                throw new ArgumentException($"{nameof(groupSize)} must not be null");
+
             _participants = participants.ToList();
             _groupSize = groupSize;
         }

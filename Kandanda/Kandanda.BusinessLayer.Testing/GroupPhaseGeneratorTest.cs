@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+using System;
+using System.Collections.Generic;
 using Effort;
 using Kandanda.BusinessLayer.ServiceImplementations;
 using Kandanda.BusinessLayer.ServiceInterfaces;
@@ -69,6 +70,33 @@ namespace Kandanda.BusinessLayer.Testing
             var matchList = _tournamentService.GetMatchesByPhase(phase);
 
             Assert.AreEqual(16, matchList.Count);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void TestEmptyGroup()
+        {
+            var tournament = _tournamentService.CreateEmpty("Test");
+            _tournamentService.GeneratePhase(tournament, 0);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void TestZeroGroupSize()
+        {
+            var participant = _participantService.CreateEmpty("Empty Participant");
+            var tournament = _tournamentService.CreateEmpty("Empty Tournament");
+
+            _tournamentService.EnrolParticipant(tournament, participant);
+
+            _tournamentService.GeneratePhase(tournament, 0);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void TestNullTournament()
+        {
+            _tournamentService.GeneratePhase(null, 10);
         }
     }
 }

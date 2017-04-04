@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using Kandanda.BusinessLayer.ServiceInterfaces;
 using Kandanda.Dal;
 using Kandanda.Dal.Entities;
