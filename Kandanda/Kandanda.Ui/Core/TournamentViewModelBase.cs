@@ -1,4 +1,4 @@
-﻿using Kandanda.Dal.DataTransferObjects;
+﻿using Kandanda.Dal.Entities;
 
 namespace Kandanda.Ui.Core
 {

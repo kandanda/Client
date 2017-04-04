@@ -1,6 +1,3 @@
-using Kandanda.BusinessLayer;
-using Kandanda.BusinessLayer.ServiceImplementations;
-using Kandanda.BusinessLayer.ServiceInterfaces;
 using Kandanda.Ui.Interactivity;
 using Kandanda.Ui.Views;
 using Microsoft.Practices.Unity;

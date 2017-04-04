@@ -1,5 +1,5 @@
 ﻿using System.Windows.Controls;
-using Kandanda.Dal.DataTransferObjects;
+using Kandanda.Dal.Entities;
 using Kandanda.Ui.Core;
 using Prism.Regions;
 

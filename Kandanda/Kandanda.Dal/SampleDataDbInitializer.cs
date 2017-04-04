@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Data.Entity;
-using Kandanda.Dal.DataTransferObjects;
+using Kandanda.Dal.Entities;
 
 namespace Kandanda.Dal
 {

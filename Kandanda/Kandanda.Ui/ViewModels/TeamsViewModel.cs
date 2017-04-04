@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.ObjectModel;
-using System.Linq;
+﻿using System.Collections.ObjectModel;
 using System.Windows.Input;
-using Kandanda.BusinessLayer;
 using Kandanda.BusinessLayer.ServiceInterfaces;
+using Kandanda.Dal.Entities;
 using Kandanda.Ui.Core;
-using Kandanda.Dal.DataTransferObjects;
 using Prism.Commands;
 
 namespace Kandanda.Ui.ViewModels

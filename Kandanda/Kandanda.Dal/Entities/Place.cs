@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Kandanda.Dal.DataTransferObjects
+namespace Kandanda.Dal.Entities
 {
-    public class Place : IEntry
+    public class Place : IEntity
     {
         [Key]
         public int Id { get; set; }

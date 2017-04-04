@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Windows.Input;
 using Kandanda.BusinessLayer.ServiceInterfaces;
-using Kandanda.Dal.DataTransferObjects;
+using Kandanda.Dal.Entities;
 using Kandanda.Ui.Core;
 using Prism.Commands;
 using Prism.Regions;

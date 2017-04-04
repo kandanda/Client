@@ -1,11 +1,9 @@
 ﻿using System.Windows.Input;
 using Kandanda.BusinessLayer.ServiceInterfaces;
-using Kandanda.Dal.DataTransferObjects;
 using Kandanda.Ui.Core;
 using Prism.Commands;
-using Prism.Events;
-using System.Windows;
 using System.Collections.ObjectModel;
+using Kandanda.Dal.Entities;
 
 namespace Kandanda.Ui.ViewModels
 {

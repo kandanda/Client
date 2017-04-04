@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Kandanda.BusinessLayer.PhaseGenerators;
 using Kandanda.BusinessLayer.ServiceInterfaces;
 using Kandanda.Dal;
-using Kandanda.Dal.DataTransferObjects;
+using Kandanda.Dal.Entities;
 
 namespace Kandanda.BusinessLayer.ServiceImplementations
 {
@@ -28,14 +28,14 @@ namespace Kandanda.BusinessLayer.ServiceImplementations
 
         public async Task<List<Phase>> GetPhasesByTournamentAsync(Tournament tournament)
         {
-            return await _dbContext.Phases
+            return await DbContext.Phases
                 .Where(phase => phase.TournamentId == tournament.Id)
                 .ToListAsync();
         }
         
         public async Task<List<Match>> GetMatchesByPhaseAsync(Phase phase)
         {
-            return await _dbContext.Matches
+            return await DbContext.Matches
                 .Where(match => match.PhaseId == phase.Id)
                 .ToListAsync();
         }
@@ -57,7 +57,7 @@ namespace Kandanda.BusinessLayer.ServiceImplementations
             var groupPhaseGenerator = new GroupPhaseGenerator(participants, groupSize);
             var matches = groupPhaseGenerator.GenerateMatches();
 
-            var matchService = new MatchService(_dbContext);
+            var matchService = new MatchService(DbContext);
             var phase = _phaseService.CreateEmpty();
             
             foreach (var match in matches)
@@ -106,8 +106,8 @@ namespace Kandanda.BusinessLayer.ServiceImplementations
         
         public async Task<List<Participant>> GetParticipantsByTournamentAsync(Tournament tournament)
         {
-            return await (from entry in _dbContext.TournamentParticipants
-                join participant in _dbContext.Participants
+            return await (from entry in DbContext.TournamentParticipants
+                join participant in DbContext.Participants
                 on entry.ParticipantId equals participant.Id
                 select participant).ToListAsync();
         }

@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Kandanda.Dal.DataTransferObjects;
+using Kandanda.Dal.Entities;
 
 namespace Kandanda.BusinessLayer.PhaseGenerators
 {
