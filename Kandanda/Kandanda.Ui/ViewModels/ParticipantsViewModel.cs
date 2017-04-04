@@ -1,29 +1,25 @@
-﻿using System;
-using System.Collections.ObjectModel;
-using System.Linq;
+﻿using System.Collections.ObjectModel;
 using System.Windows.Input;
-using Kandanda.BusinessLayer;
 using Kandanda.BusinessLayer.ServiceInterfaces;
+using Kandanda.Dal.Entities;
 using Kandanda.Ui.Core;
-using Kandanda.Dal.DataTransferObjects;
 using Prism.Commands;
 
 namespace Kandanda.Ui.ViewModels
 {
-    //TODO: Refactor to ParticipantViewModel
-    public class TeamsViewModel : ViewModelBase
+    public class ParticipantsViewModel : ViewModelBase
     {
         private IParticipantService _participantService;
 
         public ICommand SaveCommand { get; }
 
         public ObservableCollection<Participant> Participants { get; } = new ObservableCollection<Participant>();
-        public TeamsViewModel(IParticipantService service)
+        public ParticipantsViewModel(IParticipantService service)
         {
             _participantService = service;
-            Title = "Teams";
+            Title = "Participants";
             PullParticipants();
-            SaveCommand = new DelegateCommand(SaveTeams, CanSaveTeams)
+            SaveCommand = new DelegateCommand(SaveParticipants, CanSaveParticipants)
                 .ObservesProperty(() => Participants);
         }
         private void PullParticipants()
@@ -34,7 +30,7 @@ namespace Kandanda.Ui.ViewModels
                 Participants.Add(participant);
             }
         }
-        private void SaveTeams()
+        private void SaveParticipants()
         {
             var refreshNeeded = false;
             foreach (var participant in Participants)
@@ -55,7 +51,7 @@ namespace Kandanda.Ui.ViewModels
             }
         }
 
-        private bool CanSaveTeams()
+        private bool CanSaveParticipants()
         {
             return true;
         }

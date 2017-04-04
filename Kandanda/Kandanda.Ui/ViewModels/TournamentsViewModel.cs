@@ -1,9 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using Prism.Commands;
-using System.Windows.Input;
-using Kandanda.BusinessLayer.ServiceInterfaces;
-using Kandanda.Dal.DataTransferObjects;
+﻿using Kandanda.BusinessLayer.ServiceInterfaces;
 using Kandanda.Ui.Core;
 using Kandanda.Ui.Events;
 using Prism.Events;

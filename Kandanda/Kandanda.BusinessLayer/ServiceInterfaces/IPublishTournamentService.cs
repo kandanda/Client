@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Security;
 using System.Security.Authentication;
 using System.Threading;
 using System.Threading.Tasks;
-using Kandanda.Dal.DataTransferObjects;
+using Kandanda.Dal.Entities;
 
 namespace Kandanda.BusinessLayer.ServiceInterfaces
 {

@@ -2,15 +2,12 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Kandanda.Dal.DataTransferObjects
+namespace Kandanda.Dal.Entities
 {
-    public class Phase : IEntry
+    public class Match : IEntity
     {
         [Key]
         public int Id { get; set; }
-
-        [StringLength(50)]
-        public string Name { get; set; }
 
         [Column(TypeName = "datetime2")]
         public DateTime From { get; set; }
@@ -18,8 +15,14 @@ namespace Kandanda.Dal.DataTransferObjects
         [Column(TypeName = "datetime2")]
         public DateTime Until { get; set; }
 
-        public int TournamentId { get; set; }
-        
+        public int FirstParticipantId { get; set; }
+
+        public int SecondParticipantId { get; set; }
+
+        public int PhaseId { get; set; }
+
+        public int PlaceId { get; set; }
+
         [Timestamp]
         public byte[] RowVersion { get; set; }
     }

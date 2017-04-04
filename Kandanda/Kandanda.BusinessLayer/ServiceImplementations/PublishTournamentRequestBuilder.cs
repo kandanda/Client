@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using Kandanda.BusinessLayer.ServiceInterfaces;
 using Kandanda.Dal;
-using Kandanda.Dal.DataTransferObjects;
+using Kandanda.Dal.Entities;
 using Newtonsoft.Json.Linq;
 
 namespace Kandanda.BusinessLayer.ServiceImplementations
@@ -25,7 +25,7 @@ namespace Kandanda.BusinessLayer.ServiceImplementations
                 {
                     id = tournament.Id,
                     name = tournament.Name,
-                    phases = from p in _dbContext.Phases
+                    phases = from p in DbContext.Phases
                                     where p.TournamentId == tournament.Id
                                     select BuildJsonPhasesAsync(p)
                 }
@@ -39,7 +39,7 @@ namespace Kandanda.BusinessLayer.ServiceImplementations
                 name = phase.Name,
                 from = phase.From,
                 until = phase.Until,
-                matches = from m in _dbContext.Matches
+                matches = from m in DbContext.Matches
                                  where m.PhaseId == phase.Id
                                  select BuildJsonMatchAsync(m)
             };
@@ -47,14 +47,14 @@ namespace Kandanda.BusinessLayer.ServiceImplementations
 
         private object BuildJsonMatchAsync(Match match)
         {
-            var participant1 = _dbContext.Participants.Find(match.FirstParticipantId);
-            var participant2 = _dbContext.Participants.Find(match.SecondParticipantId);
+            var participant1 = DbContext.Participants.Find(match.FirstParticipantId);
+            var participant2 = DbContext.Participants.Find(match.SecondParticipantId);
 
             return new
             {
                 from = match.From,
                 until = match.Until,
-                place = _dbContext.Places.Find(match.PlaceId)?.Name,
+                place = DbContext.Places.Find(match.PlaceId)?.Name,
                 participants = new[]
                 {
                     BuildJsonParticipant(participant1),
