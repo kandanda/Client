@@ -1,13 +1,17 @@
-﻿using System.Data.Entity;
-using Kandanda.Dal.DataTransferObjects;
+﻿using System.Data.Common;
+using System.Data.Entity;
+using Kandanda.Dal.Entities;
 
 namespace Kandanda.Dal
 {
     public class KandandaDbContext : DbContext
     {
-        public KandandaDbContext()
+        public KandandaDbContext(DbConnection connection): base(connection, true)
+        { }
+
+        public KandandaDbContext(IDatabaseInitializer<KandandaDbContext> initializer)
         {
-            Database.SetInitializer(new DropCreateDatabaseAlways<KandandaDbContext>());
+            Database.SetInitializer(initializer);
         }
 
         public DbSet<Tournament> Tournaments { get; set; }

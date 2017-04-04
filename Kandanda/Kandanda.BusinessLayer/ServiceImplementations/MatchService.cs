@@ -1,12 +1,19 @@
 ﻿using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
+using System.Threading.Tasks;
 using Kandanda.BusinessLayer.ServiceInterfaces;
-using Kandanda.Dal.DataTransferObjects;
+using Kandanda.Dal;
+using Kandanda.Dal.Entities;
 
 namespace Kandanda.BusinessLayer.ServiceImplementations
 {
     public sealed class MatchService : ServiceBase, IMatchService
     {
+        public MatchService(KandandaDbContext dbContext) : base(dbContext)
+        {
+        }
+
         public Match CreateMatch(Participant firstParticipant, Participant secondParticipant)
         {
             var match = new Match
@@ -22,11 +29,8 @@ namespace Kandanda.BusinessLayer.ServiceImplementations
 
         public void SaveMatch(Match match)
         {
-            ExecuteDatabaseAction(db =>
-            {
-                db.Matches.Add(match);
-                db.SaveChanges();
-            });
+            DbContext.Matches.Add(match);
+            DbContext.SaveChanges();
         }
 
         public Match GetMatchById(int id)
@@ -34,15 +38,25 @@ namespace Kandanda.BusinessLayer.ServiceImplementations
             return GetEntryById<Match>(id);
         }
 
-        public List<Match> GetMatchesByTournament(Tournament tournament)
+        public async Task<List<Match>> GetMatchesByTournamentAsync(Tournament tournament)
         {
-            return ExecuteDatabaseFunc(db => (from entry in db.Tournaments
-                join phase in db.Phases
+            return await (from entry in DbContext.Tournaments
+                join phase in DbContext.Phases
                 on entry.Id equals phase.TournamentId
-                join match in db.Matches
+                join match in DbContext.Matches
                 on phase.Id equals match.PhaseId
                 where entry.Id == tournament.Id
-                select match).ToList());
+                select match).ToListAsync();
+        }
+
+        public List<Match> GetMatchesByTournament(Tournament tournament)
+        {
+            return GetMatchesByTournamentAsync(tournament).Result;
+        }
+
+        public void Update(Match match)
+        {
+            Update<Match>(match);
         }
     }
 }

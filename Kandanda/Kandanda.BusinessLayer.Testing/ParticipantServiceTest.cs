@@ -1,4 +1,8 @@
-﻿using Kandanda.BusinessLayer.ServiceImplementations;
+using Effort;
+using Kandanda.BusinessLayer.ServiceImplementations;
+using Kandanda.BusinessLayer.ServiceInterfaces;
+using Kandanda.Dal;
+using Kandanda.Dal.Entities;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Kandanda.BusinessLayer.Testing
@@ -6,15 +10,14 @@ namespace Kandanda.BusinessLayer.Testing
     [TestClass]
     public class ParticipantServiceTest
     {
-        private const string _participantName = "FC Thun";
+        private const string ParticipantName = "FC Thun";
         private ParticipantService _service;
 
         [TestInitialize]
         public void Setup()
         {
-            TestHelper.ResetDatabase();
-            _service = new ParticipantService();
-            _service.CreateEmpty(_participantName);
+            _service = new ParticipantService(new KandandaDbContext(DbConnectionFactory.CreateTransient()));
+            _service.CreateEmpty(ParticipantName);
         }
 
         [TestMethod]

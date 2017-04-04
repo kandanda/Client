@@ -2,7 +2,7 @@
 using System.Security.Authentication;
 using System.Threading;
 using System.Threading.Tasks;
-using Kandanda.Dal.DataTransferObjects;
+using Kandanda.Dal.Entities;
 
 namespace Kandanda.BusinessLayer.ServiceInterfaces
 {
@@ -27,5 +27,7 @@ namespace Kandanda.BusinessLayer.ServiceInterfaces
         /// <exception cref="AuthenticationException">Throws if the auth token is exipired</exception>
         /// <returns></returns>
         Task<string> PostTournamentAsync(Tournament tournament, string authToken, CancellationToken cancellationToken);
+
+        Uri BaseUri { get; }
     }
 }

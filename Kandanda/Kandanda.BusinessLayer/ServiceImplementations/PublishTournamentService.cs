@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -9,7 +8,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Kandanda.BusinessLayer.ServiceInterfaces;
-using Kandanda.Dal.DataTransferObjects;
+using Kandanda.Dal.Entities;
 using Newtonsoft.Json.Linq;
 
 namespace Kandanda.BusinessLayer.ServiceImplementations
@@ -20,11 +19,20 @@ namespace Kandanda.BusinessLayer.ServiceImplementations
         private readonly IPublishTournamentRequestBuilder _publishTournamentRequestBuilder;
         public string ApiVersion { get; } = "v1";
 
-        public PublishTournamentService(Uri baseUri, IPublishTournamentRequestBuilder publishTournamentRequestBuilder, HttpMessageHandler handler = null)
+        public Uri BaseUri { get; }
+
+
+        public PublishTournamentService(Uri baseUri, IPublishTournamentRequestBuilder publishTournamentRequestBuilder)
+            : this(baseUri, publishTournamentRequestBuilder, null)
+        {}
+
+        public PublishTournamentService(Uri baseUri, IPublishTournamentRequestBuilder publishTournamentRequestBuilder, 
+            HttpMessageHandler handler)
         {
             _publishTournamentRequestBuilder = publishTournamentRequestBuilder;
             _client = handler == null ? new HttpClient() : new HttpClient(handler);
             _client.BaseAddress = new Uri(baseUri, $"/api/{ApiVersion}/");
+            BaseUri = baseUri;
         }
 
         public async Task<string> AuthenticateAsync(string email, string password, CancellationToken cancellationToken)

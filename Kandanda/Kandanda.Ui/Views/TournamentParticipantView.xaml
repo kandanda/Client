@@ -1,0 +1,188 @@
+﻿<UserControl x:Class="Kandanda.Ui.Views.TournamentParticipantView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:prism="http://prismlibrary.com/"             
+             prism:ViewModelLocator.AutoWireViewModel="True">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="2*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="2*" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <GroupBox Header="Participating" Grid.RowSpan="4">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition Height="8*" />
+                </Grid.RowDefinitions>
+                <TextBox Text="TextSearch" />
+                <DataGrid Grid.Row="1" ItemsSource="{Binding Participants, Mode=OneWay}" SelectedItem="{Binding ParticipantToRemove}" 
+                          AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single" >
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Name" Binding="{Binding Name}" />
+                        <DataGridTextColumn Header="Captain" Binding="{Binding Path=Captain}" />
+                        <DataGridTextColumn Header="Phone" Binding="{Binding Path=Phone}" />
+                        <DataGridTextColumn Header="Email" Binding="{Binding Path=Email}" />
+                        <DataGridTextColumn Header="Actions"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </Grid>
+        </GroupBox>
+        <Button Grid.Column="1" Grid.Row="1" Command="{Binding EnrollParticipantCommand}">&lt;</Button>
+        <Button Grid.Column="1" Grid.Row="2" Command="{Binding DeregisterParticipantCommand}">&gt;</Button>
+        <GroupBox Header="Available Teams" Grid.Column="2" Grid.RowSpan="4">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition Height="8*"  />
+                </Grid.RowDefinitions>
+                <TextBox Text="TextSearch" /> 
+                <DataGrid Grid.Row="1" ItemsSource="{Binding AvailableTeams, Mode=OneWay}" SelectedItem="{Binding ParticipantToAdd}"
+                          AutoGenerateColumns="False" IsReadOnly="true" SelectionMode="Single" >
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Name" Binding="{Binding Name}" />
+                    </DataGrid.Columns>
+                </DataGrid>
+            </Grid>
+        </GroupBox>
+    </Grid>
+</UserControl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

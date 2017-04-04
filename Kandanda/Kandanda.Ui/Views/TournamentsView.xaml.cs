@@ -3,11 +3,11 @@
 namespace Kandanda.Ui.Views
 {
     /// <summary>
-    /// Interaction logic for Toolbar
+    /// Interaction logic for TournamentsView
     /// </summary>
-    public partial class Toolbar : UserControl
+    public partial class TournamentsView : UserControl
     {
-        public Toolbar()
+        public TournamentsView()
         {
             InitializeComponent();
         }
