@@ -11,10 +11,10 @@ namespace Kandanda.Ui.ViewModels
     public class SignInPopupViewModel : BindableBase, IConfirmation, IInteractionRequestAware
     {
         private string _email;
-        private string _password;
         private readonly EmailAddressAttribute _emailAddressAttribute = new EmailAddressAttribute();
         private readonly IPublishTournamentService _publishTournamentService;
         private bool _isReady = true;
+        private string _password = "";
         public DelegateCommand SignInCommand { get; }
         public string AuthToken { get; private set; }
         public string Title { get; set; }
@@ -38,18 +38,17 @@ namespace Kandanda.Ui.ViewModels
             Title = $"Sign in {_publishTournamentService.BaseUri}";
         }
 
-        public void PasswordChanged(string password)
-        {
-            _password = password;
-            SignInCommand.RaiseCanExecuteChanged();
-        }
-
         public string Email
         {
             get { return _email; }
             set { SetProperty(ref _email, value); }
         }
 
+        public void PasswordChanged(string password)
+        {
+            _password = password;
+            SignInCommand.RaiseCanExecuteChanged();
+        }
 
         private async void SignIn()
         {
@@ -67,7 +66,7 @@ namespace Kandanda.Ui.ViewModels
 
         public bool CanTrySignIn()
         {
-            return IsReady && _emailAddressAttribute.IsValid(Email) && _password?.Length > 3;
+            return IsReady && _emailAddressAttribute.IsValid(Email) && _password.Length > 3;
         }
     }
 }

@@ -6,10 +6,14 @@ using Newtonsoft.Json.Linq;
 
 namespace Kandanda.BusinessLayer.ServiceImplementations
 {
+    //TODO: Make Class Methods Async
     public class PublishTournamentRequestBuilder : ServiceBase, IPublishTournamentRequestBuilder
     {
+        private KandandaDbContext _dbContext;
+
         public PublishTournamentRequestBuilder(KandandaDbContext dbContext) : base(dbContext)
         {
+            _dbContext = dbContext;
         }
         
         public string BuildJsonRequest(Tournament tournament)
@@ -19,29 +23,33 @@ namespace Kandanda.BusinessLayer.ServiceImplementations
 
         private object BuildJsonTournamentAsync(Tournament tournament)
         {
+            var phases = (from p in _dbContext.Phases
+                where p.TournamentId == tournament.Id
+                select p).ToList().Select(BuildJsonPhasesAsync).ToList();
+
             return new
             {
                 tournament = new
                 {
                     id = tournament.Id,
                     name = tournament.Name,
-                    phases = from p in _dbContext.Phases
-                                    where p.TournamentId == tournament.Id
-                                    select BuildJsonPhasesAsync(p)
+                    phases
                 }
             };
         }
 
         private object BuildJsonPhasesAsync(Phase phase)
         {
+            var matches = (from m in _dbContext.Matches
+                where m.PhaseId == phase.Id
+                select m).ToList().Select(BuildJsonMatchAsync).ToList();
+
             return new
             {
                 name = phase.Name,
                 from = phase.From,
                 until = phase.Until,
-                matches = from m in _dbContext.Matches
-                                 where m.PhaseId == phase.Id
-                                 select BuildJsonMatchAsync(m)
+                matches
             };
         }
 

@@ -1,9 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Data.Entity;
+using System.Diagnostics.CodeAnalysis;
 using Kandanda.Dal.DataTransferObjects;
 
 namespace Kandanda.Dal
 {
+    [ExcludeFromCodeCoverage]
     public class SampleDataDbInitializer : DropCreateDatabaseAlways<KandandaDbContext>
     {
         protected override void Seed(KandandaDbContext db)

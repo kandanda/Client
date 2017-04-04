@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Diagnostics.CodeAnalysis;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Security;
 using System.Security.Authentication;
 using System.Text;
 using System.Threading;
@@ -23,7 +22,7 @@ namespace Kandanda.BusinessLayer.ServiceImplementations
 
         public Uri BaseUri { get; }
 
-
+        [ExcludeFromCodeCoverage]
         public PublishTournamentService(Uri baseUri, IPublishTournamentRequestBuilder publishTournamentRequestBuilder)
             : this(baseUri, publishTournamentRequestBuilder, null)
         {}
@@ -58,9 +57,10 @@ namespace Kandanda.BusinessLayer.ServiceImplementations
             }
         }
 
-        public Task<string> PostTournamentAsync(Tournament tournament, string authToken, CancellationToken cancellationToken)
+        public async Task<PublishTournamentResponse> PostTournamentAsync(Tournament tournament, string authToken, CancellationToken cancellationToken)
         {
-            return PostTournamentAsync(_publishTournamentRequestBuilder.BuildJsonRequest(tournament), authToken, cancellationToken);
+            var payload = await PostTournamentAsync(_publishTournamentRequestBuilder.BuildJsonRequest(tournament), authToken, cancellationToken);
+            return PublishTournamentResponse.Create(payload, BaseUri);
         }
 
         private async Task<string> PostTournamentAsync(string payload, string authToken, CancellationToken cancellationToken)

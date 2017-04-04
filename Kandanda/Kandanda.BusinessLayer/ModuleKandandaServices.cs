@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Data.Entity;
+using System.Diagnostics.CodeAnalysis;
 using Kandanda.BusinessLayer.ServiceImplementations;
 using Kandanda.BusinessLayer.ServiceInterfaces;
 using Kandanda.Dal;
@@ -8,6 +9,7 @@ using Prism.Modularity;
 
 namespace Kandanda.BusinessLayer
 {
+    [ExcludeFromCodeCoverage]
     public class ModuleKandandaServices : IModule
     {
         private readonly IUnityContainer _container;

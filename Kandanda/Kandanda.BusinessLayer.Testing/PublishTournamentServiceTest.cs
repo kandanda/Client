@@ -56,7 +56,18 @@ namespace Kandanda.BusinessLayer.Testing
         [TestMethod]
         public async Task PostTournamentAsyncShouldSendACorrectRequest()
         {
-            var fakeHandler = new FakeResponseHandler();
+            var fakeHandler = new FakeResponseHandler
+            {
+                Response =
+                    () =>
+                        new HttpResponseMessage(HttpStatusCode.Accepted)
+                        {
+                            Content =
+                                new StringContent(
+                                    "{ \"tournament\":{ \"id\":5,\"link\":\"/tournaments/b3deda3f0e79f609cdb4608377079915\"} }",
+                                    Encoding.UTF8, "application/json")
+                        }
+            };
             var service = new PublishTournamentService(new Uri("https://someurl.com/"), CreateFakeTournamentBuilder(), fakeHandler);
 
             await service.PostTournamentAsync(new Tournament(), "token", CancellationToken.None);
@@ -70,6 +81,28 @@ namespace Kandanda.BusinessLayer.Testing
         }
 
         [TestMethod]
+        public async Task PostTournamentAsyncShouldReturnCorrectResponse()
+        {
+            var fakeHandler = new FakeResponseHandler
+            {
+                Response =
+                    () =>
+                        new HttpResponseMessage(HttpStatusCode.Accepted)
+                        {
+                            Content =
+                                new StringContent(
+                                    "{ \"tournament\":{ \"id\":5,\"link\":\"/tournaments/acbd\"} }",
+                                    Encoding.UTF8, "application/json")
+                        }
+            };
+            var service = new PublishTournamentService(new Uri("https://someurl.com/"), CreateFakeTournamentBuilder(), fakeHandler);
+
+            var response = await service.PostTournamentAsync(new Tournament(), "token", CancellationToken.None);
+            Assert.AreEqual(response.Id, 5);
+            Assert.AreEqual(response.Link, new Uri("https://someurl.com/tournaments/acbd"));
+        }
+
+        [TestMethod]
         [ExpectedException(typeof(AuthenticationException))]
         public async Task PostTournamentAsyncShouldThrowIfAuthTokenExpired()
         {
@@ -77,6 +110,16 @@ namespace Kandanda.BusinessLayer.Testing
             var service = new PublishTournamentService(new Uri("https://someurl.com/"), CreateFakeTournamentBuilder(), fakeHandler);
 
             await service.PostTournamentAsync(new Tournament(), "token", CancellationToken.None);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public async Task PostTournamenAsyncShouldThrowIfAuthTokenIsEmpty()
+        {
+            var fakeHandler = new FakeResponseHandler();
+            var service = new PublishTournamentService(new Uri("https://someurl.com/"), CreateFakeTournamentBuilder(), fakeHandler);
+
+            await service.PostTournamentAsync(new Tournament(), "", CancellationToken.None);
         }
 
         private IPublishTournamentRequestBuilder CreateFakeTournamentBuilder()

@@ -6,6 +6,7 @@ using Kandanda.BusinessLayer.ServiceInterfaces;
 using Kandanda.Dal.DataTransferObjects;
 using Kandanda.Ui.Core;
 using Kandanda.Ui.Events;
+using Kandanda.Ui.Interactivity;
 using Prism.Commands;
 using Prism.Events;
 using Prism.Interactivity.InteractionRequest;
@@ -16,6 +17,7 @@ namespace Kandanda.Ui.ViewModels
     public class TournamentDetailViewModel : TournamentViewModelBase, IConfirmNavigationRequest
     {
         private readonly IPublishTournamentService _publishTournamentService;
+        private readonly IOpenUrlRequest _openUrlRequest;
         private readonly IEventAggregator _eventAggregator;
         private readonly ITournamentService _tournamentService;
         public InteractionRequest<IConfirmation> ConfirmationRequest { get; }
@@ -24,11 +26,12 @@ namespace Kandanda.Ui.ViewModels
         public bool IsReady { get; set; }
 
         public TournamentDetailViewModel(IEventAggregator eventAggregator, ITournamentService tournamentService, 
-            IPublishTournamentService publishTournamentService)
+            IPublishTournamentService publishTournamentService, IOpenUrlRequest openUrlRequest)
         {
             _eventAggregator = eventAggregator;
             _tournamentService = tournamentService;
             _publishTournamentService = publishTournamentService;
+            _openUrlRequest = openUrlRequest;
             ConfirmationRequest = new InteractionRequest<IConfirmation>();
             SignInRequest = new InteractionRequest<SignInPopupViewModel>();
             eventAggregator.GetEvent<GeneratePlanRequestEvent>().Subscribe(GeneratePlanAsync);
@@ -71,10 +74,12 @@ namespace Kandanda.Ui.ViewModels
         private void SignInAsync()
         {
             var signInViewModel = new SignInPopupViewModel(_publishTournamentService);
-            SignInRequest.Raise(signInViewModel, c =>
+            SignInRequest.Raise(signInViewModel, async c =>
             {
-                if (c.Confirmed)
-                    _publishTournamentService.PostTournamentAsync(new Tournament(), signInViewModel.AuthToken, CancellationToken.None);
+                if (!c.Confirmed)
+                    return;
+                var response = await _publishTournamentService.PostTournamentAsync(CurrentTournament, signInViewModel.AuthToken, CancellationToken.None);
+                _openUrlRequest.Open(response.Link);
             });
         }
 

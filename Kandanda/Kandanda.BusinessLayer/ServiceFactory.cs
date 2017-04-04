@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using Kandanda.BusinessLayer.ServiceImplementations;
 using Kandanda.BusinessLayer.ServiceInterfaces;
 using Kandanda.Dal;
 
 namespace Kandanda.BusinessLayer
 {
+    [ExcludeFromCodeCoverage]
     [Obsolete("Use Dependency Injection with Unity Constructors instead.")]
     public sealed class ServiceFactory
     {
