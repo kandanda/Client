@@ -18,9 +18,9 @@ namespace Kandanda.Ui.ViewModels
         public ICommand SaveCommand { get; }
 
         public ObservableCollection<Participant> Participants { get; } = new ObservableCollection<Participant>();
-        public TeamsViewModel(ServiceFactory service)
+        public TeamsViewModel(IParticipantService service)
         {
-            _participantService = service.CreateParticipantService();
+            _participantService = service;
             Title = "Teams";
             PullParticipants();
             SaveCommand = new DelegateCommand(SaveTeams, CanSaveTeams)

@@ -25,9 +25,7 @@ namespace Kandanda.Ui
         {
             _container
                 .RegisterType<IVersionInfo, KandandaVersionInfo>()
-                .RegisterType<IOpenUrlRequest, WindowsOpenUrlRequest>()
-                .RegisterType<ITournamentService, TournamentService>()
-                .RegisterType<ServiceFactory, ServiceFactory>();
+                .RegisterType<IOpenUrlRequest, WindowsOpenUrlRequest>();
             _container
                 .RegisterTypeForNavigation<TournamentMasterView>()
                 .RegisterTypeForNavigation<TournamentDetailView>()
