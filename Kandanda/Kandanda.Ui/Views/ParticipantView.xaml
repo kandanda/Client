@@ -4,19 +4,57 @@
              xmlns:prism="http://prismlibrary.com/"             
              prism:ViewModelLocator.AutoWireViewModel="True">
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="2*" />
+        </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
+            <RowDefinition Height="2*" />
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
         </Grid.RowDefinitions>
-        <DataGrid>
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="Name"/>
-                <DataGridTextColumn Header="Member Size"/>
-                <DataGridTextColumn Header="Ranking"/>
-                <DataGridComboBoxColumn Header="Group"/>
-                <DataGridTextColumn Header="Delayed Arrival" />
-            </DataGrid.Columns>
-        </DataGrid>
+        <GroupBox Header="Participating" Grid.RowSpan="4">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition Height="8*" />
+                </Grid.RowDefinitions>
+                <TextBox Text="TextSearch" />
+                <DataGrid Grid.Row="1">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Name"/>
+                        <DataGridTextColumn Header="Captaion"/>
+                        <DataGridTextColumn Header="Phone"/>
+                        <DataGridTextColumn Header="Email"/>
+                        <DataGridTextColumn Header="Actions"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </Grid>
+        </GroupBox>
+        <Button Grid.Column="1" Grid.Row="1">&lt;</Button>
+        <Button Grid.Column="1" Grid.Row="2">&gt;</Button>
+        <GroupBox Header="Available Teams" Grid.Column="2" Grid.RowSpan="4">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition Height="8*"  />
+                </Grid.RowDefinitions>
+                <TextBox Text="TextSearch" />
+                <DataGrid Grid.Row="1">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Name"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </Grid>
+        </GroupBox>
     </Grid>
 </UserControl>
 
