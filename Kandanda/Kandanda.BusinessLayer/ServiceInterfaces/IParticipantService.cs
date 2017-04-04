@@ -5,6 +5,7 @@ namespace Kandanda.BusinessLayer.ServiceInterfaces
 {
     public interface IParticipantService
     {
+        Participant CreateEmpty(string name, string captain, string phone, string email);
         Participant CreateEmpty(string name);
         void DeleteParticipant(Participant participant);
         List<Participant> GetAllParticipants();

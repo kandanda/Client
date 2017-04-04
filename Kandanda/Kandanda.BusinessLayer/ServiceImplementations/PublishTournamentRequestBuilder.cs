@@ -9,11 +9,8 @@ namespace Kandanda.BusinessLayer.ServiceImplementations
     //TODO: Make Class Methods Async
     public class PublishTournamentRequestBuilder : ServiceBase, IPublishTournamentRequestBuilder
     {
-        private KandandaDbContext _dbContext;
-
         public PublishTournamentRequestBuilder(KandandaDbContext dbContext) : base(dbContext)
         {
-            _dbContext = dbContext;
         }
         
         public string BuildJsonRequest(Tournament tournament)
