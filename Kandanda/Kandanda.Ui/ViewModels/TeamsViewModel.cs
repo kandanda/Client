@@ -36,9 +36,22 @@ namespace Kandanda.Ui.ViewModels
         }
         private void SaveTeams()
         {
-            foreach (Participant participant in Participants)
+            var refreshNeeded = false;
+            foreach (var participant in Participants)
             {
-                _participantService.Update(participant);
+                if (participant.Id != 0)
+                {
+                    _participantService.Update(participant);
+                }
+                else
+                {
+                    _participantService.CreateEmpty(participant.Name, participant.Captain, participant.Phone, participant.Email);
+                    refreshNeeded = true;
+                }
+            }
+            if (refreshNeeded)
+            {
+                PullParticipants();
             }
         }
 
