@@ -7,7 +7,7 @@ using Kandanda.Dal.Entities;
 
 namespace Kandanda.Ui.ViewModels
 {
-    public class ParticipantViewModel: TournamentViewModelBase
+    public class TournamentParticipantViewModel: TournamentViewModelBase
     {
         private readonly ITournamentService _tournamentService;
         private readonly IParticipantService _participantService;
@@ -32,7 +32,7 @@ namespace Kandanda.Ui.ViewModels
             set { SetProperty(ref _selectedTeam, value); }
         }
 
-        public ParticipantViewModel(ITournamentService tournamentService, IParticipantService participantService)
+        public TournamentParticipantViewModel(ITournamentService tournamentService, IParticipantService participantService)
         {
             _tournamentService = tournamentService;
             _participantService = participantService;
