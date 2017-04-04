@@ -1,5 +1,7 @@
-﻿using Kandanda.BusinessLayer.ServiceImplementations;
+﻿using Effort;
+using Kandanda.BusinessLayer.ServiceImplementations;
 using Kandanda.BusinessLayer.ServiceInterfaces;
+using Kandanda.Dal;
 using Kandanda.Dal.DataTransferObjects;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -8,46 +10,57 @@ namespace Kandanda.BusinessLayer.Testing
     [TestClass]
     public class ParticipantServiceTest
     {
-        private const string _participantName = "FC Thun";
+        private const string ParticipantName = "FC Thun";
         private Participant _initialParticipant;
-        private IParticipantService _service;
-        private ServiceFactory _serviceFactory;
+        private IParticipantService _participantService;
 
         [TestInitialize]
         public void Setup()
         {
-            TestHelper.ResetDatabase();
-            _serviceFactory = new ServiceFactory();
-            _service = _serviceFactory.CreateParticipantService();
-            _initialParticipant = _service.CreateEmpty(_participantName);
+            var context = new KandandaDbContext(DbConnectionFactory.CreateTransient());
+            _participantService = new ParticipantService(context);
+            _initialParticipant = _participantService.CreateEmpty(ParticipantName);
         }
 
         [TestMethod]
-        public void CreateEmptyParticipant()
+        public void TestCreateEmptyParticipant()
         {
             const string newParticipantName = "FC Kandanda";
 
-            var createdParticipant = _service.CreateEmpty(newParticipantName);
-            var reloadedParticipant = _service.GetParticipantById(createdParticipant.Id);
+            var createdParticipant = _participantService.CreateEmpty(newParticipantName);
+            var reloadedParticipant = _participantService.GetParticipantById(createdParticipant.Id);
 
             Assert.AreEqual(createdParticipant.Id, reloadedParticipant.Id);
             Assert.AreEqual(newParticipantName, reloadedParticipant.Name);
         }
 
         [TestMethod]
-        public void DeleteParticipantTest()
+        public void TestUpdateParticipant()
         {
-            var participants = _service.GetAllParticipants();
+            var participant = _participantService.CreateEmpty("Test");
+            participant.Name = "Fisch";
+
+            _participantService.Update(participant);
+
+            var reloadedParticipant = _participantService.GetParticipantById(participant.Id);
+
+            Assert.AreEqual(participant.Name, reloadedParticipant.Name);
+        }
+
+        [TestMethod]
+        public void TestDeleteParticipant()
+        {
+            var participants = _participantService.GetAllParticipants();
             var participantCount = participants.Count;
 
-            var participant = _service.CreateEmpty(string.Empty);
+            var participant = _participantService.CreateEmpty(string.Empty);
 
-            participants = _service.GetAllParticipants();
+            participants = _participantService.GetAllParticipants();
             Assert.AreEqual(participantCount + 1, participants.Count);
 
-            _service.DeleteParticipant(participant);
+            _participantService.DeleteParticipant(participant);
 
-            participants = _service.GetAllParticipants();
+            participants = _participantService.GetAllParticipants();
             Assert.AreEqual(participantCount, participants.Count);
         }
     }

@@ -1,4 +1,4 @@
-﻿using Kandanda.BusinessLayer;
+using Kandanda.BusinessLayer;
 using Kandanda.BusinessLayer.ServiceImplementations;
 using Kandanda.BusinessLayer.ServiceInterfaces;
 using Kandanda.Ui.Interactivity;

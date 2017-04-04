@@ -1,34 +1,39 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Kandanda.BusinessLayer.ServiceImplementations;
+using System.Windows.Input;
 using Kandanda.BusinessLayer.ServiceInterfaces;
-using Kandanda.Dal;
 using Kandanda.Dal.DataTransferObjects;
 using Kandanda.Ui.Core;
 using Kandanda.Ui.Events;
+using Prism.Commands;
 using Prism.Events;
 using Prism.Interactivity.InteractionRequest;
 using Prism.Regions;
 
 namespace Kandanda.Ui.ViewModels
 {
-    public class TournamentDetailViewModel : ViewModelBase, IConfirmNavigationRequest
+    public class TournamentDetailViewModel : TournamentViewModelBase, IConfirmNavigationRequest
     {
         private readonly IPublishTournamentService _publishTournamentService;
         private readonly IEventAggregator _eventAggregator;
+        private readonly ITournamentService _tournamentService;
         public InteractionRequest<IConfirmation> ConfirmationRequest { get; }
         public InteractionRequest<SignInPopupViewModel> SignInRequest { get; }
+        public ICommand SaveCommand { get; set; }
         public bool IsReady { get; set; }
 
-        public TournamentDetailViewModel(IEventAggregator eventAggregator)
+        public TournamentDetailViewModel(IEventAggregator eventAggregator, ITournamentService tournamentService, 
+            IPublishTournamentService publishTournamentService)
         {
             _eventAggregator = eventAggregator;
-            _publishTournamentService = new PublishTournamentService(new Uri("https://www.kandanda.ch/"), new PublishTournamentRequestBuilder(new KandandaDbContext()));
+            _tournamentService = tournamentService;
+            _publishTournamentService = publishTournamentService;
             ConfirmationRequest = new InteractionRequest<IConfirmation>();
             SignInRequest = new InteractionRequest<SignInPopupViewModel>();
             eventAggregator.GetEvent<GeneratePlanRequestEvent>().Subscribe(GeneratePlanAsync);
             eventAggregator.GetEvent<PublishRequestEvent>().Subscribe(SignInAsync);
+            SaveCommand = new DelegateCommand(Save);
         }
 
         public void OnNavigatedTo(NavigationContext navigationContext)
@@ -44,21 +49,33 @@ namespace Kandanda.Ui.ViewModels
         {
         }
 
-        public async void ConfirmNavigationRequest(NavigationContext navigationContext, Action<bool> continuationCallback)
+        public void ConfirmNavigationRequest(NavigationContext navigationContext, Action<bool> continuationCallback)
         {
-            var confirmation = await ConfirmationRequest.RaiseAsync(
-                new Confirmation {Title = "Kandanda", Content = "Are you sure you want to close this Tournament?"});
-            continuationCallback(confirmation.Confirmed);
+            ConfirmationRequest.Raise(
+                new Confirmation {Title = $"Save {CurrentTournament.Name}", Content = "Close this Tournament?"},
+                c =>
+                {
+                    if (c.Confirmed)
+                    {
+                        Save(); 
+                    }
+                    continuationCallback(c.Confirmed);
+                });
         }
 
-        private async void SignInAsync()
+        private void Save()
+        {
+            _tournamentService.Update(CurrentTournament);
+        }
+
+        private void SignInAsync()
         {
             var signInViewModel = new SignInPopupViewModel(_publishTournamentService);
-            await SignInRequest.RaiseAsync(signInViewModel);
-            if (signInViewModel.Confirmed)
+            SignInRequest.Raise(signInViewModel, c =>
             {
-                await _publishTournamentService.PostTournamentAsync(new Tournament(), signInViewModel.AuthToken, CancellationToken.None);
-            }
+                if (c.Confirmed)
+                    _publishTournamentService.PostTournamentAsync(new Tournament(), signInViewModel.AuthToken, CancellationToken.None);
+            });
         }
 
         private async void GeneratePlanAsync()

@@ -21,7 +21,7 @@ namespace Kandanda.Ui.Views
             var viewModel = DataContext as dynamic;
             if (viewModel != null && _passwordBox != null)
             {
-                viewModel.PasswordChanged(_passwordBox.SecurePassword);
+                viewModel.PasswordChanged(_passwordBox.Password);
             }
         }
     }

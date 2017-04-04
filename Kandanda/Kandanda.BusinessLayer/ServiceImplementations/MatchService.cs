@@ -53,5 +53,10 @@ namespace Kandanda.BusinessLayer.ServiceImplementations
         {
             return GetMatchesByTournamentAsync(tournament).Result;
         }
+
+        public void Update(Match match)
+        {
+            Update<Match>(match);
+        }
     }
 }

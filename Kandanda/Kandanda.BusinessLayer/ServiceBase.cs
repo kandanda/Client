@@ -27,6 +27,14 @@ namespace Kandanda.BusinessLayer
             return entry;
         }
 
+        protected virtual void Update<T>(T entry) where T : class, IEntry
+        {
+            var set = GetDbSet<T>(_dbContext);
+            set.Attach(entry);
+            _dbContext.Entry(entry).State = EntityState.Modified;
+            _dbContext.SaveChanges();
+        }
+
         protected virtual void Delete<T>(T entry) where T : class, IEntry
         {
             var set = GetDbSet<T>(_dbContext);

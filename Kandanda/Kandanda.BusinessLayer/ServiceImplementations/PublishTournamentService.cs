@@ -23,7 +23,13 @@ namespace Kandanda.BusinessLayer.ServiceImplementations
 
         public Uri BaseUri { get; }
 
-        public PublishTournamentService(Uri baseUri, IPublishTournamentRequestBuilder publishTournamentRequestBuilder, HttpMessageHandler handler = null)
+
+        public PublishTournamentService(Uri baseUri, IPublishTournamentRequestBuilder publishTournamentRequestBuilder)
+            : this(baseUri, publishTournamentRequestBuilder, null)
+        {}
+
+        public PublishTournamentService(Uri baseUri, IPublishTournamentRequestBuilder publishTournamentRequestBuilder, 
+            HttpMessageHandler handler)
         {
             _publishTournamentRequestBuilder = publishTournamentRequestBuilder;
             _client = handler == null ? new HttpClient() : new HttpClient(handler);

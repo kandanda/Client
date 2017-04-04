@@ -11,7 +11,7 @@ namespace Kandanda.BusinessLayer.ServiceImplementations
         public PublishTournamentRequestBuilder(KandandaDbContext dbContext) : base(dbContext)
         {
         }
-
+        
         public string BuildJsonRequest(Tournament tournament)
         {
             return JObject.FromObject(BuildJsonTournamentAsync(tournament)).ToString();

@@ -18,5 +18,6 @@ namespace Kandanda.BusinessLayer.ServiceInterfaces
         List<Phase> GetPhasesByTournament(Tournament tournament);
         List<Match> GetMatchesByPhase(Phase phase);
         void DeleteTournament(Tournament tournament);
+        void Update(Tournament tournament);
     }
 }
