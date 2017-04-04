@@ -5,6 +5,7 @@ using Kandanda.Ui.Core;
 using Prism.Commands;
 using Prism.Events;
 using System.Windows;
+using System.Collections.ObjectModel;
 
 namespace Kandanda.Ui.ViewModels
 {
@@ -14,17 +15,20 @@ namespace Kandanda.Ui.ViewModels
         private readonly IParticipantService _participantService;
         private Participant _selectedTeam;
 
+        public ObservableCollection<Participant> Participants { get; }
+        public ObservableCollection<Participant> AvailableTeams { get; }
+
         public ICommand EnrollParticipantCommand { get; set; }
         public ICommand DeregisterParticipantCommand { get; set; }
 
 
-        public Participant SelectedTeam
+        public Participant ParticipantToAdd
         {
             get { return _selectedTeam; }
             set { SetProperty(ref _selectedTeam, value); }
         }
 
-        public Participant SelectedParticipant
+        public Participant ParticipantToRemove
         {
             get { return _selectedTeam; }
             set { SetProperty(ref _selectedTeam, value); }
@@ -35,32 +39,63 @@ namespace Kandanda.Ui.ViewModels
             _tournamentService = tournamentService;
             _participantService = participantService;
             Title = "Participants";
+
+            AvailableTeams = new ObservableCollection<Participant>();
+            Participants = new ObservableCollection<Participant>();
+
             EnrollParticipantCommand = new DelegateCommand(EnrollParticipant, CanEnrollParticipant)
-                .ObservesProperty(() => SelectedTeam);
+                .ObservesProperty(() => ParticipantToAdd);
             DeregisterParticipantCommand = new DelegateCommand(DeregisterParticipant, CanDeregisterParticipant)
-                .ObservesProperty(() => SelectedParticipant);
+                .ObservesProperty(() => ParticipantToRemove);
+        }
+
+        private async void UpdateViews()
+        {
+            AvailableTeams.Clear();
+            Participants.Clear();
+
+            AvailableTeams.AddRange(_participantService.GetAllParticipants());
+            Participants.AddRange(await _tournamentService.GetParticipantsByTournamentAsync(CurrentTournament));
+        }
+
+        //TODO CurrentTournament should not be overwriten 
+        public override Tournament CurrentTournament
+        {
+            get { return base.CurrentTournament; }
+            set
+            {
+                base.CurrentTournament = value;
+                if (CurrentTournament.Id != 0)
+                    UpdateViews();
+            }
         }
 
         private void EnrollParticipant()
         {
-            if (SelectedTeam != null)
-                _tournamentService.EnrolParticipant(CurrentTournament, SelectedTeam);
+            if (ParticipantToAdd != null)
+            {
+                _tournamentService.EnrolParticipant(CurrentTournament, ParticipantToAdd);
+                UpdateViews();
+            }
         }
 
         private bool CanEnrollParticipant()
         {
-            return SelectedTeam != null;
+            return ParticipantToAdd != null;
         } 
 
         private void DeregisterParticipant()
         {
-            if (SelectedParticipant != null)
-                _tournamentService.DeregisterParticipant(CurrentTournament, SelectedParticipant);
+            if (ParticipantToRemove != null)
+            {
+                _tournamentService.DeregisterParticipant(CurrentTournament, ParticipantToRemove);
+                UpdateViews();
+            }
         }
 
         private bool CanDeregisterParticipant()
         {
-            return SelectedParticipant != null;
+            return ParticipantToRemove != null;
         }
     }
 }

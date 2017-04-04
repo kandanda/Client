@@ -25,9 +25,10 @@
                     <RowDefinition Height="8*" />
                 </Grid.RowDefinitions>
                 <TextBox Text="TextSearch" />
-                <DataGrid Grid.Row="1" DataContext="{Binding Source=list}">
+                <DataGrid Grid.Row="1" ItemsSource="{Binding Participants, Mode=OneWay}" SelectedItem="{Binding ParticipantToRemove}" 
+                          AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single" >
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="Name" Binding="{Binding Path=Name}" />
+                        <DataGridTextColumn Header="Name" Binding="{Binding Name}" />
                         <DataGridTextColumn Header="Captain" Binding="{Binding Path=Captain}" />
                         <DataGridTextColumn Header="Phone" Binding="{Binding Path=Phone}" />
                         <DataGridTextColumn Header="Email" Binding="{Binding Path=Email}" />
@@ -36,8 +37,8 @@
                 </DataGrid>
             </Grid>
         </GroupBox>
-        <Button Grid.Column="1" Grid.Row="1">&lt;</Button>
-        <Button Grid.Column="1" Grid.Row="2">&gt;</Button>
+        <Button Grid.Column="1" Grid.Row="1" Command="{Binding EnrollParticipantCommand}">&lt;</Button>
+        <Button Grid.Column="1" Grid.Row="2" Command="{Binding DeregisterParticipantCommand}">&gt;</Button>
         <GroupBox Header="Available Teams" Grid.Column="2" Grid.RowSpan="4">
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -47,10 +48,11 @@
                     <RowDefinition />
                     <RowDefinition Height="8*"  />
                 </Grid.RowDefinitions>
-                <TextBox Text="TextSearch" />
-                <DataGrid Grid.Row="1" DataContext="{Binding Source=list}">
+                <TextBox Text="TextSearch" /> 
+                <DataGrid Grid.Row="1" ItemsSource="{Binding AvailableTeams, Mode=OneWay}" SelectedItem="{Binding ParticipantToAdd}"
+                          AutoGenerateColumns="False" IsReadOnly="true" SelectionMode="Single" >
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="Name" Binding="{Binding Path=Name}" />
+                        <DataGridTextColumn Header="Name" Binding="{Binding Name}" />
                     </DataGrid.Columns>
                 </DataGrid>
             </Grid>
