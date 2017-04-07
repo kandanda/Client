@@ -2,41 +2,7 @@
   branches:
     only:
       - master
-  version: 0.1.0
-  configuration: Release
-  assembly_info:
-    patch: true
-    file: AssemblyInfo.*
-    assembly_version: "{version}"
-    assembly_file_version: "{version}"
-    assembly_informational_version: "{version}"
-  install:
-    - nuget restore Kandanda\Kandanda.sln
-  build:
-    project: Kandanda\Kandanda.sln
-    verbosity: minimal
-  after_build:
-    - 7z a Kandanda.zip %APPVEYOR_BUILD_FOLDER%\Kandanda\Kandanda.Ui\bin\%CONFIGURATION%\*
-  artifacts:
-    - path: Kandanda.zip
-      name: Kandanda
-  deploy:
-    release: v$(appveyor_build_version)
-    description: 'Kandanda Software'
-    provider: GitHub
-    auth_token:
-      secure: X0ccGs69/FOjM41FbIEfluXQSJUk0Xc+1KgG25cgPaSDdAhL2hq+hrlup3RSJO2b
-    artifact: Kandanda.zip
-    draft: false
-    prerelease: false
-    on:
-      appveyor_repo_tag: true
-- # release*
-  branches:
-    only:
-      - /release*/
-  version: 0.1.0-{build}-pre
-  skip_tags: true
+  version: 1.0.0-prototype
   configuration: Release
   assembly_info:
     patch: true
@@ -63,11 +29,36 @@
     artifact: Kandanda.zip
     draft: false
     prerelease: true
+    on:
+      appveyor_repo_tag: true
+- # release*
+  branches:
+    only:
+      - /release*/
+  version: 1.0.0.{build}-prototype-pre
+  skip_tags: true
+  configuration: Release
+  assembly_info:
+    patch: true
+    file: AssemblyInfo.*
+    assembly_version: "{version}"
+    assembly_file_version: "{version}"
+    assembly_informational_version: "{version}"
+  install:
+    - nuget restore Kandanda\Kandanda.sln
+  build:
+    project: Kandanda\Kandanda.sln
+    verbosity: minimal
+  after_build:
+    - 7z a Kandanda.zip %APPVEYOR_BUILD_FOLDER%\Kandanda\Kandanda.Ui\bin\%CONFIGURATION%\*
+  artifacts:
+    - path: Kandanda.zip
+      name: Kandanda
 - # develop
   branches:
     only:
       - develop
-  version: 0.1.0-{build}
+  version: 1.0.0.{build}-prototype
   configuration: Debug
   assembly_info:
     patch: true
@@ -105,7 +96,7 @@
   branches:
     only:
       - analyze
-  version: 0.1.0-{build}-analyze
+  version: 1.0.0.{build}-analyze
   configuration: Debug
   assembly_info:
     patch: true
