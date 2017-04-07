@@ -1,14 +1,24 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
+using System.Threading.Tasks;
 using Kandanda.BusinessLayer.PhaseGenerators;
 using Kandanda.BusinessLayer.ServiceInterfaces;
 using Kandanda.Dal;
-using Kandanda.Dal.DataTransferObjects;
+using Kandanda.Dal.Entities;
 
 namespace Kandanda.BusinessLayer.ServiceImplementations
 {
     public sealed class TournamentService : ServiceBase, ITournamentService
     {
+        private readonly IPhaseService _phaseService;
+
+        public TournamentService(KandandaDbContext dbContext) : base(dbContext)
+        {
+            _phaseService = new PhaseService(dbContext);
+        }
+
         public Tournament CreateEmpty(string name)
         {
             return Create(new Tournament
@@ -17,41 +27,62 @@ namespace Kandanda.BusinessLayer.ServiceImplementations
             });
         }
 
+        public async Task<List<Phase>> GetPhasesByTournamentAsync(Tournament tournament)
+        {
+            return await GetPhasesByTournamentQueryable(tournament).ToListAsync();
+        }
+
         public List<Phase> GetPhasesByTournament(Tournament tournament)
         {
-            using (var db = new KandandaDbContext())
-            {
-                return db.Phases
-                    .Where(phase => phase.TournamentId == tournament.Id)
-                    .ToList();
-            }
+            return GetPhasesByTournamentQueryable(tournament).ToList();
         }
-        
+
+        private IQueryable<Phase> GetPhasesByTournamentQueryable(Tournament tournament)
+        {
+            return DbContext.Phases
+                .Where(phase => phase.TournamentId == tournament.Id);
+        }
+
+        public async Task<List<Match>> GetMatchesByPhaseAsync(Phase phase)
+        {
+            return await GetMatchesByPhaseQueryable(phase)
+                .ToListAsync();
+        }
+
         public List<Match> GetMatchesByPhase(Phase phase)
         {
-            using (var db = new KandandaDbContext())
-            {
-                return db.Matches
-                    .Where(match => match.PhaseId == phase.Id)
-                    .ToList();
-            }
+            return GetMatchesByPhaseQueryable(phase).ToList();
         }
-        
+
+        private IQueryable<Match> GetMatchesByPhaseQueryable(Phase phase)
+        {
+            return DbContext.Matches
+                .Where(match => match.PhaseId == phase.Id);
+        }
+
+        //TODO We should have a regenerate phase
         public Phase GeneratePhase(Tournament tournament, int groupSize)
         {
+            if (tournament == null)
+                throw new ArgumentException("Phase generation tournament");
+
             var participants = GetParticipantsByTournament(tournament);
 
             var groupPhaseGenerator = new GroupPhaseGenerator(participants, groupSize);
             var matches = groupPhaseGenerator.GenerateMatches();
 
-            var matchService = new MatchService();
+            var matchService = new MatchService(DbContext);
+
+            var phase = GetPhasesByTournament(tournament).FirstOrDefault() ?? _phaseService.CreateEmpty();
 
             foreach (var match in matches)
             {
+                match.PhaseId = phase.Id;
                 matchService.SaveMatch(match);
             }
 
-            var phase = new Phase();
+            phase.TournamentId = tournament.Id;
+            _phaseService.Update(phase);
 
             return phase;
         }
@@ -60,14 +91,41 @@ namespace Kandanda.BusinessLayer.ServiceImplementations
         {
             return GetEntryById<Tournament>(id);
         }
-        
+
+        public List<Participant> GetNotEnrolledParticipantsByTournament(Tournament tournament)
+        {
+            return GetNotEnrolledParticipantsByTournamentQueryable(tournament).ToList();
+        }
+
+        Task<List<Participant>> ITournamentService.GetNotEnrolledParticipantsByTournamentAsync(Tournament tournament)
+        {
+            return GetNotEnrolledParticipantsByTournamentQueryable(tournament).ToListAsync();
+        }
+
+        private IQueryable<Participant> GetNotEnrolledParticipantsByTournamentQueryable(Tournament tournament)
+        {
+            var enrolledParticipants = (from participant in DbContext.Participants
+                                        join participantTournament in DbContext.TournamentParticipants
+                                        on participant.Id equals participantTournament.ParticipantId
+                                        where participantTournament.TournamentId == tournament.Id
+                                        select participant);
+
+            return DbContext.Participants.Where(item => !enrolledParticipants.Contains(item));
+        }
+
         public void EnrolParticipant(Tournament tournament, Participant participant)
         {
-            Create(new TournamentParticipant
+            var alreadyExists = DbContext.TournamentParticipants.Any(item => item.TournamentId == tournament.Id &&
+                item.ParticipantId == participant.Id);
+
+            if (!alreadyExists)
             {
-                TournamentId = tournament.Id,
-                ParticipantId = participant.Id
-            });
+                Create(new TournamentParticipant
+                {
+                    TournamentId = tournament.Id,
+                    ParticipantId = participant.Id
+                });
+            }
         }
 
         public void DeregisterParticipant(Tournament tournament, Participant participant)
@@ -75,24 +133,23 @@ namespace Kandanda.BusinessLayer.ServiceImplementations
             ExecuteDatabaseAction(db =>
             {
                 var tournamentParticipant = (from entry in db.TournamentParticipants
-                    where entry.ParticipantId == participant.Id &&
-                            entry.TournamentId == tournament.Id
+                    where (entry.ParticipantId == participant.Id) &&
+                          (entry.TournamentId == tournament.Id)
                     select entry).FirstOrDefault();
 
-                db.TournamentParticipants.Remove(tournamentParticipant);
-                db.SaveChanges();
+                if (tournamentParticipant != null)
+                {
+                    db.TournamentParticipants.Remove(tournamentParticipant);
+                    db.SaveChanges();
+                }
             });
         }
-        
+
         public List<Participant> GetParticipantsByTournament(Tournament tournament)
         {
-            return ExecuteDatabaseFunc(db => 
-                (from entry in db.TournamentParticipants
-                join participant in db.Participants
-                on entry.ParticipantId equals participant.Id
-                select participant).ToList());
+            return GetParticipantByTournamentEnumerable(tournament).ToList();
         }
-        
+
         public void DeleteTournament(Tournament tournament)
         {
             Delete(tournament);
@@ -101,6 +158,25 @@ namespace Kandanda.BusinessLayer.ServiceImplementations
         public List<Tournament> GetAllTournaments()
         {
             return GetAll<Tournament>();
+        }
+
+        public void Update(Tournament tournament)
+        {
+            Update<Tournament>(tournament);
+        }
+
+        public async Task<List<Participant>> GetParticipantsByTournamentAsync(Tournament tournament)
+        {
+            return await GetParticipantByTournamentEnumerable(tournament).ToListAsync();
+        }
+
+        private IQueryable<Participant> GetParticipantByTournamentEnumerable(Tournament tournament)
+        {
+            return from entry in DbContext.TournamentParticipants
+                join participant in DbContext.Participants
+                on entry.ParticipantId equals participant.Id
+                where entry.TournamentId == tournament.Id
+                select participant;
         }
     }
 }

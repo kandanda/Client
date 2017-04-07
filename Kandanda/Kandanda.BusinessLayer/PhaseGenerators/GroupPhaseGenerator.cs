@@ -1,18 +1,26 @@
 ﻿using System;
-using Kandanda.Dal.DataTransferObjects;
 using System.Collections.Generic;
 using System.Linq;
+using Kandanda.Dal.Entities;
 
 namespace Kandanda.BusinessLayer.PhaseGenerators
 {
-    internal sealed class GroupPhaseGenerator : IPhaseGenerator
+    public sealed class GroupPhaseGenerator : IPhaseGenerator
     {
-        private const int _shuffleIterationCount = 5000;
+        private const int ShuffleIterationCount = 5000;
         private readonly List<Participant> _participants;
         private readonly int _groupSize;
         
         public GroupPhaseGenerator(IEnumerable<Participant> participants, int groupSize)
         {
+            var participantList = participants.ToList();
+
+            if (participants == null || participantList.Count == 0)
+                throw new ArgumentException($"{nameof(participants)} must not be empty or null");
+
+            if (groupSize < 1)
+                throw new ArgumentException($"{nameof(groupSize)} must not be null");
+
             _participants = participants.ToList();
             _groupSize = groupSize;
         }
@@ -63,7 +71,7 @@ namespace Kandanda.BusinessLayer.PhaseGenerators
             var random = new Random();
             var participantCount = _participants.Count;
 
-            for (var iteration = 0; iteration < _shuffleIterationCount; ++iteration)
+            for (var iteration = 0; iteration < ShuffleIterationCount; ++iteration)
             {
                 var firstRandomIndex = random.Next(participantCount);
                 var secondRandomIndex = random.Next(participantCount);

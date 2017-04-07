@@ -1,4 +1,4 @@
-﻿using System.Threading.Tasks;
+﻿using System;
 using System.Windows.Input;
 using Kandanda.Ui.Events;
 using Kandanda.Ui.Interactivity;
@@ -25,7 +25,7 @@ namespace Kandanda.Ui.ViewModels
             _eventAggregator = eventAggregator;
             _regionManager = regionManager;
             _openUrlRequest = openUrlRequest;
-            GeneratePlanCommand = new DelegateCommand(GeneratePlan).ObservesCanExecute(o => IsReady);
+            GeneratePlanCommand = new DelegateCommand(RequestGeneratePlan).ObservesCanExecute(() => IsReady);
             OpenDocumentationCommand = new DelegateCommand(OpenDocumentation);
             CloseCommand = new DelegateCommand(GoToControlPanel);
             ShowAboutCommand = new DelegateCommand(ShowAboutRequest);
@@ -44,22 +44,17 @@ namespace Kandanda.Ui.ViewModels
 
         private void OpenDocumentation()
         {
-            _openUrlRequest.Open("https://www.kandanda.ch/");
+            _openUrlRequest.Open(new Uri("https://www.kandanda.ch/"));
         }
 
         private void GoToControlPanel()
         {
-            _regionManager.RequestNavigate(RegionNames.WindowsRegion, "/ControlPanelView");
+            _regionManager.RequestNavigate(RegionNames.TournamentsRegion, "/TournamentMasterView");
         }
 
-        private async void GeneratePlan()
+        private void RequestGeneratePlan()
         {
-            var stateChangeEvent = _eventAggregator.GetEvent<StateChangeEvent>();
-            stateChangeEvent.Publish("Generating Plan ...");
-            IsReady = false;
-            await Task.Delay(3000);
-            stateChangeEvent.Publish("Plan generated");
-            IsReady = true;
+            _eventAggregator.GetEvent<PublishRequestEvent>().Publish();
         }
     }
 }

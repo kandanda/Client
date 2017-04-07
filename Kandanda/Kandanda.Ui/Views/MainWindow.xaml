@@ -6,10 +6,19 @@
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         prism:ViewModelLocator.AutoWireViewModel="True"
         Title="{Binding Title}" Height="600" Width="800">
-    <i:Interaction.Triggers>
-        <prism:InteractionRequestTrigger SourceObject="{Binding ShowAboutRequest}">
+    <Window.Resources>
+        <Style TargetType="TabItem">
+            <Setter Property="Header" Value="{Binding DataContext.Title}" />
+        </Style>
+    </Window.Resources>
+    <DockPanel>
+        <i:Interaction.Triggers>
+            <prism:InteractionRequestTrigger SourceObject="{Binding ShowAboutRequest}">
             <prism:PopupWindowAction IsModal="True" CenterOverAssociatedObject="True" />
-        </prism:InteractionRequestTrigger>
-    </i:Interaction.Triggers>
-    <ContentControl prism:RegionManager.RegionName="{x:Static ui:RegionNames.WindowsRegion}" />
+            </prism:InteractionRequestTrigger>
+        </i:Interaction.Triggers>
+        <!--ContentControl DockPanel.Dock="Top" prism:RegionManager.RegionName="{x:Static ui:RegionNames.MenuRegion}" /-->
+        <!--ContentControl DockPanel.Dock="Bottom" prism:RegionManager.RegionName="{x:Static ui:RegionNames.StatusbarRegion}" /-->
+        <TabControl prism:RegionManager.RegionName="{x:Static ui:RegionNames.MainRegion}" />
+    </DockPanel>
 </Window>

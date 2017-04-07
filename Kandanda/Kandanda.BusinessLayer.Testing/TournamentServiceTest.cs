@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
+using Effort;
 using Kandanda.BusinessLayer.ServiceImplementations;
+using Kandanda.BusinessLayer.ServiceInterfaces;
 using Kandanda.Dal;
-using Kandanda.Dal.DataTransferObjects;
+using Kandanda.Dal.Entities;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Kandanda.BusinessLayer.Testing
@@ -16,14 +18,41 @@ namespace Kandanda.BusinessLayer.Testing
         private Participant _participant1;
         private Participant _participant2;
         private Tournament _initialTournament;
+        private ITournamentService _tournamentService;
+        private IParticipantService _participantService;
+        private KandandaDbContext _context;
 
         [TestInitialize]
         public void Setup()
         {
-            TestHelper.ResetDatabase();
-            _participant1 = CreateParticipant(ParticipantName1);
-            _participant2 = CreateParticipant(ParticipantName2);
-            _initialTournament = CreateTournament(TournamentName);
+            _context = new KandandaDbContext(DbConnectionFactory.CreateTransient());
+            _tournamentService = new TournamentService(_context);
+            _participantService = new ParticipantService(_context);
+            
+            _participant1 = _participantService.CreateEmpty(ParticipantName1);
+            _participant2 = _participantService.CreateEmpty(ParticipantName2);
+            _initialTournament = _tournamentService.CreateEmpty(TournamentName);
+        }
+
+        [TestCleanup]
+        public void CleanUp()
+        {
+            _context.Dispose();
+        }
+
+        [TestMethod]
+        public void TestUpdateTournament()
+        {
+            const string tournamentName = "Young Boys";
+            var tournament = _tournamentService.CreateEmpty(tournamentName);
+
+            tournament.Name = "FC Berlin";
+
+            _tournamentService.Update(tournament);
+
+            var reloadedTournament = _tournamentService.GetTournamentById(tournament.Id);
+
+            Assert.AreEqual(tournament.Name, reloadedTournament.Name);
         }
         
         [TestMethod]
@@ -31,8 +60,8 @@ namespace Kandanda.BusinessLayer.Testing
         {
             const string newTournamentName = "FC Thun";
             
-            var createdTournament = CreateTournament(newTournamentName);
-            var reloadedTournament = GetTournament(createdTournament.Id);
+            var createdTournament = _tournamentService.CreateEmpty(newTournamentName);
+            var reloadedTournament = _tournamentService.GetTournamentById(createdTournament.Id);
 
             Assert.AreEqual(createdTournament.Id, reloadedTournament.Id);
             Assert.AreEqual(newTournamentName, reloadedTournament.Name);
@@ -41,10 +70,10 @@ namespace Kandanda.BusinessLayer.Testing
         [TestMethod]
         public void TestEnrolParticipantToTournament()
         {
-            EnrolParticipant(_initialTournament, _participant1);
-            EnrolParticipant(_initialTournament, _participant2);
+            _tournamentService.EnrolParticipant(_initialTournament, _participant1);
+            _tournamentService.EnrolParticipant(_initialTournament, _participant2);
 
-            var participants = GetParticipants(_initialTournament);
+            var participants = _tournamentService.GetParticipantsByTournament(_initialTournament);
 
             Assert.AreEqual(2, participants.Count);
             Assert.AreEqual(ParticipantName1, participants[0].Name);
@@ -54,80 +83,70 @@ namespace Kandanda.BusinessLayer.Testing
         [TestMethod]
         public void TestDeregisterParticipantFromTournament()
         {
-            EnrolParticipant(_initialTournament, _participant1);
-            EnrolParticipant(_initialTournament, _participant2);
-            
-            DeregisterParticipant(_initialTournament, _participant1);
+            _tournamentService.EnrolParticipant(_initialTournament, _participant1);
+            _tournamentService.EnrolParticipant(_initialTournament, _participant2);
 
-            var participants = GetParticipants(_initialTournament);
+            _tournamentService.DeregisterParticipant(_initialTournament, _participant1);
+
+            var participants = _tournamentService.GetParticipantsByTournament(_initialTournament);
 
             Assert.AreEqual(1, participants.Count);
             Assert.AreEqual(ParticipantName2, participants[0].Name);
         }
 
         [TestMethod]
+        public void TestGetAllTournaments()
+        {
+            var tournaments = _tournamentService.GetAllTournaments();
+            Assert.AreEqual(1, tournaments.Count);
+            _tournamentService.CreateEmpty("Test");
+            tournaments = _tournamentService.GetAllTournaments();
+            Assert.AreEqual(2, tournaments.Count);
+        }
+        
+        [TestMethod]
         public void TestDeleteTournament()
         {
-            var tournaments = GetAllTournaments();
+            var tournaments = _tournamentService.GetAllTournaments();
             var tournamentCount = tournaments.Count;
 
-            var tournament = CreateTournament(string.Empty);
+            var tournament = _tournamentService.CreateEmpty(string.Empty);
 
-            tournaments = GetAllTournaments();
+            tournaments = _tournamentService.GetAllTournaments();
             Assert.AreEqual(tournamentCount + 1, tournaments.Count);
             
-            DeleteTournament(tournament);
-            tournaments = GetAllTournaments();
+            _tournamentService.DeleteTournament(tournament);
+            tournaments = _tournamentService.GetAllTournaments();
 
             Assert.AreEqual(tournamentCount, tournaments.Count);
         }
 
-        private static void DeleteTournament(Tournament tournament)
+        [TestMethod]
+        public void TestGenerateTournament()
         {
-            var tournamentService = new TournamentService();
-            tournamentService.DeleteTournament(tournament);
-        }
+            var tournament = _tournamentService.CreateEmpty("FIFA WM");
+            var participantNameList = new List<string>
+            {
+                "FC St. Gallen", "Young Boys", "GC", "FC Zürich",
+                "FC Vaduz", "FC Basel", "FC Bayern München", "SC Brühl"
+            };
 
-        private static Tournament GetTournament(int id)
-        {
-            var tournamentService = new TournamentService();
-            return tournamentService.GetTournamentById(id);
-        }
+            foreach (var participantName in participantNameList)
+            {
+                var participant = _participantService.CreateEmpty(participantName);
+                _tournamentService.EnrolParticipant(tournament, participant);
+            }
 
-        private static List<Tournament> GetAllTournaments()
-        {
-            var tournamentService = new TournamentService();
-            return tournamentService.GetAllTournaments();
-        }
+            _tournamentService.GetParticipantsByTournament(tournament);
+            _tournamentService.GeneratePhase(tournament, 4);
+            
+            var phaseList = _tournamentService.GetPhasesByTournament(tournament);
+            Assert.AreEqual(1, phaseList.Count);
 
-        private static List<Participant> GetParticipants(Tournament tournament)
-        {
-            var tournamentService = new TournamentService();
-            return tournamentService.GetParticipantsByTournament(tournament);
-        }
+            var phase = phaseList[0];
+            var phaseMatchList = _tournamentService.GetMatchesByPhase(phase);
 
-        private static void EnrolParticipant(Tournament tournament, Participant participant)
-        {
-            var tournamentService = new TournamentService();
-            tournamentService.EnrolParticipant(tournament, participant);
-        }
-
-        private static void DeregisterParticipant(Tournament tournament, Participant participant)
-        {
-            var tournamentService = new TournamentService();
-            tournamentService.DeregisterParticipant(tournament, participant);
-        }
-
-        private static Participant CreateParticipant(string name)
-        {
-            var participantService = new ParticipantService();
-            return participantService.CreateEmpty(name);
-        }
-
-        private static Tournament CreateTournament(string name)
-        {
-            var tournamentService = new TournamentService();
-            return tournamentService.CreateEmpty(name);
+            Assert.AreEqual(12, phaseMatchList.Count);
         }
     }
 }

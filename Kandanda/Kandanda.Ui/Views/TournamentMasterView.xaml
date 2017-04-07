@@ -1,0 +1,17 @@
+﻿<UserControl x:Class="Kandanda.Ui.Views.TournamentMasterView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:prism="http://prismlibrary.com/"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             prism:ViewModelLocator.AutoWireViewModel="True">
+    <StackPanel>
+        <Button Content="New Tournament" Command="{Binding CreateTournamentCommand}" HorizontalAlignment="Left"/>
+        <ListView ItemsSource="{Binding Tournaments}" DisplayMemberPath="Name" SelectedItem="{Binding CurrentTournament}">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="MouseDoubleClick">
+                    <i:InvokeCommandAction Command="{Binding OpenTournamentCommand}" />
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+        </ListView>
+    </StackPanel>
+</UserControl>
