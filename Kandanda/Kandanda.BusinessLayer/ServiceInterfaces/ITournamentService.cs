@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Kandanda.Dal.DataTransferObjects;
+using Kandanda.Dal.Entities;
 
 namespace Kandanda.BusinessLayer.ServiceInterfaces
 {
@@ -19,5 +19,6 @@ namespace Kandanda.BusinessLayer.ServiceInterfaces
         List<Match> GetMatchesByPhase(Phase phase);
         void DeleteTournament(Tournament tournament);
         void Update(Tournament tournament);
+        Task<List<Participant>> GetParticipantsByTournamentAsync(Tournament currentTournament);
     }
 }

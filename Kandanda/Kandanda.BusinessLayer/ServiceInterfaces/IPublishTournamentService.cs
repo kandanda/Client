@@ -3,7 +3,7 @@ using System.Security.Authentication;
 using System.Threading;
 using System.Threading.Tasks;
 using Kandanda.BusinessLayer.ServiceImplementations;
-using Kandanda.Dal.DataTransferObjects;
+using Kandanda.Dal.Entities;
 
 namespace Kandanda.BusinessLayer.ServiceInterfaces
 {

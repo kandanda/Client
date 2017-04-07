@@ -1,5 +1,5 @@
 ﻿using System.Windows.Controls;
-using Kandanda.Dal.DataTransferObjects;
+using Kandanda.Dal.Entities;
 using Kandanda.Ui.Core;
 using Prism.Regions;
 
@@ -8,9 +8,9 @@ namespace Kandanda.Ui.Views
     /// <summary>
     /// Interaction logic for ParticipantView
     /// </summary>
-    public partial class ParticipantView : UserControl
+    public partial class TournamentParticipantView : UserControl
     {
-        public ParticipantView()
+        public TournamentParticipantView()
         {
             InitializeComponent();
             RegionContext.GetObservableContext(this).PropertyChanged += (s, e)

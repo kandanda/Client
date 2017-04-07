@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Kandanda.BusinessLayer.ServiceInterfaces;
 using Kandanda.Dal;
-using Kandanda.Dal.DataTransferObjects;
+using Kandanda.Dal.Entities;
 
 namespace Kandanda.BusinessLayer.ServiceImplementations
 {
@@ -29,8 +29,8 @@ namespace Kandanda.BusinessLayer.ServiceImplementations
 
         public void SaveMatch(Match match)
         {
-            _dbContext.Matches.Add(match);
-            _dbContext.SaveChanges();
+            DbContext.Matches.Add(match);
+            DbContext.SaveChanges();
         }
 
         public Match GetMatchById(int id)
@@ -40,10 +40,10 @@ namespace Kandanda.BusinessLayer.ServiceImplementations
 
         public async Task<List<Match>> GetMatchesByTournamentAsync(Tournament tournament)
         {
-            return await (from entry in _dbContext.Tournaments
-                join phase in _dbContext.Phases
+            return await (from entry in DbContext.Tournaments
+                join phase in DbContext.Phases
                 on entry.Id equals phase.TournamentId
-                join match in _dbContext.Matches
+                join match in DbContext.Matches
                 on phase.Id equals match.PhaseId
                 where entry.Id == tournament.Id
                 select match).ToListAsync();

@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Kandanda.BusinessLayer.ServiceInterfaces;
-using Kandanda.Dal.DataTransferObjects;
+using Kandanda.Dal.Entities;
 using Newtonsoft.Json.Linq;
 
 namespace Kandanda.BusinessLayer.ServiceImplementations
