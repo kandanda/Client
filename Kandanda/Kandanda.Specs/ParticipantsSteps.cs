@@ -1,32 +1,40 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Linq;
 using System.Reflection;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TechTalk.SpecFlow;
 using TestStack.White;
 using TestStack.White.UIItems;
-using TestStack.White.UIItems.Finders;
 using TestStack.White.UIItems.TabItems;
 using TestStack.White.UIItems.WindowItems;
 using Table = TestStack.White.UIItems.TableItems.Table;
 
-namespace Kandanda.Integration.Testing
+namespace Kandanda.Specs
 {
     [Binding]
     public class ParticipantsSteps
     {
         public string BaseDir => Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
         //TODO: get assembly name by $"{nameof(Kandanda.Ui)}.exe" or similar
-        public string SutPath => Path.Combine(BaseDir, "Kandanda.Ui.exe");
-        private Application _app;
-        private Window _window;
+        private readonly Application _application;
+        private readonly Window _window;
 
-        [Given(@"I launch the application")]
-        public void GivenILaunchTheApplication()
+        public ParticipantsSteps()
         {
-            _app = Application.Launch(SutPath);
-            _window = _app.GetWindows().First();
+            _application = FeatureContext.Current.Get<Application>("app");
+            _window = _application.GetWindows().First();
         }
+
+        [Given(@"The application is running")]
+        public void GivenTheApplicationIsRunning()
+        {
+            if (_application == null)
+            {
+                ScenarioContext.Current.Pending();
+            }
+            
+        }
+
 
 
         [Given(@"I switch to Particpants tab")]
