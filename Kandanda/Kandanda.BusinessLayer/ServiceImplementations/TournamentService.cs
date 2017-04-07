@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
@@ -77,14 +78,41 @@ namespace Kandanda.BusinessLayer.ServiceImplementations
         {
             return GetEntryById<Tournament>(id);
         }
-        
+
+        public List<Participant> GetNotEnrolledParticipantsByTournament(Tournament tournament)
+        {
+            return GetNotEnrolledParticipantsByTournamentQueryable(tournament).ToList();
+        }
+
+        Task<List<Participant>> ITournamentService.GetNotEnrolledParticipantsByTournamentAsync(Tournament tournament)
+        {
+            return GetNotEnrolledParticipantsByTournamentQueryable(tournament).ToListAsync();
+        }
+
+        private IQueryable<Participant> GetNotEnrolledParticipantsByTournamentQueryable(Tournament tournament)
+        {
+            var enrolledParticipants = (from participant in DbContext.Participants
+                                        join participantTournament in DbContext.TournamentParticipants
+                                        on participant.Id equals participantTournament.ParticipantId
+                                        where participantTournament.TournamentId == tournament.Id
+                                        select participant);
+
+            return DbContext.Participants.Where(item => !enrolledParticipants.Contains(item));
+        }
+
         public void EnrolParticipant(Tournament tournament, Participant participant)
         {
-            Create(new TournamentParticipant
+            var alreadyExists = DbContext.TournamentParticipants.Any(item => item.TournamentId == tournament.Id &&
+                item.ParticipantId == participant.Id);
+
+            if (!alreadyExists)
             {
-                TournamentId = tournament.Id,
-                ParticipantId = participant.Id
-            });
+                Create(new TournamentParticipant
+                {
+                    TournamentId = tournament.Id,
+                    ParticipantId = participant.Id
+                });
+            }
         }
 
         public void DeregisterParticipant(Tournament tournament, Participant participant)
