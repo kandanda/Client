@@ -19,7 +19,6 @@ namespace Kandanda.Ui.ViewModels
         private readonly IPublishTournamentService _publishTournamentService;
         private readonly IOpenUrlRequest _openUrlRequest;
         private readonly ITournamentService _tournamentService;
-        private int _groupSize;
         public InteractionRequest<IConfirmation> ConfirmationRequest { get; }
         public InteractionRequest<SignInPopupViewModel> SignInRequest { get; }
         public ICommand SaveCommand { get; set; }
@@ -72,27 +71,27 @@ namespace Kandanda.Ui.ViewModels
         private void SignInAsync()
         {
             IsReady = false;
-            GeneratePlanAsync();
+            GeneratePlan();
             var signInViewModel = new SignInPopupViewModel(_publishTournamentService);
             SignInRequest.Raise(signInViewModel, async c =>
             {
                 if (!c.Confirmed)
                     return;
-                await Publish(signInViewModel.AuthToken);
+                await PublishAsync(signInViewModel.AuthToken);
                 IsReady = true;
             });
         }
 
-        private async Task Publish(string authToken)
+        private async Task PublishAsync(string authToken)
         {
             var response = await _publishTournamentService.PostTournamentAsync(CurrentTournament, authToken, CancellationToken.None);
             _openUrlRequest.Open(response.Link);
         }
 
-        private void GeneratePlanAsync()
+        private void GeneratePlan()
         {
             // TODO: Fix Generate Plan
-            //_tournamentService.GeneratePhase(CurrentTournament, 4);
+            _tournamentService.GeneratePhase(CurrentTournament, 4);
         }
     }
 }

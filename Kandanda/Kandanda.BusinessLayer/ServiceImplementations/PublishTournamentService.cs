@@ -59,8 +59,9 @@ namespace Kandanda.BusinessLayer.ServiceImplementations
 
         public async Task<PublishTournamentResponse> PostTournamentAsync(Tournament tournament, string authToken, CancellationToken cancellationToken)
         {
-            var payload = await PostTournamentAsync(_publishTournamentRequestBuilder.BuildJsonRequest(tournament), authToken, cancellationToken);
-            return PublishTournamentResponse.Create(payload, BaseUri);
+            var request = _publishTournamentRequestBuilder.BuildJsonRequest(tournament);
+            var response = await PostTournamentAsync(request, authToken, cancellationToken);
+            return PublishTournamentResponse.Create(response, BaseUri);
         }
 
         private async Task<string> PostTournamentAsync(string payload, string authToken, CancellationToken cancellationToken)

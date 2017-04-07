@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using Kandanda.BusinessLayer.ServiceInterfaces;
 using Kandanda.Dal;
 using Kandanda.Dal.Entities;
@@ -35,6 +36,7 @@ namespace Kandanda.BusinessLayer.ServiceImplementations
             };
         }
 
+        //TODO: Do not hardcode phase name
         private object BuildJsonPhasesAsync(Phase phase)
         {
             var matches = (from m in DbContext.Matches
@@ -43,23 +45,28 @@ namespace Kandanda.BusinessLayer.ServiceImplementations
 
             return new
             {
-                name = phase.Name,
+                name = string.IsNullOrWhiteSpace(phase.Name) ? "Phase": phase.Name,
                 from = phase.From,
                 until = phase.Until,
                 matches
             };
         }
 
+        // TODO: Do not hardcode place name
+        // TODO: Do not hardcode from and until
         private object BuildJsonMatchAsync(Match match)
         {
             var participant1 = DbContext.Participants.Find(match.FirstParticipantId);
             var participant2 = DbContext.Participants.Find(match.SecondParticipantId);
+            var place = DbContext.Places.Find(match.PlaceId);
 
             return new
             {
-                from = match.From,
-                until = match.Until,
-                place = DbContext.Places.Find(match.PlaceId)?.Name,
+                //from = match.From,
+                //until = match.Until,
+                from = DateTime.Today,
+                until = DateTime.Today.AddDays(1),
+                place = place == null? "Main Hall": place.Name,
                 participants = new[]
                 {
                     BuildJsonParticipant(participant1),
