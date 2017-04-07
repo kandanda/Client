@@ -1,0 +1,124 @@
+- # master
+  branches:
+    only:
+      - master
+  version: 1.0.0-prototype
+  configuration: Release
+  assembly_info:
+    patch: true
+    file: AssemblyInfo.*
+    assembly_version: "{version}"
+    assembly_file_version: "{version}"
+    assembly_informational_version: "{version}"
+  install:
+    - nuget restore Kandanda\Kandanda.sln
+  build:
+    project: Kandanda\Kandanda.sln
+    verbosity: minimal
+  after_build:
+    - 7z a Kandanda.zip %APPVEYOR_BUILD_FOLDER%\Kandanda\Kandanda.Ui\bin\%CONFIGURATION%\*
+  artifacts:
+    - path: Kandanda.zip
+      name: Kandanda
+  deploy:
+    release: v$(appveyor_build_version)
+    description: 'Kandanda Software'
+    provider: GitHub
+    auth_token:
+      secure: X0ccGs69/FOjM41FbIEfluXQSJUk0Xc+1KgG25cgPaSDdAhL2hq+hrlup3RSJO2b
+    artifact: Kandanda.zip
+    draft: false
+    prerelease: true
+    on:
+      appveyor_repo_tag: true
+- # release*
+  branches:
+    only:
+      - /release*/
+  version: 1.0.0.{build}-prototype-pre
+  skip_tags: true
+  configuration: Release
+  assembly_info:
+    patch: true
+    file: AssemblyInfo.*
+    assembly_version: "{version}"
+    assembly_file_version: "{version}"
+    assembly_informational_version: "{version}"
+  install:
+    - nuget restore Kandanda\Kandanda.sln
+  build:
+    project: Kandanda\Kandanda.sln
+    verbosity: minimal
+  after_build:
+    - 7z a Kandanda.zip %APPVEYOR_BUILD_FOLDER%\Kandanda\Kandanda.Ui\bin\%CONFIGURATION%\*
+  artifacts:
+    - path: Kandanda.zip
+      name: Kandanda
+- # develop
+  branches:
+    only:
+      - develop
+  version: 1.0.0.{build}-prototype
+  configuration: Debug
+  assembly_info:
+    patch: true
+    file: AssemblyInfo.*
+    assembly_version: "{version}"
+    assembly_file_version: "{version}"
+    assembly_informational_version: "{version}"
+  cache:
+    - Kandanda/packages
+  environment:
+    COVERALLS_REPO_TOKEN:
+      secure: JmyJ++UYDdjr0MUPfKt3WzYyP8b9scCmJPxjX0ODxjYD3mwov5yBXBp2cpAoAE/2
+  install:
+    - cmd: nuget restore .\Kandanda\Kandanda.sln
+  before_build:
+    - cmd: cd Kandanda
+    - cmd: nuget install OpenCover -Version 4.6.519 -ExcludeVersion
+    - cmd: nuget install coveralls.io -Version 1.3.4 -ExcludeVersion
+  build:
+    project: .\Kandanda\Kandanda.sln
+    verbosity: minimal
+  test_script:
+    - vstest.console /logger:Appveyor ".\Kandanda.Ui.Testing\bin\%CONFIGURATION%\Kandanda.Ui.Testing.dll"
+    - vstest.console /logger:Appveyor ".\Kandanda.BusinessLayer.Testing\bin\%CONFIGURATION%\Kandanda.BusinessLayer.Testing.dll"
+  after_test:
+    - .\OpenCover\tools\OpenCover.Console.exe -register:user -filter:"+[*]*" -target:"vstest.console.exe" -targetargs:".\Kandanda.Ui.Testing\bin\%CONFIGURATION%\Kandanda.Ui.Testing.dll"  -excludebyattribute:*.ExcludeFromCodeCoverage* -hideskipped:All -output:coverage.xml
+    - .\OpenCover\tools\OpenCover.Console.exe -register:user -filter:"+[*]*" -target:"vstest.console.exe" -targetargs:".\Kandanda.BusinessLayer.Testing\bin\%CONFIGURATION%\Kandanda.BusinessLayer.Testing.dll"  -excludebyattribute:*.ExcludeFromCodeCoverage* -hideskipped:All -output:coverage.xml -mergeoutput
+    - .\coveralls.io\tools\coveralls.net.exe --opencover coverage.xml
+  after_build:
+    - 7z a Kandanda.zip %APPVEYOR_BUILD_FOLDER%\Kandanda\Kandanda.Ui\bin\%CONFIGURATION%\*
+  artifacts:
+    - path: Kandanda.zip
+      name: Kandanda
+- # analyze
+  branches:
+    only:
+      - analyze
+  version: 1.0.0.{build}-analyze
+  configuration: Debug
+  assembly_info:
+    patch: true
+    file: AssemblyInfo.*
+    assembly_version: "{version}"
+    assembly_file_version: "{version}"
+    assembly_informational_version: "{version}"
+  cache:
+    - Kandanda/packages
+  environment:
+    CoverityProjectToken:
+      secure: iPxVjdOFnFj4jFrcBTt+ug2M4qpSyI80zDFDWcbSmro=
+  install:
+    - cmd: nuget restore .\Kandanda\Kandanda.sln
+  before_build:
+    - cmd: cd Kandanda
+  build_script:
+    - ps: |
+        $buildCmd = "msbuild.exe"
+        $buildArgs = @("/m", "/l:C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll")
+        C:\Tools\Coverity\bin\cov-build.exe --dir cov-int $buildCmd $buildArgs
+    - cmd: nuget install PublishCoverity -ExcludeVersion
+    - cmd: .\PublishCoverity\tools\PublishCoverity.exe compress -o coverity.zip -i cov-int
+    - cmd: .\PublishCoverity\tools\PublishCoverity.exe publish -z coverity.zip -r kandanda/Client -t %CoverityProjectToken% -e janic.mikes@kandanda.ch --nologo
+  test: off
