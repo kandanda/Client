@@ -95,6 +95,16 @@ namespace Kandanda.BusinessLayer.Testing
         }
 
         [TestMethod]
+        public void TestGetAllTournaments()
+        {
+            var tournaments = _tournamentService.GetAllTournaments();
+            Assert.AreEqual(1, tournaments.Count);
+            _tournamentService.CreateEmpty("Test");
+            tournaments = _tournamentService.GetAllTournaments();
+            Assert.AreEqual(2, tournaments.Count);
+        }
+        
+        [TestMethod]
         public void TestDeleteTournament()
         {
             var tournaments = _tournamentService.GetAllTournaments();
