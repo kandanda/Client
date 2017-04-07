@@ -81,6 +81,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="FakeResponseHandler.cs" />
+    <Compile Include="MatchServiceTest.cs" />
     <Compile Include="PublishTournamentRequestBuilderTest.cs" />
     <Compile Include="PublishTournamentServiceTest.cs" />
     <Compile Include="ParticipantServiceTest.cs" />
