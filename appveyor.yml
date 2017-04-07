@@ -2,7 +2,8 @@
   branches:
     only:
       - master
-  version: 1.0.0-prototype
+  version: 1.0.0-alpha
+  skip_non_tags: true
   configuration: Release
   assembly_info:
     patch: true
@@ -35,7 +36,7 @@
   branches:
     only:
       - /release*/
-  version: 1.0.0.{build}-prototype-pre
+  version: 1.0.0.{build}-alpha
   skip_tags: true
   configuration: Release
   assembly_info:
@@ -58,7 +59,7 @@
   branches:
     only:
       - develop
-  version: 1.0.0.{build}-prototype
+  version: 1.0.0.{build}-alpha
   configuration: Debug
   assembly_info:
     patch: true
@@ -96,7 +97,7 @@
   branches:
     only:
       - analyze
-  version: 1.0.0.{build}-analyze
+  version: 1.0.0.{build}-alpha
   configuration: Debug
   assembly_info:
     patch: true
