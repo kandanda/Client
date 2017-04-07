@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
@@ -59,15 +60,12 @@ namespace Kandanda.BusinessLayer.ServiceImplementations
                 .Where(match => match.PhaseId == phase.Id);
         }
 
-        
-
-        
-
-        
-
         //TODO We should have a regenerate phase
         public Phase GeneratePhase(Tournament tournament, int groupSize)
         {
+            if (tournament == null)
+                throw new ArgumentException("Phase generation tournament");
+
             var participants = GetParticipantsByTournament(tournament);
 
             var groupPhaseGenerator = new GroupPhaseGenerator(participants, groupSize);
