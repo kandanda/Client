@@ -11,7 +11,8 @@ namespace Kandanda.BusinessLayer.ServiceInterfaces
         Phase GeneratePhase(Tournament tournament, int groupSize);
         void EnrolParticipant(Tournament tournament, Participant participant);
         void DeregisterParticipant(Tournament tournament, Participant participant);
-        List<Participant> GetParticipantsByTournament(Tournament tournament);
+        Task<List<Participant>> GetNotEnrolledParticipantsByTournamentAsync(Tournament tournament);
+        List<Participant> GetNotEnrolledParticipantsByTournament(Tournament tournament);
         List<Tournament> GetAllTournaments();
         Task<List<Phase>> GetPhasesByTournamentAsync(Tournament tournament);
         Task<List<Match>> GetMatchesByPhaseAsync(Phase phase);
@@ -20,5 +21,6 @@ namespace Kandanda.BusinessLayer.ServiceInterfaces
         void DeleteTournament(Tournament tournament);
         void Update(Tournament tournament);
         Task<List<Participant>> GetParticipantsByTournamentAsync(Tournament currentTournament);
+        List<Participant> GetParticipantsByTournament(Tournament currentTournament);
     }
 }
