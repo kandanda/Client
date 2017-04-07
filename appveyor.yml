@@ -77,7 +77,6 @@
     - cmd: cd Kandanda
     - cmd: nuget install OpenCover -Version 4.6.519 -ExcludeVersion
     - cmd: nuget install coveralls.io -Version 1.3.4 -ExcludeVersion
-    - cmd: cd ..
   build:
     project: .\Kandanda\Kandanda.sln
     verbosity: minimal
@@ -89,7 +88,7 @@
     - .\OpenCover\tools\OpenCover.Console.exe -register:user -filter:"+[*]*" -target:"vstest.console.exe" -targetargs:".\Kandanda.BusinessLayer.Testing\bin\%CONFIGURATION%\Kandanda.BusinessLayer.Testing.dll"  -excludebyattribute:*.ExcludeFromCodeCoverage* -hideskipped:All -output:coverage.xml -mergeoutput
     - .\coveralls.io\tools\coveralls.net.exe --opencover coverage.xml
   after_build:
-    - 7z a Kandanda.zip %APPVEYOR_BUILD_FOLDER%\Kandanda\Kandanda.Ui\bin\%CONFIGURATION%\*
+    - 7z a ..\Kandanda.zip %APPVEYOR_BUILD_FOLDER%\Kandanda\Kandanda.Ui\bin\%CONFIGURATION%\*
   artifacts:
     - path: Kandanda.zip
       name: Kandanda
