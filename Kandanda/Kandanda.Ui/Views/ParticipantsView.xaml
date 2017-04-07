@@ -7,7 +7,8 @@
         <StackPanel Orientation="Vertical"  DockPanel.Dock="Bottom">
             <Button Content="Save" HorizontalAlignment="Right" Command="{Binding SaveCommand}"/>
         </StackPanel>
-        <DataGrid ItemsSource="{Binding Participants}" 
+        <DataGrid x:Name="ParticipantsGrid"
+            ItemsSource="{Binding Participants}" 
                   ScrollViewer.CanContentScroll="True" 
                   ScrollViewer.VerticalScrollBarVisibility="Auto"
                   ScrollViewer.HorizontalScrollBarVisibility="Auto"
