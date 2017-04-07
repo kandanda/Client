@@ -1,10 +1,12 @@
-﻿namespace Kandanda.Ui.Interactivity
+﻿using System;
+
+namespace Kandanda.Ui.Interactivity
 {
     public class WindowsOpenUrlRequest: IOpenUrlRequest
     {
-        public void Open(string url)
+        public void Open(Uri url)
         {
-            System.Diagnostics.Process.Start(url);
+            System.Diagnostics.Process.Start(url.ToString());
         }
     }
 }

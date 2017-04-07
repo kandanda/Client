@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
+using Xceed.Wpf.Toolkit;
 
 namespace Kandanda.Ui.Views
 {
