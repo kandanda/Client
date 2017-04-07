@@ -1,8 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.Threading;
-using System.Threading.Tasks;
-using System.Windows.Input;
 using Kandanda.BusinessLayer.ServiceInterfaces;
 using Prism.Commands;
 using Prism.Interactivity.InteractionRequest;
@@ -13,17 +11,31 @@ namespace Kandanda.Ui.ViewModels
     public class SignInPopupViewModel : BindableBase, IConfirmation, IInteractionRequestAware
     {
         private string _email;
-        private string _password;
         private readonly EmailAddressAttribute _emailAddressAttribute = new EmailAddressAttribute();
         private readonly IPublishTournamentService _publishTournamentService;
-        public ICommand SignInCommand;
+        private bool _isReady = true;
+        private string _password = "";
+        public DelegateCommand SignInCommand { get; }
+        public string AuthToken { get; private set; }
+        public string Title { get; set; }
+        public object Content { get; set; }
+        public bool Confirmed { get; set; }
+        public INotification Notification { get; set; }
+        public Action FinishInteraction { get; set; }
+
+        public bool IsReady
+        {
+            get { return _isReady; }
+            private set { SetProperty(ref _isReady, value); }
+        }
 
         public SignInPopupViewModel(IPublishTournamentService publishTournamentService)
         {
             _publishTournamentService = publishTournamentService;
             SignInCommand = new DelegateCommand(SignIn, CanTrySignIn)
                 .ObservesProperty(() => Email)
-                .ObservesProperty(() => Password);
+                .ObservesProperty(() => IsReady);
+            Title = $"Sign in {_publishTournamentService.BaseUri}";
         }
 
         public string Email
@@ -32,37 +44,29 @@ namespace Kandanda.Ui.ViewModels
             set { SetProperty(ref _email, value); }
         }
 
-        public string Password
+        public void PasswordChanged(string password)
         {
-            get { return _password; }
-            set { SetProperty(ref _password, value); }
+            _password = password;
+            SignInCommand.RaiseCanExecuteChanged();
         }
-
-        public string AuthToken { get; private set; }
-
-        public string Title { get; set; }
-        public object Content { get; set; }
-        public bool Confirmed { get; set; }
-        public INotification Notification { get; set; }
-        public Action FinishInteraction { get; set; }
 
         private async void SignIn()
         {
-            string authToken;
-            do
+            IsReady = false;
+            var authToken = await _publishTournamentService.AuthenticateAsync(Email, _password, CancellationToken.None);
+
+            if (authToken != null)
             {
-                //authToken = await _publishTournamentService.AuthenticateAsync(Email, Password, CancellationToken.None);
-                authToken = "123";
-                await Task.Delay(2000);
-            } while (authToken == null);
-            AuthToken = authToken;
-            Confirmed = true;
-            FinishInteraction();
+                AuthToken = authToken;
+                Confirmed = true;
+                FinishInteraction();
+            }
+            IsReady = true;
         }
 
         public bool CanTrySignIn()
         {
-            return _emailAddressAttribute.IsValid(Email) && Password.Length > 3;
+            return IsReady && _emailAddressAttribute.IsValid(Email) && _password.Length > 3;
         }
     }
 }

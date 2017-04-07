@@ -75,16 +75,16 @@
       <HintPath>..\packages\Unity.4.0.1\lib\net45\Microsoft.Practices.Unity.RegistrationByConvention.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Prism, Version=6.2.0.0, Culture=neutral, PublicKeyToken=91a96d2a154366d8, processorArchitecture=MSIL">
-      <HintPath>..\packages\Prism.Core.6.2.0\lib\net45\Prism.dll</HintPath>
+    <Reference Include="Prism, Version=6.3.0.0, Culture=neutral, PublicKeyToken=40ee6c3a2184dc59, processorArchitecture=MSIL">
+      <HintPath>..\packages\Prism.Core.6.3.0\lib\net45\Prism.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Prism.Unity.Wpf, Version=6.2.0.0, Culture=neutral, PublicKeyToken=91a96d2a154366d8, processorArchitecture=MSIL">
-      <HintPath>..\packages\Prism.Unity.6.2.0\lib\net45\Prism.Unity.Wpf.dll</HintPath>
+    <Reference Include="Prism.Unity.Wpf, Version=6.3.0.0, Culture=neutral, PublicKeyToken=40ee6c3a2184dc59, processorArchitecture=MSIL">
+      <HintPath>..\packages\Prism.Unity.6.3.0\lib\net45\Prism.Unity.Wpf.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Prism.Wpf, Version=6.2.0.0, Culture=neutral, PublicKeyToken=91a96d2a154366d8, processorArchitecture=MSIL">
-      <HintPath>..\packages\Prism.Wpf.6.2.0\lib\net45\Prism.Wpf.dll</HintPath>
+    <Reference Include="Prism.Wpf, Version=6.3.0.0, Culture=neutral, PublicKeyToken=40ee6c3a2184dc59, processorArchitecture=MSIL">
+      <HintPath>..\packages\Prism.Wpf.6.3.0\lib\net45\Prism.Wpf.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -93,7 +93,7 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Prism.Wpf.6.2.0\lib\net45\System.Windows.Interactivity.dll</HintPath>
+      <HintPath>..\packages\Prism.Wpf.6.3.0\lib\net45\System.Windows.Interactivity.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Xml" />
@@ -138,6 +138,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Core\TournamentViewModelBase.cs" />
+    <Compile Include="Events\ChangeCurrentTournamentEvent.cs" />
+    <Compile Include="Events\GeneratePlanRequestEvent.cs" />
+    <Compile Include="Events\PublishRequestEvent.cs" />
     <Compile Include="Events\StateChangeEvent.cs" />
     <Compile Include="Interactivity\IOpenUrlRequest.cs" />
     <Compile Include="Interactivity\WindowsOpenUrlRequest.cs" />
@@ -145,26 +149,31 @@
     <Compile Include="RegionNames.cs" />
     <Compile Include="Interactivity\IVersionInfo.cs" />
     <Compile Include="Interactivity\KandandaVersionInfo.cs" />
-    <Compile Include="ViewModels\ControlPanelViewModel.cs" />
-    <Compile Include="ViewModels\EditTournamentViewModel.cs" />
-    <Compile Include="ViewModels\ParticipantViewModel.cs" />
+    <Compile Include="ViewModels\ParticipantsViewModel.cs" />
+    <Compile Include="ViewModels\TournamentMasterViewModel.cs" />
+    <Compile Include="ViewModels\TournamentsViewModel.cs" />
+    <Compile Include="ViewModels\TournamentDetailViewModel.cs" />
+    <Compile Include="ViewModels\TournamentParticipantViewModel.cs" />
     <Compile Include="ViewModels\SheduleViewModel.cs" />
     <Compile Include="ViewModels\SignInPopupViewModel.cs" />
-    <Compile Include="ViewModels\StatusbarViewModel.cs" />
     <Compile Include="ViewModels\MenubarViewModel.cs" />
-    <Compile Include="ViewModels\TournamentViewModel.cs" />
+    <Compile Include="ViewModels\TournamentCommandViewModel.cs" />
+    <Compile Include="ViewModels\TournamentInfoViewModel.cs" />
     <Compile Include="Core\ViewModelBase.cs" />
-    <Compile Include="Views\ControlPanelView.xaml.cs">
-      <DependentUpon>ControlPanelView.xaml</DependentUpon>
+    <Compile Include="Views\ParticipantsView.xaml.cs">
+      <DependentUpon>ParticipantsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\EditTournamentView.xaml.cs">
-      <DependentUpon>EditTournamentView.xaml</DependentUpon>
+    <Compile Include="Views\TournamentMasterView.xaml.cs">
+      <DependentUpon>TournamentMasterView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\TournamentDetailView.xaml.cs">
+      <DependentUpon>TournamentDetailView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Menubar.xaml.cs">
       <DependentUpon>Menubar.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\ParticipantView.xaml.cs">
-      <DependentUpon>ParticipantView.xaml</DependentUpon>
+    <Compile Include="Views\TournamentParticipantView.xaml.cs">
+      <DependentUpon>TournamentParticipantView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SheduleView.xaml.cs">
       <DependentUpon>SheduleView.xaml</DependentUpon>
@@ -172,20 +181,24 @@
     <Compile Include="Views\SignInPopupView.xaml.cs">
       <DependentUpon>SignInPopupView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Statusbar.xaml.cs">
-      <DependentUpon>Statusbar.xaml</DependentUpon>
+    <Compile Include="Views\TournamentCommandView.xaml.cs">
+      <DependentUpon>TournamentCommandView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Toolbar.xaml.cs">
-      <DependentUpon>Toolbar.xaml</DependentUpon>
+    <Compile Include="Views\TournamentInfoView.xaml.cs">
+      <DependentUpon>TournamentInfoView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\TournamentView.xaml.cs">
-      <DependentUpon>TournamentView.xaml</DependentUpon>
+    <Compile Include="Views\TournamentsView.xaml.cs">
+      <DependentUpon>TournamentsView.xaml</DependentUpon>
     </Compile>
-    <Page Include="Views\ControlPanelView.xaml">
+    <Page Include="Views\ParticipantsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\EditTournamentView.xaml">
+    <Page Include="Views\TournamentMasterView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\TournamentDetailView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -207,7 +220,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\ParticipantView.xaml">
+    <Page Include="Views\TournamentParticipantView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -219,15 +232,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Statusbar.xaml">
+    <Page Include="Views\TournamentCommandView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Toolbar.xaml">
+    <Page Include="Views\TournamentInfoView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\TournamentView.xaml">
+    <Page Include="Views\TournamentsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -262,16 +275,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Kandanda.BusinessLayer\Kandanda.BusinessLayer.csproj">
-      <Project>{8fe36bd3-6c6e-498a-8f7e-1a18f3d4c4fd}</Project>
-      <Name>Kandanda.BusinessLayer</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Kandanda.Dal\Kandanda.Dal.csproj">
-      <Project>{e5c625a2-f602-4ec1-905f-50edff95104b}</Project>
-      <Name>Kandanda.Dal</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.6.1">
       <Visible>False</Visible>
       <ProductName>Microsoft .NET Framework 4.6.1 %28x86 and x64%29</ProductName>
@@ -282,6 +285,16 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Kandanda.BusinessLayer\Kandanda.BusinessLayer.csproj">
+      <Project>{8fe36bd3-6c6e-498a-8f7e-1a18f3d4c4fd}</Project>
+      <Name>Kandanda.BusinessLayer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Kandanda.Dal\Kandanda.Dal.csproj">
+      <Project>{e5c625a2-f602-4ec1-905f-50edff95104b}</Project>
+      <Name>Kandanda.Dal</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

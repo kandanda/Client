@@ -2,103 +2,75 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure.Pluralization;
-using System.Data.Entity.Validation;
 using System.Linq;
-using System.Text;
+using System.Threading.Tasks;
 using Kandanda.Dal;
-using Kandanda.Dal.DataTransferObjects;
+using Kandanda.Dal.Entities;
 
 namespace Kandanda.BusinessLayer
 {
     public abstract class ServiceBase
     {
-        protected virtual T Create<T>(T entry) where T : class, IEntry
+        protected readonly KandandaDbContext DbContext;
+
+        protected ServiceBase(KandandaDbContext dbContext)
         {
-            using (var db = new KandandaDbContext())
-            {
-                var set = GetDbSet<T>(db);
-                set.Add(entry);
-                db.SaveChanges();
-                return entry;
-            }
+            DbContext = dbContext;
         }
 
-        protected virtual void Delete<T>(T entry) where T : class, IEntry
+        protected virtual T Create<T>(T entry) where T : class, IEntity
         {
-            using (var db = new KandandaDbContext())
-            {
-                var set = GetDbSet<T>(db);
-                set.Attach(entry);
-                set.Remove(entry);
-                db.SaveChanges();
-            }
+            var set = GetDbSet<T>(DbContext);
+            set.Add(entry);
+            DbContext.SaveChanges();
+
+            return entry;
         }
 
-        protected virtual T GetEntryById<T>(int id) where T : class, IEntry
+        protected virtual void Update<T>(T entry) where T : class, IEntity
         {
-            using (var db = new KandandaDbContext())
-            {
-                var set = GetDbSet<T>(db);
-                return set.FirstOrDefault(entry => entry.Id == id);
-            }
+            var set = GetDbSet<T>(DbContext);
+            set.Attach(entry);
+            DbContext.Entry(entry).State = EntityState.Modified;
+            DbContext.SaveChanges();
         }
 
-        protected virtual List<T> GetAll<T>() where T : class, IEntry
+        protected virtual void Delete<T>(T entry) where T : class, IEntity
         {
-            using (var db = new KandandaDbContext())
-            {
-                return GetDbSet<T>(db).ToList();
-            }
+            var set = GetDbSet<T>(DbContext);
+            set.Attach(entry);
+            set.Remove(entry);
+
+            DbContext.SaveChanges();
         }
 
-        protected virtual T GetEntry<T>(Predicate<T> predicate) where T : class, IEntry
+        protected virtual T GetEntryById<T>(int id) where T : class, IEntity
         {
-            using (var db = new KandandaDbContext())
-            {
-                var set = GetDbSet<T>(db);
-                return set.FirstOrDefault(entry => predicate(entry));
-            }
+            var set = GetDbSet<T>(DbContext);
+            return set.FirstOrDefault(entry => entry.Id == id);
+        }
+
+        protected virtual async Task<List<T>> GetAllAsync<T>() where T : class, IEntity
+        {
+            return await GetDbSet<T>(DbContext).ToListAsync();
+        }
+
+        protected virtual List<T> GetAll<T>() where T : class, IEntity
+        {
+            return GetDbSet<T>(DbContext).ToList();
+        }
+
+        protected virtual T GetEntry<T>(Predicate<T> predicate) where T : class, IEntity
+        {
+            var set = GetDbSet<T>(DbContext);
+            return set.FirstOrDefault(entry => predicate(entry));
         }
         
         protected void ExecuteDatabaseAction(Action<KandandaDbContext> action)
         {
-            ExecuteDatabaseFunc(db =>
-            {
-                action(db);
-                return 0;
-            });
-        }
-
-        protected T ExecuteDatabaseFunc<T>(Func<KandandaDbContext, T> func)
-        {
-            try
-            {
-                using (var db = new KandandaDbContext())
-                {
-                    return func(db);
-                }
-            }
-            catch (DbEntityValidationException exception)
-            {
-                throw HandleEntityValidationException(exception);
-            }
+            action(DbContext);
         }
         
-        protected DataAccessException HandleEntityValidationException(DbEntityValidationException exception)
-        {
-            StringBuilder exceptionText = new StringBuilder();
-
-            foreach (var error in exception.EntityValidationErrors)
-            {
-                foreach (var validationError in error.ValidationErrors)
-                {
-                    exceptionText.AppendLine(validationError.PropertyName + ", " + validationError.ErrorMessage);
-                }
-            }
-
-            return new DataAccessException(exceptionText.ToString(), exception);
-        }
-
         private DbSet<T> GetDbSet<T>(DbContext db) where T : class
         {
             var pluralizedName = GetPluralizedName<T>();
