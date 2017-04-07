@@ -9,7 +9,7 @@ namespace Kandanda.Ui.ViewModels
 {
     public class ParticipantsViewModel : ViewModelBase
     {
-        private IParticipantService _participantService;
+        private readonly IParticipantService _participantService;
 
         public ICommand SaveCommand { get; }
 

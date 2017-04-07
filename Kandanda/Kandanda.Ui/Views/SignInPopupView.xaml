@@ -4,7 +4,7 @@
              Width="250" Height="120">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition />
+            <ColumnDefinition Width="Auto"/>
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
@@ -17,7 +17,7 @@
         <Label Grid.Row="1" Grid.Column="0" Content="Password:" Target="{Binding ElementName=Password}"/>
         <PasswordBox Grid.Row="1" Grid.Column="1" Name="Password" PasswordChanged="Password_OnPasswordChanged" IsEnabled="{Binding IsReady}"/>
         <Button Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Content="Sign in" 
-                HorizontalAlignment="Right" VerticalAlignment="Bottom" Command="{Binding SignInCommand}"/>
+                HorizontalAlignment="Right" VerticalAlignment="Bottom" Command="{Binding SignInCommand}" IsDefault="True"/>
     </Grid>
 </UserControl>
 

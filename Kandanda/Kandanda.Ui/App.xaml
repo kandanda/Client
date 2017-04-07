@@ -26,6 +26,12 @@
         <Style TargetType="{x:Type xctk:TimeSpanUpDown}">
             <Setter Property="Margin" Value="5,3,5,5" />
         </Style>
+        <Style TargetType="{x:Type xctk:WatermarkTextBox}">
+            <Setter Property="Margin" Value="5,3,5,5" />
+        </Style>
+        <Style TargetType="{x:Type xctk:WatermarkPasswordBox}">
+            <Setter Property="Margin" Value="5,3,5,5" />
+        </Style>
         <Style TargetType="{x:Type TextBox}">
             <Setter Property="Margin" Value="5,3,5,5" />
             <Setter Property="Height" Value="23" />

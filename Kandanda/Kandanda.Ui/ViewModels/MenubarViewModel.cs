@@ -1,4 +1,5 @@
-﻿using System.Windows.Input;
+﻿using System;
+using System.Windows.Input;
 using Kandanda.Ui.Events;
 using Kandanda.Ui.Interactivity;
 using Prism.Commands;
@@ -43,12 +44,12 @@ namespace Kandanda.Ui.ViewModels
 
         private void OpenDocumentation()
         {
-            _openUrlRequest.Open("https://www.kandanda.ch/");
+            _openUrlRequest.Open(new Uri("https://www.kandanda.ch/"));
         }
 
         private void GoToControlPanel()
         {
-            _regionManager.RequestNavigate(RegionNames.MainRegion, "/ControlPanelView");
+            _regionManager.RequestNavigate(RegionNames.TournamentsRegion, "/TournamentMasterView");
         }
 
         private void RequestGeneratePlan()
