@@ -4,6 +4,7 @@ using Kandanda.Ui.Core;
 using Prism.Commands;
 using System.Collections.ObjectModel;
 using Kandanda.Dal.Entities;
+using System.Threading.Tasks;
 
 namespace Kandanda.Ui.ViewModels
 {
@@ -47,12 +48,12 @@ namespace Kandanda.Ui.ViewModels
                 .ObservesProperty(() => ParticipantToRemove);
         }
 
-        private async void UpdateViews()
+        private async Task UpdateViewsAsync()
         {
             AvailableTeams.Clear();
             Participants.Clear();
 
-            AvailableTeams.AddRange(_participantService.GetAllParticipants());
+            AvailableTeams.AddRange(await _tournamentService.GetNotEnrolledParticipantsByTournamentAsync(CurrentTournament));
             Participants.AddRange(await _tournamentService.GetParticipantsByTournamentAsync(CurrentTournament));
         }
 
@@ -64,16 +65,16 @@ namespace Kandanda.Ui.ViewModels
             {
                 base.CurrentTournament = value;
                 if (CurrentTournament.Id != 0)
-                    UpdateViews();
+                    UpdateViewsAsync();
             }
         }
 
-        private void EnrollParticipant()
+        private async void EnrollParticipant()
         {
             if (ParticipantToAdd != null)
             {
                 _tournamentService.EnrolParticipant(CurrentTournament, ParticipantToAdd);
-                UpdateViews();
+                await UpdateViewsAsync();
             }
         }
 
@@ -82,12 +83,12 @@ namespace Kandanda.Ui.ViewModels
             return ParticipantToAdd != null;
         } 
 
-        private void DeregisterParticipant()
+        private async void DeregisterParticipant()
         {
             if (ParticipantToRemove != null)
             {
                 _tournamentService.DeregisterParticipant(CurrentTournament, ParticipantToRemove);
-                UpdateViews();
+                await UpdateViewsAsync();
             }
         }
 
