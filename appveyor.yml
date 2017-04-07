@@ -36,6 +36,7 @@
     only:
       - /release*/
   version: 0.1.0-{build}-pre
+  skip_tags: true
   configuration: Release
   assembly_info:
     patch: true
