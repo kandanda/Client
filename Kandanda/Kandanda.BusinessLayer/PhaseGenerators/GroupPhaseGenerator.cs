@@ -7,7 +7,6 @@ namespace Kandanda.BusinessLayer.PhaseGenerators
 {
     public sealed class GroupPhaseGenerator : IPhaseGenerator
     {
-        private const int ShuffleIterationCount = 5000;
         private readonly List<Participant> _participants;
         private readonly int _groupSize;
         
@@ -65,13 +64,17 @@ namespace Kandanda.BusinessLayer.PhaseGenerators
 
         private Participant[] GetShuffledParticipants()
         {
+            const int ShuffleIterationsPerTeam = 555;
+
             var shuffledParticipants = new Participant[_participants.Count];
             _participants.CopyTo(shuffledParticipants);
 
             var random = new Random();
             var participantCount = _participants.Count;
 
-            for (var iteration = 0; iteration < ShuffleIterationCount; ++iteration)
+            var shuffleIterations = ShuffleIterationsPerTeam * participantCount;
+
+            for (var iteration = 0; iteration < shuffleIterations; ++iteration)
             {
                 var firstRandomIndex = random.Next(participantCount);
                 var secondRandomIndex = random.Next(participantCount);
