@@ -10,6 +10,7 @@ namespace Kandanda.BusinessLayer.ServiceInterfaces
         Tournament GetTournamentById(int id);
         Phase GeneratePhase(Tournament tournament, int groupSize);
         void EnrolParticipant(Tournament tournament, Participant participant);
+        void EnrolParticipant(Tournament tournament, IEnumerable<Participant> participantList);
         void DeregisterParticipant(Tournament tournament, Participant participant);
         void DeregisterParticipant(Tournament tournament, IEnumerable<Participant> participantList);
         Task<List<Participant>> GetNotEnrolledParticipantsByTournamentAsync(Tournament tournament);

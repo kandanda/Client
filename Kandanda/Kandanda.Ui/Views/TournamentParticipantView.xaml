@@ -56,8 +56,13 @@
                     <RowDefinition Height="8*"  />
                 </Grid.RowDefinitions>
                 <TextBox Text="TextSearch" Grid.ColumnSpan="2" Margin="5,3,4.6,5.8" />
-                <DataGrid Grid.Row="1" ItemsSource="{Binding AvailableTeams, Mode=OneWay}" SelectedItem="{Binding ParticipantToAdd}"
+                <DataGrid Name="ParticipantsToAddGrid"  Grid.Row="1" ItemsSource="{Binding AvailableTeams, Mode=OneWay}"
                           AutoGenerateColumns="False" IsReadOnly="true" SelectionMode="Extended" Grid.ColumnSpan="2" Margin="0,0.2,-0.4,0.2" >
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="SelectionChanged">
+                            <i:InvokeCommandAction Command="{Binding ParticipantsToAddCommand}" CommandParameter="{Binding SelectedItems, ElementName=ParticipantsToAddGrid}" />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Name" Binding="{Binding Name}" />
                     </DataGrid.Columns>

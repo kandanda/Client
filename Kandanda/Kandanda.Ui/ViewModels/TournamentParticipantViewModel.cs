@@ -20,34 +20,36 @@ namespace Kandanda.Ui.ViewModels
         public ObservableCollection<Participant> Participants { get; }
         public ObservableCollection<Participant> AvailableTeams { get; }
 
-        public ICommand EnrollParticipantCommand { get; set; }
+        public DelegateCommand EnrollParticipantCommand { get; set; }
         public DelegateCommand DeregisterParticipantCommand { get; set; }
         public DelegateCommand<IList> ParticipantsToRemoveCommand { get; set; }
-
-
-        public Participant ParticipantToAdd
-        {
-            get { return _selectedTeam; }
-            set { SetProperty(ref _selectedTeam, value); }
-        }
+        public DelegateCommand<IList> ParticipantsToAddCommand { get; set; }
 
         public ObservableCollection<Participant> ParticipantListToRemove { get; }
+        public ObservableCollection<Participant> ParticipantListToAdd { get; }
 
         public TournamentParticipantViewModel(ITournamentService tournamentService, IParticipantService participantService)
         {
             _tournamentService = tournamentService;
             _participantService = participantService;
             ParticipantListToRemove = new ObservableCollection<Participant>();
+            ParticipantListToAdd = new ObservableCollection<Participant>();
             ParticipantListToRemove.CollectionChanged += ParticipantListToRemove_CollectionChanged;
+            ParticipantListToAdd.CollectionChanged += ParticipantsToAdd_CollectionChanged;
             Title = "Participants";
 
             AvailableTeams = new ObservableCollection<Participant>();
             Participants = new ObservableCollection<Participant>();
 
-            ParticipantsToRemoveCommand = new DelegateCommand<IList>(ReplaceParticipantList);
-            EnrollParticipantCommand = new DelegateCommand(EnrollParticipant,
-                CanEnrollParticipant).ObservesProperty(() => ParticipantToAdd);
+            ParticipantsToRemoveCommand = new DelegateCommand<IList>(selected => ReplaceParticipantList(selected, ParticipantListToRemove));
+            ParticipantsToAddCommand = new DelegateCommand<IList>(selected => ReplaceParticipantList(selected, ParticipantListToAdd));
+            EnrollParticipantCommand = new DelegateCommand(EnrollParticipant, CanEnrollParticipant);
             DeregisterParticipantCommand = new DelegateCommand(DeregisterParticipant, CanDeregisterParticipant);
+        }
+
+        private void ParticipantsToAdd_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            EnrollParticipantCommand.RaiseCanExecuteChanged();
         }
 
         private void ParticipantListToRemove_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
@@ -55,12 +57,12 @@ namespace Kandanda.Ui.ViewModels
             DeregisterParticipantCommand.RaiseCanExecuteChanged();
         }
 
-        private void ReplaceParticipantList(IList selected)
+        private void ReplaceParticipantList(IList selected, ObservableCollection<Participant> list) 
         {
-            ParticipantListToRemove.Clear();
+            list.Clear();
             foreach (var item in selected)
             {
-                ParticipantListToRemove.Add(item as Participant);
+                list.Add(item as Participant);
             }
         }
 
@@ -87,16 +89,16 @@ namespace Kandanda.Ui.ViewModels
 
         private void EnrollParticipant()
         {
-            if (ParticipantToAdd != null)
+            if (ParticipantListToAdd != null)
             {
-                _tournamentService.EnrolParticipant(CurrentTournament, ParticipantToAdd);
+                _tournamentService.EnrolParticipant(CurrentTournament, ParticipantListToAdd);
                 UpdateViewsAsync();
             }
         }
 
         private bool CanEnrollParticipant()
         {
-            return ParticipantToAdd != null;
+            return ParticipantListToAdd.Count > 0;
         } 
 
         private void DeregisterParticipant()
