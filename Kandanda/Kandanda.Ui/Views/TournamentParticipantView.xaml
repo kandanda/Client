@@ -26,7 +26,7 @@
                 </Grid.RowDefinitions>
                 <TextBox Text="TextSearch" />
                 <DataGrid Grid.Row="1" ItemsSource="{Binding Participants, Mode=OneWay}" SelectedItem="{Binding ParticipantToRemove}" 
-                          AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single" >
+                          AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Extended" >
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Name" Binding="{Binding Name}" />
                         <DataGridTextColumn Header="Captain" Binding="{Binding Path=Captain}" />
@@ -39,18 +39,19 @@
         </GroupBox>
         <Button Grid.Column="1" Grid.Row="1" Command="{Binding EnrollParticipantCommand}">&lt;</Button>
         <Button Grid.Column="1" Grid.Row="2" Command="{Binding DeregisterParticipantCommand}">&gt;</Button>
-        <GroupBox Header="Available Teams" Grid.Column="2" Grid.RowSpan="4">
+        <GroupBox Header="Not enrolled teams" Grid.Column="2" Grid.RowSpan="4">
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="2*" />
+                    <ColumnDefinition Width="17*" />
+                    <ColumnDefinition Width="28*"/>
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition />
                     <RowDefinition Height="8*"  />
                 </Grid.RowDefinitions>
-                <TextBox Text="TextSearch" /> 
+                <TextBox Text="TextSearch" Grid.ColumnSpan="2" Margin="5,3,4.6,5.8" />
                 <DataGrid Grid.Row="1" ItemsSource="{Binding AvailableTeams, Mode=OneWay}" SelectedItem="{Binding ParticipantToAdd}"
-                          AutoGenerateColumns="False" IsReadOnly="true" SelectionMode="Single" >
+                          AutoGenerateColumns="False" IsReadOnly="true" SelectionMode="Extended" Grid.ColumnSpan="2" Margin="0,0.2,-0.4,0.2" >
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Name" Binding="{Binding Name}" />
                     </DataGrid.Columns>

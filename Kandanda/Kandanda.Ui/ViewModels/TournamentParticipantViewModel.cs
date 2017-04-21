@@ -1,4 +1,5 @@
-﻿using System.Windows.Input;
+﻿using System;
+using System.Windows.Input;
 using Kandanda.BusinessLayer.ServiceInterfaces;
 using Kandanda.Ui.Core;
 using Prism.Commands;
@@ -42,13 +43,13 @@ namespace Kandanda.Ui.ViewModels
             AvailableTeams = new ObservableCollection<Participant>();
             Participants = new ObservableCollection<Participant>();
 
-            EnrollParticipantCommand = new DelegateCommand(EnrollParticipant, CanEnrollParticipant)
-                .ObservesProperty(() => ParticipantToAdd);
-            DeregisterParticipantCommand = new DelegateCommand(DeregisterParticipant, CanDeregisterParticipant)
-                .ObservesProperty(() => ParticipantToRemove);
+            EnrollParticipantCommand = new DelegateCommand(EnrollParticipant,
+                CanEnrollParticipant).ObservesProperty(() => ParticipantToAdd);
+            DeregisterParticipantCommand = new DelegateCommand(DeregisterParticipant,
+                CanDeregisterParticipant).ObservesProperty(() => ParticipantToRemove);
         }
 
-        private async Task UpdateViewsAsync()
+        private async void UpdateViewsAsync()
         {
             AvailableTeams.Clear();
             Participants.Clear();
@@ -69,12 +70,12 @@ namespace Kandanda.Ui.ViewModels
             }
         }
 
-        private async void EnrollParticipant()
+        private void EnrollParticipant()
         {
             if (ParticipantToAdd != null)
             {
                 _tournamentService.EnrolParticipant(CurrentTournament, ParticipantToAdd);
-                await UpdateViewsAsync();
+                UpdateViewsAsync();
             }
         }
 
@@ -83,12 +84,12 @@ namespace Kandanda.Ui.ViewModels
             return ParticipantToAdd != null;
         } 
 
-        private async void DeregisterParticipant()
+        private void DeregisterParticipant()
         {
             if (ParticipantToRemove != null)
             {
                 _tournamentService.DeregisterParticipant(CurrentTournament, ParticipantToRemove);
-                await UpdateViewsAsync();
+                UpdateViewsAsync();
             }
         }
 
