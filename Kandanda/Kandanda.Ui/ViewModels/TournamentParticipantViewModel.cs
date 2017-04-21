@@ -6,6 +6,8 @@ using Prism.Commands;
 using System.Collections.ObjectModel;
 using Kandanda.Dal.Entities;
 using System.Threading.Tasks;
+using System.Collections.Generic;
+using System.Collections;
 
 namespace Kandanda.Ui.ViewModels
 {
@@ -19,7 +21,8 @@ namespace Kandanda.Ui.ViewModels
         public ObservableCollection<Participant> AvailableTeams { get; }
 
         public ICommand EnrollParticipantCommand { get; set; }
-        public ICommand DeregisterParticipantCommand { get; set; }
+        public DelegateCommand DeregisterParticipantCommand { get; set; }
+        public DelegateCommand<IList> ParticipantsToRemoveCommand { get; set; }
 
 
         public Participant ParticipantToAdd
@@ -28,25 +31,37 @@ namespace Kandanda.Ui.ViewModels
             set { SetProperty(ref _selectedTeam, value); }
         }
 
-        public Participant ParticipantToRemove
-        {
-            get { return _selectedTeam; }
-            set { SetProperty(ref _selectedTeam, value); }
-        }
+        public ObservableCollection<Participant> ParticipantListToRemove { get; }
 
         public TournamentParticipantViewModel(ITournamentService tournamentService, IParticipantService participantService)
         {
             _tournamentService = tournamentService;
             _participantService = participantService;
+            ParticipantListToRemove = new ObservableCollection<Participant>();
+            ParticipantListToRemove.CollectionChanged += ParticipantListToRemove_CollectionChanged;
             Title = "Participants";
 
             AvailableTeams = new ObservableCollection<Participant>();
             Participants = new ObservableCollection<Participant>();
 
+            ParticipantsToRemoveCommand = new DelegateCommand<IList>(ReplaceParticipantList);
             EnrollParticipantCommand = new DelegateCommand(EnrollParticipant,
                 CanEnrollParticipant).ObservesProperty(() => ParticipantToAdd);
-            DeregisterParticipantCommand = new DelegateCommand(DeregisterParticipant,
-                CanDeregisterParticipant).ObservesProperty(() => ParticipantToRemove);
+            DeregisterParticipantCommand = new DelegateCommand(DeregisterParticipant, CanDeregisterParticipant);
+        }
+
+        private void ParticipantListToRemove_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            DeregisterParticipantCommand.RaiseCanExecuteChanged();
+        }
+
+        private void ReplaceParticipantList(IList selected)
+        {
+            ParticipantListToRemove.Clear();
+            foreach (var item in selected)
+            {
+                ParticipantListToRemove.Add(item as Participant);
+            }
         }
 
         private async void UpdateViewsAsync()
@@ -86,16 +101,16 @@ namespace Kandanda.Ui.ViewModels
 
         private void DeregisterParticipant()
         {
-            if (ParticipantToRemove != null)
+            if (ParticipantListToRemove != null)
             {
-                _tournamentService.DeregisterParticipant(CurrentTournament, ParticipantToRemove);
+                _tournamentService.DeregisterParticipant(CurrentTournament, ParticipantListToRemove);
                 UpdateViewsAsync();
             }
         }
 
         private bool CanDeregisterParticipant()
         {
-            return ParticipantToRemove != null;
+            return ParticipantListToRemove.Count > 0;
         }
     }
 }

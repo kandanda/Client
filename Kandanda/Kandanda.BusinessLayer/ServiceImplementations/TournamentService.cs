@@ -178,5 +178,25 @@ namespace Kandanda.BusinessLayer.ServiceImplementations
                 where entry.TournamentId == tournament.Id
                 select participant;
         }
+
+        public void DeregisterParticipant(Tournament tournament, IEnumerable<Participant> participantList)
+        {
+            ExecuteDatabaseAction(db =>
+            {
+                foreach (var participant in participantList)
+                {
+                    var tournamentParticipant = (from entry in db.TournamentParticipants
+                                                 where (entry.ParticipantId == participant.Id) &&
+                                                       (entry.TournamentId == tournament.Id)
+                                                 select entry).FirstOrDefault();
+
+                    if (tournamentParticipant != null)
+                    {
+                        db.TournamentParticipants.Remove(tournamentParticipant);
+                        db.SaveChanges();
+                    }
+                }
+            });
+        }
     }
 }
