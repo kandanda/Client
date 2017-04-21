@@ -24,9 +24,17 @@ namespace Kandanda.BusinessLayer.Testing
                 LunchBreakStart = TimeSpan.FromHours(12),
                 LunchBreakEnd = TimeSpan.FromHours(13),
                 PlayTimeEnd = TimeSpan.FromHours(17),
-                GroupSize = 20,
-                NumberOfTeams = 20
+                GroupSize = 4
             };
+        }
+
+        [TestMethod]
+        public void TestTest()
+        {
+            _phaseGenerator.GroupSize = 4;
+            //_phaseGenerator.NumberOfTeams = 63;
+
+            var list = _phaseGenerator.GenerateMatches().ToList();
         }
 
         [TestMethod]
