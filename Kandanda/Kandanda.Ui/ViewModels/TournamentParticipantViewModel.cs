@@ -1,10 +1,13 @@
-﻿using System.Windows.Input;
+﻿using System;
+using System.Windows.Input;
 using Kandanda.BusinessLayer.ServiceInterfaces;
 using Kandanda.Ui.Core;
 using Prism.Commands;
 using System.Collections.ObjectModel;
 using Kandanda.Dal.Entities;
 using System.Threading.Tasks;
+using System.Collections.Generic;
+using System.Collections;
 
 namespace Kandanda.Ui.ViewModels
 {
@@ -17,38 +20,53 @@ namespace Kandanda.Ui.ViewModels
         public ObservableCollection<Participant> Participants { get; }
         public ObservableCollection<Participant> AvailableTeams { get; }
 
-        public ICommand EnrollParticipantCommand { get; set; }
-        public ICommand DeregisterParticipantCommand { get; set; }
+        public DelegateCommand EnrollParticipantCommand { get; set; }
+        public DelegateCommand DeregisterParticipantCommand { get; set; }
+        public DelegateCommand<IList> ParticipantsToRemoveCommand { get; set; }
+        public DelegateCommand<IList> ParticipantsToAddCommand { get; set; }
 
-
-        public Participant ParticipantToAdd
-        {
-            get { return _selectedTeam; }
-            set { SetProperty(ref _selectedTeam, value); }
-        }
-
-        public Participant ParticipantToRemove
-        {
-            get { return _selectedTeam; }
-            set { SetProperty(ref _selectedTeam, value); }
-        }
+        public ObservableCollection<Participant> ParticipantListToRemove { get; }
+        public ObservableCollection<Participant> ParticipantListToAdd { get; }
 
         public TournamentParticipantViewModel(ITournamentService tournamentService, IParticipantService participantService)
         {
             _tournamentService = tournamentService;
             _participantService = participantService;
+            ParticipantListToRemove = new ObservableCollection<Participant>();
+            ParticipantListToAdd = new ObservableCollection<Participant>();
+            ParticipantListToRemove.CollectionChanged += ParticipantListToRemove_CollectionChanged;
+            ParticipantListToAdd.CollectionChanged += ParticipantsToAdd_CollectionChanged;
             Title = "Participants";
 
             AvailableTeams = new ObservableCollection<Participant>();
             Participants = new ObservableCollection<Participant>();
 
-            EnrollParticipantCommand = new DelegateCommand(EnrollParticipant, CanEnrollParticipant)
-                .ObservesProperty(() => ParticipantToAdd);
-            DeregisterParticipantCommand = new DelegateCommand(DeregisterParticipant, CanDeregisterParticipant)
-                .ObservesProperty(() => ParticipantToRemove);
+            ParticipantsToRemoveCommand = new DelegateCommand<IList>(selected => ReplaceParticipantList(selected, ParticipantListToRemove));
+            ParticipantsToAddCommand = new DelegateCommand<IList>(selected => ReplaceParticipantList(selected, ParticipantListToAdd));
+            EnrollParticipantCommand = new DelegateCommand(EnrollParticipant, CanEnrollParticipant);
+            DeregisterParticipantCommand = new DelegateCommand(DeregisterParticipant, CanDeregisterParticipant);
         }
 
-        private async Task UpdateViewsAsync()
+        private void ParticipantsToAdd_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            EnrollParticipantCommand.RaiseCanExecuteChanged();
+        }
+
+        private void ParticipantListToRemove_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            DeregisterParticipantCommand.RaiseCanExecuteChanged();
+        }
+
+        private void ReplaceParticipantList(IList selected, ObservableCollection<Participant> list) 
+        {
+            list.Clear();
+            foreach (var item in selected)
+            {
+                list.Add(item as Participant);
+            }
+        }
+
+        private async void UpdateViewsAsync()
         {
             AvailableTeams.Clear();
             Participants.Clear();
@@ -69,32 +87,32 @@ namespace Kandanda.Ui.ViewModels
             }
         }
 
-        private async void EnrollParticipant()
+        private void EnrollParticipant()
         {
-            if (ParticipantToAdd != null)
+            if (ParticipantListToAdd != null)
             {
-                _tournamentService.EnrolParticipant(CurrentTournament, ParticipantToAdd);
-                await UpdateViewsAsync();
+                _tournamentService.EnrolParticipant(CurrentTournament, ParticipantListToAdd);
+                UpdateViewsAsync();
             }
         }
 
         private bool CanEnrollParticipant()
         {
-            return ParticipantToAdd != null;
+            return ParticipantListToAdd.Count > 0;
         } 
 
-        private async void DeregisterParticipant()
+        private void DeregisterParticipant()
         {
-            if (ParticipantToRemove != null)
+            if (ParticipantListToRemove != null)
             {
-                _tournamentService.DeregisterParticipant(CurrentTournament, ParticipantToRemove);
-                await UpdateViewsAsync();
+                _tournamentService.DeregisterParticipant(CurrentTournament, ParticipantListToRemove);
+                UpdateViewsAsync();
             }
         }
 
         private bool CanDeregisterParticipant()
         {
-            return ParticipantToRemove != null;
+            return ParticipantListToRemove.Count > 0;
         }
     }
 }

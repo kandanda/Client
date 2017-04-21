@@ -1,7 +1,8 @@
 ﻿<UserControl x:Class="Kandanda.Ui.Views.TournamentParticipantView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:prism="http://prismlibrary.com/"             
+             xmlns:prism="http://prismlibrary.com/"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              prism:ViewModelLocator.AutoWireViewModel="True">
     <Grid>
         <Grid.ColumnDefinitions>
@@ -25,8 +26,13 @@
                     <RowDefinition Height="8*" />
                 </Grid.RowDefinitions>
                 <TextBox Text="TextSearch" />
-                <DataGrid Grid.Row="1" ItemsSource="{Binding Participants, Mode=OneWay}" SelectedItem="{Binding ParticipantToRemove}" 
-                          AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single" >
+                <DataGrid Name="ParticipantsToRemoveGrid" Grid.Row="1" ItemsSource="{Binding Participants, Mode=OneWay}" 
+                          AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Extended" >
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="SelectionChanged">
+                            <i:InvokeCommandAction Command="{Binding ParticipantsToRemoveCommand}" CommandParameter="{Binding SelectedItems, ElementName=ParticipantsToRemoveGrid}" />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Name" Binding="{Binding Name}" />
                         <DataGridTextColumn Header="Captain" Binding="{Binding Path=Captain}" />
@@ -39,18 +45,24 @@
         </GroupBox>
         <Button Grid.Column="1" Grid.Row="1" Command="{Binding EnrollParticipantCommand}">&lt;</Button>
         <Button Grid.Column="1" Grid.Row="2" Command="{Binding DeregisterParticipantCommand}">&gt;</Button>
-        <GroupBox Header="Available Teams" Grid.Column="2" Grid.RowSpan="4">
+        <GroupBox Header="Not enrolled teams" Grid.Column="2" Grid.RowSpan="4">
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="2*" />
+                    <ColumnDefinition Width="17*" />
+                    <ColumnDefinition Width="28*"/>
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition />
                     <RowDefinition Height="8*"  />
                 </Grid.RowDefinitions>
-                <TextBox Text="TextSearch" /> 
-                <DataGrid Grid.Row="1" ItemsSource="{Binding AvailableTeams, Mode=OneWay}" SelectedItem="{Binding ParticipantToAdd}"
-                          AutoGenerateColumns="False" IsReadOnly="true" SelectionMode="Single" >
+                <TextBox Text="TextSearch" Grid.ColumnSpan="2" Margin="5,3,4.6,5.8" />
+                <DataGrid Name="ParticipantsToAddGrid"  Grid.Row="1" ItemsSource="{Binding AvailableTeams, Mode=OneWay}"
+                          AutoGenerateColumns="False" IsReadOnly="true" SelectionMode="Extended" Grid.ColumnSpan="2" Margin="0,0.2,-0.4,0.2" >
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="SelectionChanged">
+                            <i:InvokeCommandAction Command="{Binding ParticipantsToAddCommand}" CommandParameter="{Binding SelectedItems, ElementName=ParticipantsToAddGrid}" />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Name" Binding="{Binding Name}" />
                     </DataGrid.Columns>
@@ -59,130 +71,3 @@
         </GroupBox>
     </Grid>
 </UserControl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
