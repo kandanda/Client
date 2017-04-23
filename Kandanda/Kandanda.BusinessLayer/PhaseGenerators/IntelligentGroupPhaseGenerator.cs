@@ -47,6 +47,7 @@ namespace Kandanda.BusinessLayer.PhaseGenerators
 
         public IEnumerable<Match> GenerateMatches()
         {
+            CheckGameDuration();
             CheckGroupSize();
 
             int groupCount;
@@ -295,6 +296,14 @@ namespace Kandanda.BusinessLayer.PhaseGenerators
             }
 
             return shuffledParticipants;
+        }
+
+        private void CheckGameDuration()
+        {
+            if (GameDuration == TimeSpan.Zero)
+            {
+                throw new ArgumentException("Game duration must be greater than zero");
+            }
         }
 
         private void CheckGroupSize()
