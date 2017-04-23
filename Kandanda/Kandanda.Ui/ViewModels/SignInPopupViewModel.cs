@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.Threading;
+using System.Threading.Tasks;
 using Kandanda.BusinessLayer.ServiceInterfaces;
 using Prism.Commands;
 using Prism.Interactivity.InteractionRequest;
@@ -32,7 +33,7 @@ namespace Kandanda.Ui.ViewModels
         public SignInPopupViewModel(IPublishTournamentService publishTournamentService)
         {
             _publishTournamentService = publishTournamentService;
-            SignInCommand = new DelegateCommand(SignIn, CanTrySignIn)
+            SignInCommand = new DelegateCommand(async () => await SignIn(), CanTrySignIn)
                 .ObservesProperty(() => Email)
                 .ObservesProperty(() => IsReady);
             Title = $"Sign in {_publishTournamentService.BaseUri}";
@@ -50,7 +51,7 @@ namespace Kandanda.Ui.ViewModels
             SignInCommand.RaiseCanExecuteChanged();
         }
 
-        private async void SignIn()
+        private async Task SignIn()
         {
             IsReady = false;
             var authToken = await _publishTournamentService.AuthenticateAsync(Email, _password, CancellationToken.None);
