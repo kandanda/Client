@@ -1,48 +1,57 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Effort;
 using Kandanda.BusinessLayer.PhaseGenerators;
-using Kandanda.Dal.Entities;
+using Kandanda.BusinessLayer.ServiceImplementations;
+using Kandanda.Dal;
 
 namespace Test
 {
-    class Program
+    internal class Program
     {
-        static void Main(string[] args)
+        public static void Main()
         {
-            var groupPhaseGenerator = new IntelligentGroupPhaseGenerator
+            try
             {
-                GroupSize = 4,
-                GameDuration = TimeSpan.FromMinutes(10),
-                BreakBetweenGames = TimeSpan.FromMilliseconds(10)
-            };
+                var groupPhaseGenerator = new IntelligentGroupPhaseGenerator
+                {
+                    GroupSize = 7,
 
-            groupPhaseGenerator.AddParticipant(new Participant {Name = "A"});
-            groupPhaseGenerator.AddParticipant(new Participant { Name = "B" });
-            groupPhaseGenerator.AddParticipant(new Participant { Name = "C" });
-            groupPhaseGenerator.AddParticipant(new Participant { Name = "D" });
-            groupPhaseGenerator.AddParticipant(new Participant { Name = "E" });
-            groupPhaseGenerator.AddParticipant(new Participant { Name = "F" });
-            groupPhaseGenerator.AddParticipant(new Participant { Name = "G" });
-            groupPhaseGenerator.AddParticipant(new Participant { Name = "H" });
-            groupPhaseGenerator.AddParticipant(new Participant { Name = "I" });
-            groupPhaseGenerator.AddParticipant(new Participant { Name = "J" });
-            groupPhaseGenerator.AddParticipant(new Participant { Name = "K" });
-            groupPhaseGenerator.AddParticipant(new Participant { Name = "L" });
-            groupPhaseGenerator.AddParticipant(new Participant { Name = "M" });
-            groupPhaseGenerator.AddParticipant(new Participant { Name = "N" });
-            
-            var matchList = groupPhaseGenerator.GenerateMatches();
+                    GameDuration = TimeSpan.FromMinutes(10),
+                    BreakBetweenGames = TimeSpan.FromMinutes(10),
+                    GroupPhaseStart = new DateTime(2014, 1, 1),
+                    GroupPhaseEnd = new DateTime(2014, 1, 3),
 
+                    PlayTimeStart = TimeSpan.FromHours(8),
+                    PlayTimeEnd = TimeSpan.FromHours(17),
+                    LunchBreakStart = TimeSpan.FromHours(12),
+                    LunchBreakEnd = TimeSpan.FromHours(13)
+                };
 
-            /*
-            foreach (var match in matchList)
-            {
-                Console.WriteLine(match.FirstParticipantId + " vs. " + match.SecondParticipantId);
+                var participantService =
+                    new ParticipantService(new KandandaDbContext(DbConnectionFactory.CreateTransient()));
+
+                for (var name = 'A'; name <= 'Z'; ++name)
+                {
+                    groupPhaseGenerator.AddParticipant(participantService.CreateEmpty(name.ToString()));
+                }
+
+                var matchList = groupPhaseGenerator.GenerateMatches();
+
+                foreach (var match in matchList)
+                {
+                    var firstParticipant = participantService.GetParticipantById(match.FirstParticipantId);
+                    var secondParticipant = participantService.GetParticipantById(match.SecondParticipantId);
+
+                    Console.WriteLine(match.From);
+                    Console.WriteLine(firstParticipant.Name + " gegen " + secondParticipant.Name);
+                    Console.WriteLine();
+                }
             }
-            */
+            catch (Exception exception)
+            {
+                Console.WriteLine(exception.Message);   
+            }
+
             Console.ReadKey(true);
         }
     }

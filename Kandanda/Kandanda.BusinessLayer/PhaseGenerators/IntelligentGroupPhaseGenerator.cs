@@ -40,9 +40,14 @@ namespace Kandanda.BusinessLayer.PhaseGenerators
             _participants.Add(participant);
         }
 
+        public void AddParticipants(IEnumerable<Participant> participants)
+        {
+            _participants.AddRange(participants);
+        }
+
         public IEnumerable<Match> GenerateMatches()
         {
-            CheckGroupSize(GroupSize);
+            CheckGroupSize();
 
             int groupCount;
 
@@ -51,17 +56,28 @@ namespace Kandanda.BusinessLayer.PhaseGenerators
                 throw new ArgumentException($"Cannot generate schedule with group size {GroupSize} and number of teams {_participants.Count}");
             }
             
-            var groups = GenerateGroups(groupCount);
+            var groups = GenerateGroups(groupCount).ToList();
 
-            foreach (var group in groups)
+            var timeslots = GenerateTimeslots().ToList();
+            var matches = GetAllMatches(groups).ToList();
+
+            if (timeslots.Count < matches.Count)
             {
-                foreach (var match in GetAllMatchesByGroup(group))
-                {
-                    Console.WriteLine(match.FirstParticipantId + ", " + match.SecondParticipantId);
-                }
+                throw new ArgumentException($"There are only {timeslots.Count} timeslots but {matches.Count} are needed.");
             }
 
-            return null;
+            for (var matchIndex = 0; matchIndex < matches.Count; ++matchIndex)
+            {
+                matches[matchIndex].From = timeslots[matchIndex];
+                matches[matchIndex].Until = matches[matchIndex].From + GameDuration;
+            }
+
+            return matches;
+        }
+
+        private IEnumerable<Match> GetAllMatches(List<List<Participant>> groups)
+        {
+            return groups.SelectMany(GetAllMatchesByGroup);
         }
 
         private List<List<Participant>> GenerateGroups(int groupCount)
@@ -94,17 +110,85 @@ namespace Kandanda.BusinessLayer.PhaseGenerators
 
             return groups;
         }
+
+        private int GetMatchCountByParticipant(Dictionary<Participant, int> groupMatchCount, Participant participant)
+        {
+            if (participant == null)
+            {
+                return 0;
+            }
+
+            if (!groupMatchCount.ContainsKey(participant))
+            {
+                groupMatchCount[participant] = 0;
+                return 0;
+            }
+
+            return groupMatchCount[participant];
+        }
+
+        private Tuple<int, int> LeastPlayedParticipantsPair(Dictionary<Participant, int> groupMatchCount, List<Participant> participants)
+        {
+            var leastPlayedIndex = -1;
+            var secondLeastPlayedIndex = -1;
+            
+            for (var participantIndex = 0; participantIndex < participants.Count; ++participantIndex)
+            {
+                var currentParticipant = participants[participantIndex];
+
+                var leastPlayedParticipant = leastPlayedIndex != -1 ? 
+                    participants[leastPlayedIndex] : null;
+
+                var secondLeastPlayedParticipant = secondLeastPlayedIndex != -1
+                    ? participants[secondLeastPlayedIndex] : null;
+
+                var matchCount = GetMatchCountByParticipant(groupMatchCount, currentParticipant);
+                var leastMatchCount = GetMatchCountByParticipant(groupMatchCount, leastPlayedParticipant);
+                var secondLeastMatchCount = GetMatchCountByParticipant(groupMatchCount, secondLeastPlayedParticipant);
+
+                if (leastPlayedIndex == -1 || matchCount < leastMatchCount)
+                {
+                    secondLeastPlayedIndex = leastPlayedIndex;
+                    leastPlayedIndex = participantIndex;
+                }
+                else if (secondLeastPlayedIndex == -1 || matchCount < secondLeastMatchCount)
+                {
+                    secondLeastPlayedIndex = participantIndex;
+                }
+            }
+
+            return Tuple.Create(leastPlayedIndex, secondLeastPlayedIndex);
+        }
         
         private IEnumerable<Match> GetAllMatchesByGroup(List<Participant> group)
         {
             var teamCount = group.Count;
-            
-            for (var firstIndex = 0; firstIndex < teamCount; ++firstIndex)
+            var matchCount = teamCount * (teamCount - 1) / 2;
+
+            var groupMatchCount = new Dictionary<Participant, int>();
+            var groupPairList = new List<Tuple<int, int>>();
+
+            for (var matchIndex = 0; matchIndex < matchCount; ++matchIndex)
             {
-                for (var secondIndex = firstIndex + 1; secondIndex < teamCount; ++secondIndex)
+                var leastPlayedPair = LeastPlayedParticipantsPair(groupMatchCount, group);
+
+                while (groupPairList.Contains(leastPlayedPair))
                 {
-                    yield return CreateMatch(DateTime.Now, firstIndex, secondIndex);
+                    var secondIndex = (leastPlayedPair.Item2 + 1) % group.Count;
+                    leastPlayedPair = Tuple.Create(leastPlayedPair.Item1, secondIndex);
                 }
+                
+                var leastParticipant = group[leastPlayedPair.Item1];
+                var secondLeastParticipant = group[leastPlayedPair.Item2];
+
+                ++groupMatchCount[leastParticipant];
+                ++groupMatchCount[secondLeastParticipant];
+
+                groupPairList.Add(leastPlayedPair);
+                
+                var match = CreateMatch(DateTime.Now, leastParticipant.Id, secondLeastParticipant.Id);
+
+                yield return match;
             }
         }
         
@@ -136,18 +220,18 @@ namespace Kandanda.BusinessLayer.PhaseGenerators
                 _participants.Count <= maxAllowedTeamCount;
         }
 
-        private IEnumerable<Match> GenerateTimeslots()
+        private IEnumerable<DateTime> GenerateTimeslots()
         {
             for (var date = GroupPhaseStart.Date; date <= GroupPhaseEnd.Date; date = date.AddDays(1))
             {
-                foreach (var match in GenerateMatchesByDay(date))
+                foreach (var timeslot in GenerateTimeslotsByDay(date))
                 {
-                    yield return match;
+                    yield return timeslot;
                 }
             }
         }
 
-        private IEnumerable<Match> GenerateMatchesByDay(DateTime date)
+        private IEnumerable<DateTime> GenerateTimeslotsByDay(DateTime date)
         {
             var day = date.Date;
             
@@ -157,19 +241,19 @@ namespace Kandanda.BusinessLayer.PhaseGenerators
             var lunchBreakStart = day.Add(LunchBreakStart);
             var lunchBreakEnd = day.Add(LunchBreakEnd);
 
-            var morningMatches = GenerateMatchesBetween(playTimeStart, lunchBreakStart);
-            var eveningMatches = GenerateMatchesBetween(lunchBreakEnd, playTimeEnd);
+            var morningMatches = GenerateTimeslotsBetween(playTimeStart, lunchBreakStart);
+            var eveningMatches = GenerateTimeslotsBetween(lunchBreakEnd, playTimeEnd);
             
             return morningMatches.Concat(eveningMatches);
         }
 
-        private IEnumerable<Match> GenerateMatchesBetween(DateTime startTime, DateTime endTime)
+        private IEnumerable<DateTime> GenerateTimeslotsBetween(DateTime startTime, DateTime endTime)
         {
             var time = startTime;
 
             while (time + GameDuration <= endTime)
             {
-                yield return CreateMatch(time, 0, 0);
+                yield return time;
                 time = time.Add(GameDuration + BreakBetweenGames);
             }
         }
@@ -213,9 +297,9 @@ namespace Kandanda.BusinessLayer.PhaseGenerators
             return shuffledParticipants;
         }
 
-        private static void CheckGroupSize(int groupSize)
+        private void CheckGroupSize()
         {
-            if (groupSize < MinimumGroupSize || groupSize > MaximumGroupSize)
+            if (GroupSize < MinimumGroupSize || GroupSize > MaximumGroupSize)
             {
                 throw new ArgumentException($"Group size must be between {MinimumGroupSize} and {MaximumGroupSize}");
             }
