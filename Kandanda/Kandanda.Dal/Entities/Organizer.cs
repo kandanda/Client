@@ -13,6 +13,9 @@ namespace Kandanda.Dal.Entities
         [StringLength(32)]
         public string Password { get; set; }
 
+        [StringLength(255)]
+        public string LoginToken { get; set; }
+
         [Timestamp]
         public byte[] RowVersion { get; set; }
     }
