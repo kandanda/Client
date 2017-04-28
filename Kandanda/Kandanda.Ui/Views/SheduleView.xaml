@@ -7,18 +7,18 @@
     <WrapPanel Orientation="Vertical">
         <StackPanel>
             <Label Content="Begin on" Target="{Binding ElementName=Start}" />
-            <xctk:DateTimePicker Name="Start" Value="{Binding Path=CurrentPhase.From}" />
+            <xctk:DateTimePicker Name="Start" Value="{Binding Path=CurrentTournament.From}" />
         </StackPanel>
         <StackPanel>
             <Label Content="and end on" Target="{Binding ElementName=End}"/>
-            <xctk:DateTimePicker Name="End" Value="{Binding Path=CurrentPhase.Until}" />
+            <xctk:DateTimePicker Name="End" Value="{Binding Path=CurrentTournament.Until}" />
         </StackPanel>
         <StackPanel>
             <Label Content="Playtimes" Target="{Binding ElementName=PlayStart}" />
             <StackPanel Orientation="Horizontal">
-                <xctk:TimePicker Name="PlayStart" Value="{Binding Path=CurrentTournament.PlayTimeStart}" />
+                <xctk:TimePicker Name="PlayStart" Value="{Binding PlayTimeStart}" />
                 <Label Content=" - " />
-                <xctk:TimePicker/>
+                <xctk:TimePicker Name="PlayEnd" Value="{Binding PlayTimeEnd}" />
             </StackPanel>
             <Label Content="Game Duration" Target="{Binding ElementName=GameDuration}"/>
             <xctk:IntegerUpDown Name="GameDuration" Value="{Binding GameDuration}" Minimum="1" />
@@ -28,9 +28,9 @@
         <StackPanel>
             <Label Content="Lunch break" Target="{Binding ElementName=LunchStart}" />
             <StackPanel Orientation="Horizontal">
-                <xctk:TimePicker Name="LunchStart" Value="{Binding Path=CurrentTournament.LunchBreakStart}" />
+                <xctk:TimePicker Name="LunchStart" Value="{Binding LunchBreakStart}" />
                 <Label Content=" - " />
-                <xctk:TimePicker Name="LunchEnd" Value="{Binding Path=CurrentTournament.LunchBreakEnd}" />
+                <xctk:TimePicker Name="LunchEnd" Value="{Binding LunchBreakEnd}" />
             </StackPanel>
         </StackPanel>
         <StackPanel>

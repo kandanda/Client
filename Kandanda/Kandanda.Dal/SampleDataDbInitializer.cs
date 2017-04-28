@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Diagnostics.CodeAnalysis;
 using Kandanda.Dal.Entities;
@@ -35,7 +36,9 @@ namespace Kandanda.Dal
             {
                 db.Tournaments.Add(new Tournament
                 {
-                    Name = tournament
+                    Name = tournament,
+                    From = DateTime.Now,
+                    Until = DateTime.Now.AddDays(1)
                 });
             }
 

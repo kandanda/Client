@@ -48,6 +48,31 @@ namespace Kandanda.Ui.ViewModels
                 CurrentTournament.BreakBetweenGames = TimeSpan.FromMinutes(value);
             }
         }
+        
+        // TODO: fix ugly workaround with TimeSpan / DateTime conversion
+        public DateTime PlayTimeStart
+        {
+            get { return DateTime.Today + (CurrentTournament?.PlayTimeStart ?? TimeSpan.Zero); }
+            set { CurrentTournament.PlayTimeStart = value - value.Date; }
+        }
+
+        public DateTime PlayTimeEnd
+        {
+            get { return DateTime.Today + (CurrentTournament?.PlayTimeEnd ?? TimeSpan.Zero); }
+            set { CurrentTournament.PlayTimeEnd = value - value.Date; }
+        }
+
+        public DateTime LunchBreakStart
+        {
+            get { return DateTime.Today + (CurrentTournament?.LunchBreakStart ?? TimeSpan.Zero); }
+            set { CurrentTournament.LunchBreakStart = value - value.Date; }
+        }
+
+        public DateTime LunchBreakEnd
+        {
+            get { return DateTime.Today + (CurrentTournament?.LunchBreakEnd ?? TimeSpan.Zero); }
+            set { CurrentTournament.LunchBreakEnd = value - value.Date; }
+        }
 
         //TODO CurrentTournament should not be overwriten 
         public override Tournament CurrentTournament
