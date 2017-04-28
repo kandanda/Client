@@ -27,6 +27,11 @@ namespace Kandanda.BusinessLayer.ServiceImplementations
             });
         }
 
+        public Task<List<Tournament>> GetAllTournamentsAsync()
+        {
+            return GetAllAsync<Tournament>();
+        }
+        
         public async Task<List<Phase>> GetPhasesByTournamentAsync(Tournament tournament)
         {
             return await GetPhasesByTournamentQueryable(tournament).ToListAsync();
