@@ -21,9 +21,9 @@
                 <xctk:TimePicker/>
             </StackPanel>
             <Label Content="Game Duration" Target="{Binding ElementName=GameDuration}"/>
-            <xctk:TimeSpanUpDown Name="GameDuration" Value="{Binding Path=CurrentTournament.GameDuration}" />
+            <xctk:IntegerUpDown Name="GameDuration" Value="{Binding GameDuration}" Minimum="1" />
             <Label Content="Break between games" Target="{Binding ElementName=BreakBetweenGames}"/>
-            <xctk:TimeSpanUpDown Name="BreakBetweenGames" Value="{Binding Path=CurrentTournament.BreakBetweenGames}" />
+            <xctk:IntegerUpDown Name="BreakBetweenGames" Value="{Binding BreakBetweenGames}" Minimum="0" />
         </StackPanel>
         <StackPanel>
             <Label Content="Lunch break" Target="{Binding ElementName=LunchStart}" />

@@ -25,6 +25,30 @@ namespace Kandanda.Ui.ViewModels
             SaveCommand = new DelegateCommand(async () => await Save());
         }
 
+        public int GameDuration
+        {
+            get
+            {
+                return CurrentTournament?.GameDuration.Minutes ?? 0;
+            }
+            set
+            {
+                CurrentTournament.GameDuration = TimeSpan.FromMinutes(value);
+            }
+        }
+
+        public int BreakBetweenGames
+        {
+            get
+            {
+                return CurrentTournament?.BreakBetweenGames.Minutes ?? 0;
+            }
+            set
+            {
+                CurrentTournament.BreakBetweenGames = TimeSpan.FromMinutes(value);
+            }
+        }
+
         //TODO CurrentTournament should not be overwriten 
         public override Tournament CurrentTournament
         {
