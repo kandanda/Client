@@ -22,56 +22,7 @@ namespace Kandanda.BusinessLayer.Testing
             _participantService = new ParticipantService(_context);
             _tournamentService = new TournamentService(_context);
         }
-
-        [TestMethod]
-        public void TestGroupPhaseGeneration()
-        {
-            const int groupSize = 4;
-            var tournament = _tournamentService.CreateEmpty("SwissCup");
-
-            var participants = new List<string>
-            {
-                "FC St. Gallen", "FC Thun", "FC Solothurn", "FC Zürich",
-                "Young Boys", "FC Vaduz", "GC Zürich", "FC Basel"
-            };
-
-            foreach (var participantName in participants)
-            {
-                var participant = _participantService.CreateEmpty(participantName);
-                _tournamentService.EnrolParticipant(tournament, participant);
-            }
-
-            var phase = _tournamentService.GeneratePhase(tournament, groupSize);
-            var matchList = _tournamentService.GetMatchesByPhase(phase);
-            
-            Assert.AreEqual(12, matchList.Count);
-        }
-
-        [TestMethod]
-        public void TestDifferentGroupSizes()
-        {
-            const int groupSize = 5;
-            var tournament = _tournamentService.CreateEmpty("SwissCup");
-
-            var participants = new List<string>
-            {
-                "Berlin", "Hamburg", "Wuppertal", "Essen",
-                "München", "Bonn", "Leipzig", "Stuttgart",
-                "Salzburg"
-            };
-
-            foreach (var participantName in participants)
-            {
-                var participant = _participantService.CreateEmpty(participantName);
-                _tournamentService.EnrolParticipant(tournament, participant);
-            }
-
-            var phase = _tournamentService.GeneratePhase(tournament, groupSize);
-            var matchList = _tournamentService.GetMatchesByPhase(phase);
-
-            Assert.AreEqual(16, matchList.Count);
-        }
-
+        
         [TestMethod]
         [ExpectedException(typeof(ArgumentException))]
         public void TestEmptyGroup()
