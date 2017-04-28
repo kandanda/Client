@@ -1,13 +1,14 @@
 ﻿using System;
-using System.Windows.Input;
 using Kandanda.BusinessLayer.ServiceInterfaces;
 using Kandanda.Ui.Core;
 using Prism.Commands;
 using System.Collections.ObjectModel;
 using Kandanda.Dal.Entities;
-using System.Threading.Tasks;
-using System.Collections.Generic;
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using System.Windows.Controls;
+using System.Windows.Documents;
 
 namespace Kandanda.Ui.ViewModels
 {
@@ -15,11 +16,13 @@ namespace Kandanda.Ui.ViewModels
     {
         private readonly ITournamentService _tournamentService;
         private readonly IParticipantService _participantService;
-        private Participant _selectedTeam;
+        //private Participant _selectedTeam;
+        private string _searchParticipantsToRemove = "";
+        private string _searchParticipantsToAdd = "";
 
         public ObservableCollection<Participant> Participants { get; }
         public ObservableCollection<Participant> AvailableTeams { get; }
-
+        
         public DelegateCommand EnrollParticipantCommand { get; set; }
         public DelegateCommand DeregisterParticipantCommand { get; set; }
         public DelegateCommand<IList> ParticipantsToRemoveCommand { get; set; }
@@ -27,6 +30,26 @@ namespace Kandanda.Ui.ViewModels
 
         public ObservableCollection<Participant> ParticipantListToRemove { get; }
         public ObservableCollection<Participant> ParticipantListToAdd { get; }
+
+        public string SearchParticipantsToRemove
+        {
+            get { return _searchParticipantsToRemove; }
+            set
+            {
+                SetProperty(ref _searchParticipantsToRemove, value); 
+                UpdateViewsAsync();
+            }
+        }
+
+        public string SearchParticipantsToAdd
+        {
+            get { return _searchParticipantsToAdd; }
+            set
+            {
+                SetProperty(ref _searchParticipantsToAdd, value);
+                UpdateViewsAsync();
+            }
+        }
 
         public TournamentParticipantViewModel(ITournamentService tournamentService, IParticipantService participantService)
         {
@@ -36,11 +59,12 @@ namespace Kandanda.Ui.ViewModels
             ParticipantListToAdd = new ObservableCollection<Participant>();
             ParticipantListToRemove.CollectionChanged += ParticipantListToRemove_CollectionChanged;
             ParticipantListToAdd.CollectionChanged += ParticipantsToAdd_CollectionChanged;
+
             Title = "Participants";
 
             AvailableTeams = new ObservableCollection<Participant>();
             Participants = new ObservableCollection<Participant>();
-
+            
             ParticipantsToRemoveCommand = new DelegateCommand<IList>(selected => ReplaceParticipantList(selected, ParticipantListToRemove));
             ParticipantsToAddCommand = new DelegateCommand<IList>(selected => ReplaceParticipantList(selected, ParticipantListToAdd));
             EnrollParticipantCommand = new DelegateCommand(EnrollParticipant, CanEnrollParticipant);
@@ -71,8 +95,10 @@ namespace Kandanda.Ui.ViewModels
             AvailableTeams.Clear();
             Participants.Clear();
 
-            AvailableTeams.AddRange(await _tournamentService.GetNotEnrolledParticipantsByTournamentAsync(CurrentTournament));
-            Participants.AddRange(await _tournamentService.GetParticipantsByTournamentAsync(CurrentTournament));
+            var enrolledParticipants = await _tournamentService.GetNotEnrolledParticipantsByTournamentAsync(CurrentTournament);
+            AvailableTeams.AddRange(enrolledParticipants.Where(search => search.Name.ToLower().Contains(SearchParticipantsToAdd.ToLower())));
+            var tournaments = await _tournamentService.GetParticipantsByTournamentAsync(CurrentTournament);
+            Participants.AddRange(tournaments.Where(search => search.Name.ToLower().Contains(SearchParticipantsToRemove.ToLower())));
         }
 
         //TODO CurrentTournament should not be overwriten 
