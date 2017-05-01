@@ -142,6 +142,7 @@
     <Compile Include="Events\ChangeCurrentTournamentEvent.cs" />
     <Compile Include="Events\GeneratePlanRequestEvent.cs" />
     <Compile Include="Events\PublishRequestEvent.cs" />
+    <Compile Include="Events\ResetDatabaseEvent.cs" />
     <Compile Include="Events\StateChangeEvent.cs" />
     <Compile Include="Interactivity\IOpenUrlRequest.cs" />
     <Compile Include="Interactivity\WindowsOpenUrlRequest.cs" />

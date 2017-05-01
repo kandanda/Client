@@ -96,10 +96,12 @@
     <Compile Include="PhaseGenerators\GroupPhaseGenerator.cs" />
     <Compile Include="PhaseGenerators\IPhaseGenerator.cs" />
     <Compile Include="PhaseGenerators\KnockoutPhaseGenerator.cs" />
+    <Compile Include="ServiceImplementations\MenubarService.cs" />
     <Compile Include="ServiceImplementations\MatchService.cs" />
     <Compile Include="ServiceImplementations\PhaseService.cs" />
     <Compile Include="ServiceImplementations\PublishTournamentRequestBuilder.cs" />
     <Compile Include="ServiceImplementations\PublishTournamentResponse.cs" />
+    <Compile Include="ServiceInterfaces\IMenubarService.cs" />
     <Compile Include="ServiceInterfaces\IMatchService.cs" />
     <Compile Include="ServiceInterfaces\IPhaseService.cs" />
     <Compile Include="ServiceInterfaces\IPublishTournamentRequestBuilder.cs" />
@@ -111,6 +113,7 @@
     <Compile Include="ServiceImplementations\PublishTournamentService.cs" />
     <Compile Include="ServiceBase.cs" />
     <Compile Include="ServiceImplementations\TournamentService.cs" />
+    <Compile Include="ServiceInterfaces\PrismViewModel1.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Kandanda.Dal\Kandanda.Dal.csproj">

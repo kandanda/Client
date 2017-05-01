@@ -20,7 +20,7 @@ namespace Kandanda.BusinessLayer
 
         public KandandaDbContext BuildKandandaContext()
         {
-            return new KandandaDbContext(new SampleDataDbInitializer());
+            return new KandandaDbContext(new DbInitializer());
         }
 
         public void Initialize()
@@ -34,7 +34,8 @@ namespace Kandanda.BusinessLayer
                 .RegisterType<IPublishTournamentService, PublishTournamentService>(new ContainerControlledLifetimeManager(),
                     new InjectionConstructor(new Uri("https://www.kandanda.ch/"), typeof(IPublishTournamentRequestBuilder)))
                 .RegisterType<IPublishTournamentRequestBuilder, PublishTournamentRequestBuilder>(
-                    new ContainerControlledLifetimeManager());
+                    new ContainerControlledLifetimeManager())
+                .RegisterType<IMenubarService, MenubarService>( new ContainerControlledLifetimeManager());
         }
     }
 }

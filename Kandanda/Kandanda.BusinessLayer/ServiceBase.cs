@@ -9,9 +9,9 @@ using Kandanda.Dal.Entities;
 
 namespace Kandanda.BusinessLayer
 {
-    public abstract class ServiceBase
+    public abstract class ServiceBase : IDisposable
     {
-        protected readonly KandandaDbContext DbContext;
+        protected KandandaDbContext DbContext;
 
         protected ServiceBase(KandandaDbContext dbContext)
         {
@@ -75,7 +75,7 @@ namespace Kandanda.BusinessLayer
         {
             var pluralizedName = GetPluralizedName<T>();
             var propertyInfo = db.GetType().GetProperty(pluralizedName);
-            return (DbSet<T>) propertyInfo.GetValue(db);
+            return (DbSet<T>) propertyInfo?.GetValue(db);
         }
 
         private string GetPluralizedName<T>()
@@ -83,6 +83,16 @@ namespace Kandanda.BusinessLayer
             var className = typeof(T).Name;
             var pluralizationService = new EnglishPluralizationService();
             return pluralizationService.Pluralize(className);
+        }
+        public virtual void Reset()
+        {
+            DbContext.Dispose();
+            DbContext = new KandandaDbContext(new SampleDataDbInitializer()); ;
+        }
+
+        public void Dispose()
+        {
+            DbContext.Dispose();
         }
     }
 }

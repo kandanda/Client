@@ -16,6 +16,9 @@
             <MenuItem Header="_Documentation" Command="{Binding OpenDocumentationCommand}"/>
             <MenuItem Header="_About Kandanda" Command="{Binding ShowAboutCommand}"/>
         </MenuItem>
+        <MenuItem Header="_Develop">
+            <MenuItem Header="_Reset Database" Command="{Binding ResetDatabaseCommand}"></MenuItem>
+        </MenuItem>
     </Menu>
 </UserControl>
 

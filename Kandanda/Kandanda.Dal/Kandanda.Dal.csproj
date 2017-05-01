@@ -49,6 +49,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="SampleDataDbInitializer.cs" />
     <Compile Include="Entities\IEntity.cs" />
     <Compile Include="Entities\Match.cs" />
     <Compile Include="Entities\Participant.cs" />
@@ -60,7 +61,7 @@
     <Compile Include="Entities\TournamentParticipant.cs" />
     <Compile Include="KandandaDbContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SampleDataDbInitializer.cs" />
+    <Compile Include="DbInitializer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
