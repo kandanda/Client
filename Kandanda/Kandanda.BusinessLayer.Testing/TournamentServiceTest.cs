@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Effort;
 using Kandanda.BusinessLayer.ServiceImplementations;
 using Kandanda.BusinessLayer.ServiceInterfaces;
@@ -53,6 +54,34 @@ namespace Kandanda.BusinessLayer.Testing
             var reloadedTournament = _tournamentService.GetTournamentById(tournament.Id);
 
             Assert.AreEqual(tournament.Name, reloadedTournament.Name);
+        }
+
+        [TestMethod]
+        public void TestUpdateScheduleInformation()
+        {
+            const string tournamentName = "SwissCup";
+            var tournament = _tournamentService.CreateEmpty(tournamentName);
+
+            tournament.Name = "Meister";
+            tournament.PlayTimeStart = TimeSpan.FromHours(8);
+            tournament.PlayTimeEnd = TimeSpan.FromHours(12);
+            tournament.GameDuration = TimeSpan.FromMinutes(12);
+            tournament.BreakBetweenGames = TimeSpan.FromMinutes(10);
+            tournament.Monday = true;
+            tournament.Wednesday = true;
+            tournament.Friday = false;
+            tournament.SharedLink = "https://test.ch";
+            
+            _tournamentService.Update(tournament);
+
+            var reloadedTournament = _tournamentService.GetTournamentById(tournament.Id);
+
+            Assert.AreEqual(tournament.Name, reloadedTournament.Name);
+            Assert.AreEqual(tournament.PlayTimeStart, reloadedTournament.PlayTimeStart);
+            Assert.AreEqual(tournament.BreakBetweenGames, reloadedTournament.BreakBetweenGames);
+            Assert.AreEqual(tournament.Monday, reloadedTournament.Monday);
+            Assert.AreEqual(tournament.Friday, reloadedTournament.Friday);
+            Assert.AreEqual(tournament.SharedLink, reloadedTournament.SharedLink);
         }
         
         [TestMethod]
