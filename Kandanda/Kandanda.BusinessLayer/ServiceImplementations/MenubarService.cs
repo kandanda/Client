@@ -9,11 +9,10 @@ using Kandanda.Dal;
 
 namespace Kandanda.BusinessLayer.ServiceImplementations
 {
-    public abstract class MenubarService : ServiceBase, IMenubarService
+    public sealed class MenubarService : ServiceBase, IMenubarService
     {
-        protected MenubarService(KandandaDbContext dbContext) : base(dbContext) { }
-
-        public DbContext Current => DbContext;
+        public MenubarService(KandandaDbContext dbContext) : base(dbContext) { }
+        
         public void ResetDatabase()
         {
             Reset();

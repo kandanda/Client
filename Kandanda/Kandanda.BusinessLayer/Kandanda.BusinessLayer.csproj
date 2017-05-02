@@ -113,7 +113,6 @@
     <Compile Include="ServiceImplementations\PublishTournamentService.cs" />
     <Compile Include="ServiceBase.cs" />
     <Compile Include="ServiceImplementations\TournamentService.cs" />
-    <Compile Include="ServiceInterfaces\PrismViewModel1.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Kandanda.Dal\Kandanda.Dal.csproj">

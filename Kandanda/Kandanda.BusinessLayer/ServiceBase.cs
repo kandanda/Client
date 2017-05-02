@@ -84,7 +84,8 @@ namespace Kandanda.BusinessLayer
             var pluralizationService = new EnglishPluralizationService();
             return pluralizationService.Pluralize(className);
         }
-        public virtual void Reset()
+
+        protected void Reset()
         {
             DbContext.Dispose();
             DbContext = new KandandaDbContext(new SampleDataDbInitializer()); ;

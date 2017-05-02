@@ -1,4 +1,7 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Windows.Documents;
 using System.Windows.Input;
 using Kandanda.BusinessLayer.ServiceInterfaces;
 using Kandanda.Dal.Entities;
@@ -10,10 +13,12 @@ namespace Kandanda.Ui.ViewModels
     public class ParticipantsViewModel : ViewModelBase
     {
         private readonly IParticipantService _participantService;
-
         public ICommand SaveCommand { get; }
-
+        private string AidSaveButton => AutomationIds.ParticipantsSaveButton;
+        private string AidDataGrid => AutomationIds.ParticipantsDataGrid;
         public ObservableCollection<Participant> Participants { get; } = new ObservableCollection<Participant>();
+        
+
         public ParticipantsViewModel(IParticipantService service)
         {
             _participantService = service;
@@ -21,6 +26,8 @@ namespace Kandanda.Ui.ViewModels
             PullParticipants();
             SaveCommand = new DelegateCommand(SaveParticipants, CanSaveParticipants)
                 .ObservesProperty(() => Participants);
+
+            AutomationId = AutomationIds.MainViewParticipantsTab;
         }
         private void PullParticipants()
         {

@@ -138,6 +138,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="AutomationIds.cs" />
     <Compile Include="Core\TournamentViewModelBase.cs" />
     <Compile Include="Events\ChangeCurrentTournamentEvent.cs" />
     <Compile Include="Events\GeneratePlanRequestEvent.cs" />
