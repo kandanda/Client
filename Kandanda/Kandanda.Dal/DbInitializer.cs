@@ -6,7 +6,7 @@ using Kandanda.Dal.Entities;
 namespace Kandanda.Dal
 {
     [ExcludeFromCodeCoverage]
-    public class DbInitializer : CreateDatabaseIfNotExists<KandandaDbContext>
+    public class DbInitializer : DropCreateDatabaseIfModelChanges<KandandaDbContext>
     {
     }
 }

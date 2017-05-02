@@ -8,6 +8,12 @@ Background:
 	And The test database is loaded
 	And I switch to Particpants tab
 
+Scenario: Add participants
+	When I add add these participants
+		| name            | captain        | phone            | email            |
+		| FC Superkickers | Sven Hannewald | +41 55 123 45 67 | sven.h@hanne.ch  |
+		| FC ShellShock   | Hackie McHack  | +41 44 876 65 55 | hacks@hackies.ch |  
+
 Scenario: See participants overview
 	Then I see all participants
 

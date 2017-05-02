@@ -119,6 +119,12 @@ namespace Kandanda.Specs
         {
             ScenarioContext.Current.Pending();
         }
+        [When(@"I add add these participants")]
+        public void WhenIAddAddTheseParticipants(Table table)
+        {
+            ScenarioContext.Current.Pending();
+        }
+
 
     }
 }

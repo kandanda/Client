@@ -20,7 +20,7 @@ namespace Kandanda.BusinessLayer
 
         public KandandaDbContext BuildKandandaContext()
         {
-            return new KandandaDbContext(new DbInitializer());
+            return new KandandaDbContext(new SampleDataDbInitializer());
         }
 
         public void Initialize()
