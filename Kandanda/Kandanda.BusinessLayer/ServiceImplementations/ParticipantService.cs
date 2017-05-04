@@ -46,5 +46,15 @@ namespace Kandanda.BusinessLayer.ServiceImplementations
         {
             Update<Participant>(participant);
         }
+
+        public Participant Save(Participant participant)
+        {
+            if (participant.Id != 0)
+            {
+                Update(participant);
+                return participant;
+            }
+            return Create(participant);
+        }
     }
 }

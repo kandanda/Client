@@ -5,17 +5,22 @@
              xmlns:ui="clr-namespace:Kandanda.Ui"
              prism:ViewModelLocator.AutoWireViewModel="True">
     <DockPanel>
+        <StackPanel Orientation="Horizontal"  DockPanel.Dock="Top">
+            <Button Content="Add new team" HorizontalAlignment="Left" Command="{Binding AddNewTeamCommand}"/>
+            <TextBox Text="{Binding Path=SearchParticipants, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="250" />
+        </StackPanel>
         <StackPanel Orientation="Vertical"  DockPanel.Dock="Bottom">
             <Button Content="Save" HorizontalAlignment="Right" Command="{Binding SaveCommand}" AutomationProperties.AutomationId="{Binding Path=[0], Source={x:Static ui:AutomationIds.ParticipantsSaveButton}}"/>
         </StackPanel>
-        <DataGrid ItemsSource="{Binding Participants}" 
+        <DataGrid ItemsSource="{Binding Participants, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                   ScrollViewer.CanContentScroll="True" 
                   ScrollViewer.VerticalScrollBarVisibility="Auto"
                   ScrollViewer.HorizontalScrollBarVisibility="Auto"
                   HorizontalContentAlignment="Stretch"
-                  IsReadOnly="False" 
+                  IsReadOnly="False"
                   SelectionMode="Single"
-                  AutoGenerateColumns="False" AutomationProperties.AutomationId="{Binding AidDataGrid}">
+                  AutoGenerateColumns="False"
+                  CellEditEnding="DataGrid_OnCellEditEnding">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Name" Binding="{Binding Name}"/>
                 <DataGridTextColumn Header="Captain" Binding="{Binding Captain}"/>

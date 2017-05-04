@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows.Input;
 using Kandanda.BusinessLayer.ServiceInterfaces;
 using Kandanda.Dal.Entities;
@@ -10,54 +11,64 @@ namespace Kandanda.Ui.ViewModels
     public class ParticipantsViewModel : ViewModelBase
     {
         private readonly IParticipantService _participantService;
-        public ICommand SaveCommand { get; }
-        private string AidSaveButton => AutomationIds.ParticipantsSaveButton;
-        private string AidDataGrid => AutomationIds.ParticipantsDataGrid;
-        public ObservableCollection<Participant> Participants { get; } = new ObservableCollection<Participant>();
-        
 
+        private string _searchParticipants = "";
+        public string SearchParticipants
+        {
+            get { return _searchParticipants; }
+            set
+            {
+                SetProperty(ref _searchParticipants, value);
+                UpdateViews();
+            }
+        }
+
+        private void UpdateViews()
+        {
+            Participants.Clear();
+
+            var teams = _participantService.GetAllParticipants();
+            Participants.AddRange(teams.Where(search => search.Name.ToLower().Contains(SearchParticipants.ToLower())));
+        }
+
+
+        public ObservableCollection<Participant> Participants
+        {
+            get { return _participants; }
+            set
+            {
+                _participants = value;
+                SaveAllParticipants();
+            }
+        }
+        private ObservableCollection<Participant> _participants = new ObservableCollection<Participant>();
+        
+        public ICommand SaveParticipantCommand { get; set; }
+        public ICommand SaveAllCommand { get; set; }
         public ParticipantsViewModel(IParticipantService service)
         {
             _participantService = service;
             Title = "Participants";
             PullParticipants();
-            SaveCommand = new DelegateCommand(SaveParticipants, CanSaveParticipants)
-                .ObservesProperty(() => Participants);
+            SaveAllCommand = new DelegateCommand(SaveAllParticipants, CanSaveParticipants);
 
-            AutomationId = AutomationIds.MainViewParticipantsTab;
         }
+
         private void PullParticipants()
         {
             Participants.Clear();
             foreach (var participant in _participantService.GetAllParticipants())
-            {
                 Participants.Add(participant);
-            }
         }
-        private void SaveParticipants()
+        private void SaveAllParticipants()
         {
-            var refreshNeeded = false;
             foreach (var participant in Participants)
-            {
-                if (participant.Id != 0)
-                {
-                    _participantService.Update(participant);
-                }
-                else
-                {
-                    _participantService.CreateEmpty(participant.Name, participant.Captain, participant.Phone, participant.Email);
-                    refreshNeeded = true;
-                }
-            }
-            if (refreshNeeded)
-            {
-                PullParticipants();
-            }
+                _participantService.Save(participant);
         }
 
         private bool CanSaveParticipants()
         {
-            return true;
+            return Participants.Count > 0;
         }
     }
 }
