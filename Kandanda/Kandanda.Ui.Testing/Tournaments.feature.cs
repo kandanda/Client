@@ -10,7 +10,7 @@
 // ------------------------------------------------------------------------------
 #region Designer generated code
 #pragma warning disable
-namespace Kandanda.Specs
+namespace Kandanda.Ui.Testing
 {
     using TechTalk.SpecFlow;
     
@@ -48,7 +48,7 @@ namespace Kandanda.Specs
             if (((testRunner.FeatureContext != null) 
                         && (testRunner.FeatureContext.FeatureInfo.Title != "Tournaments")))
             {
-                Kandanda.Specs.TournamentsFeature.FeatureSetup(null);
+                Kandanda.Ui.Testing.TournamentsFeature.FeatureSetup(null);
             }
         }
         
