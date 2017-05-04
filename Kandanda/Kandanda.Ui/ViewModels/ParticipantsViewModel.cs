@@ -51,7 +51,7 @@ namespace Kandanda.Ui.ViewModels
             Title = "Participants";
             PullParticipants();
             SaveAllCommand = new DelegateCommand(SaveAllParticipants, CanSaveParticipants);
-
+            AutomationId = AutomationIds.MainViewParticipantsTab;
         }
 
         private void PullParticipants()

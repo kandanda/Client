@@ -8,23 +8,20 @@ Background:
 	And The test database is loaded
 	And I switch to Particpants tab
 
-Scenario: Add participants
-	When I add add these participants
-		| name            | captain        | phone            | email            |
-		| FC Superkickers | Sven Hannewald | +41 55 123 45 67 | sven.h@hanne.ch  |
+Scenario: Add participant
+	When I add add this participant
+		| Name            | Captain        | Phone            | Email            |
 		| FC ShellShock   | Hackie McHack  | +41 44 876 65 55 | hacks@hackies.ch |  
+	When I press save participants
+	Then I should see "FC ShellShock" in the list of teams
 
 Scenario: See participants overview
 	Then I see all participants
 
 Scenario: Search for "Real Madrid"
 	And I enter "Real Madrid" into the participants search box
-	Then I should see "Real Madrid" in the list of participants
-
-Scenario: Add new participant
-	And I have added a new participant
-	When I press save
-	Then The number of participants should increase
+	Then I should see "FC Real Madrid" in the list of teams
+	
 
 Scenario: Delete a participant
 	And I have selected the first participant in the list

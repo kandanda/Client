@@ -1,17 +1,15 @@
 ﻿using System;
-using System.IO;
 using System.Linq;
-using System.Reflection;
+using Kandanda.Dal.Entities;
 using Kandanda.Ui;
-using Kandanda.Ui.ViewModels;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TechTalk.SpecFlow;
+using TechTalk.SpecFlow.Assist;
 using TestStack.White;
 using TestStack.White.UIItems;
-using TestStack.White.UIItems.Finders;
 using TestStack.White.UIItems.TabItems;
 using TestStack.White.UIItems.WindowItems;
-using Table = TestStack.White.UIItems.TableItems.Table;
+using TestStack.White.WindowsAPI;
 
 namespace Kandanda.Specs
 {
@@ -42,7 +40,7 @@ namespace Kandanda.Specs
         [Given(@"I switch to (.*) tab")]
         public void GivenISwitchToParticpantsTab(string tabName)
         {
-            var tabpage = _window.Get<TabPage>(SearchCriteria.ByText(tabName));
+            var tabpage = _window.Get<TabPage>(AutomationIds.MainViewParticipantsTab);
             tabpage.Select();
         }
 
@@ -50,8 +48,45 @@ namespace Kandanda.Specs
         public void GivenIEnterIntoTheParticipantsSearchBox(string p0)
         {
             var searchbox = _window.Get<TextBox>(AutomationIds.ParticipantsSearchBox);
-            ScenarioContext.Current.Pending();
+            searchbox.Text = p0;
         }
+
+        [Then(@"I should see ""(.*)"" in the list of teams")]
+        public void ThenIShouldSeeInTheListOfTeams(string p0)
+        {
+            var datagrid = _window.Get<ListView>(AutomationIds.ParticipantsDataGrid);
+            Assert.AreEqual(p0, datagrid.Rows[0].Cells[0].Text);
+        }
+
+        [When(@"I add add this participant")]
+        public void WhenIAddAddThisParticipant(Table table)
+        {
+            var datagrid = _window.Get<ListView>(AutomationIds.ParticipantsDataGrid);
+
+            var participant = table.CreateInstance<Participant>();
+
+            var lastRow = datagrid.Rows[datagrid.Rows.Count - 1];
+
+            lastRow.Cells[0].Click();
+            lastRow.Cells[0].Enter(participant.Name);
+            lastRow.Cells[1].Click();
+            lastRow.Cells[1].Enter(participant.Captain);
+            lastRow.Cells[2].Click();
+            lastRow.Cells[2].Enter(participant.Phone);
+            lastRow.Cells[3].Click();
+            lastRow.Cells[3].Enter(participant.Email);
+
+            datagrid.KeyIn(KeyboardInput.SpecialKeys.RETURN);
+
+        }
+
+        [When(@"I press save participants")]
+        public void WhenIPressSaveParticipants()
+        {
+            var savebutton = _window.Get<Button>(AutomationIds.ParticipantsSaveButton);
+            savebutton.Click();
+        }
+
 
         [Given(@"I have added a new participant")]
         public void GivenIHaveAddedANewParticipant()
@@ -95,7 +130,8 @@ namespace Kandanda.Specs
         [Given(@"The test database is loaded")]
         public void GivenTheTestDatabaseIsLoaded()
         {
-            ScenarioContext.Current.Pending();
+
+            //ScenarioContext.Current.Pending();
         }
 
         [Then(@"I see all participants")]

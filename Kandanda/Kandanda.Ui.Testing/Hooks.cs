@@ -1,11 +1,9 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Reflection;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TechTalk.SpecFlow;
 using TestStack.White;
 
-namespace Kandanda.Specs
+namespace Kandanda.Ui.Testing
 {
     [Binding]
     public sealed class Hooks

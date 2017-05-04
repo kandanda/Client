@@ -100,6 +100,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Kandanda.Dal\Kandanda.Dal.csproj">
+      <Project>{E5C625A2-F602-4EC1-905F-50EDFF95104B}</Project>
+      <Name>Kandanda.Dal</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Kandanda.Ui\Kandanda.Ui.csproj">
       <Project>{99c9e82c-c594-446d-aa59-8ffbc43ad226}</Project>
       <Name>Kandanda.Ui</Name>

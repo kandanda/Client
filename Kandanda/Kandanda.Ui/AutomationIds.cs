@@ -12,5 +12,6 @@ namespace Kandanda.Ui
         public static string ParticipantsSaveButton = "ParticipantsSaveButton";
         public static string ParticipantsDataGrid = "ParticipantsDataGrid";
         public static string ParticipantsSearchBox = "ParticipantsSearchBox";
+        public static string ParticipantsAddNewButton = "ParticipantsAddNewButton";
     }
 }
