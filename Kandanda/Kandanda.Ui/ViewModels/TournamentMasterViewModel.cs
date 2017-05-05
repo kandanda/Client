@@ -16,7 +16,7 @@ namespace Kandanda.Ui.ViewModels
         private readonly ITournamentService _tournamentService;
         private readonly IEventAggregator _eventAggregator;
 
-        public ObservableCollection<Tournament> Tournaments { get; set; } = new ObservableCollection<Tournament>();
+        public ObservableCollection<Tournament> Tournaments { get; } = new ObservableCollection<Tournament>();
         public ICommand OpenTournamentCommand { get; set; }
         public ICommand CreateTournamentCommand { get; set; }
 
@@ -50,8 +50,11 @@ namespace Kandanda.Ui.ViewModels
             _regionManager.RequestNavigate(RegionNames.TournamentsRegion, "/TournamentDetailView");
         }
 
-        public void OnNavigatedTo(NavigationContext navigationContext)
+        public async void OnNavigatedTo(NavigationContext navigationContext)
         {
+            Tournaments.Clear();
+            var tournaments = await _tournamentService.GetAllTournamentsAsync();
+            Tournaments.AddRange(tournaments);
         }
 
         public bool IsNavigationTarget(NavigationContext navigationContext)
@@ -61,8 +64,6 @@ namespace Kandanda.Ui.ViewModels
 
         public void OnNavigatedFrom(NavigationContext navigationContext)
         {
-            Tournaments.Clear();
-            Tournaments.AddRange(_tournamentService.GetAllTournaments());
         }
     }
 }

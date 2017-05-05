@@ -36,6 +36,14 @@ namespace Kandanda.BusinessLayer
             DbContext.SaveChanges();
         }
 
+        protected virtual async Task<int> UpdateAsync<T>(T entry) where T : class, IEntity
+        {
+            var set = GetDbSet<T>(DbContext);
+            set.Attach(entry);
+            DbContext.Entry(entry).State = EntityState.Modified;
+            return await DbContext.SaveChangesAsync();
+        }
+
         protected virtual void Delete<T>(T entry) where T : class, IEntity
         {
             var set = GetDbSet<T>(DbContext);
@@ -60,7 +68,7 @@ namespace Kandanda.BusinessLayer
         {
             return GetDbSet<T>(DbContext).ToList();
         }
-
+        
         protected virtual T GetEntry<T>(Predicate<T> predicate) where T : class, IEntity
         {
             var set = GetDbSet<T>(DbContext);

@@ -151,33 +151,5 @@ namespace Kandanda.BusinessLayer.Testing
 
             Assert.AreEqual(tournamentCount, tournaments.Count);
         }
-
-        [TestMethod]
-        public void TestGenerateTournament()
-        {
-            var tournament = _tournamentService.CreateEmpty("FIFA WM");
-            var participantNameList = new List<string>
-            {
-                "FC St. Gallen", "Young Boys", "GC", "FC Zürich",
-                "FC Vaduz", "FC Basel", "FC Bayern München", "SC Brühl"
-            };
-
-            foreach (var participantName in participantNameList)
-            {
-                var participant = _participantService.CreateEmpty(participantName);
-                _tournamentService.EnrolParticipant(tournament, participant);
-            }
-
-            _tournamentService.GetParticipantsByTournament(tournament);
-            _tournamentService.GeneratePhase(tournament, 4);
-            
-            var phaseList = _tournamentService.GetPhasesByTournament(tournament);
-            Assert.AreEqual(1, phaseList.Count);
-
-            var phase = phaseList[0];
-            var phaseMatchList = _tournamentService.GetMatchesByPhase(phase);
-
-            Assert.AreEqual(12, phaseMatchList.Count);
-        }
     }
 }

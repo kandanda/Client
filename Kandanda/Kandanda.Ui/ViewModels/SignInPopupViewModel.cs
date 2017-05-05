@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using Kandanda.BusinessLayer.ServiceInterfaces;
 using Prism.Commands;
 using Prism.Interactivity.InteractionRequest;
@@ -53,16 +54,25 @@ namespace Kandanda.Ui.ViewModels
 
         private async Task SignIn()
         {
-            IsReady = false;
-            var authToken = await _publishTournamentService.AuthenticateAsync(Email, _password, CancellationToken.None);
-
-            if (authToken != null)
+            try
             {
-                AuthToken = authToken;
-                Confirmed = true;
-                FinishInteraction();
+                IsReady = false;
+                var authToken =
+                    await _publishTournamentService.AuthenticateAsync(Email, _password, CancellationToken.None);
+
+                if (authToken != null)
+                {
+                    AuthToken = authToken;
+                    Confirmed = true;
+                    FinishInteraction();
+                }
+
+                IsReady = true;
             }
-            IsReady = true;
+            catch (Exception exception)
+            {
+                MessageBox.Show(exception.Message);
+            }
         }
 
         public bool CanTrySignIn()
