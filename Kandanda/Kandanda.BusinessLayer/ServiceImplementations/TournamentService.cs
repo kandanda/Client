@@ -27,6 +27,11 @@ namespace Kandanda.BusinessLayer.ServiceImplementations
             });
         }
 
+        public Task<List<Tournament>> GetAllTournamentsAsync()
+        {
+            return GetAllAsync<Tournament>();
+        }
+        
         public async Task<List<Phase>> GetPhasesByTournamentAsync(Tournament tournament)
         {
             return await GetPhasesByTournamentQueryable(tournament).ToListAsync();
@@ -59,8 +64,7 @@ namespace Kandanda.BusinessLayer.ServiceImplementations
             return DbContext.Matches
                 .Where(match => match.PhaseId == phase.Id);
         }
-
-        //TODO We should have a regenerate phase
+        
         public Phase GeneratePhase(Tournament tournament, int groupSize)
         {
             if (tournament == null)
@@ -68,7 +72,22 @@ namespace Kandanda.BusinessLayer.ServiceImplementations
 
             var participants = GetParticipantsByTournament(tournament);
 
-            var groupPhaseGenerator = new GroupPhaseGenerator(participants, groupSize);
+            var groupPhaseGenerator = new IntelligentGroupPhaseGenerator
+            {
+                BreakBetweenGames = tournament.BreakBetweenGames,
+                GameDuration = tournament.GameDuration,
+                GroupPhaseStart = tournament.From,
+                GroupPhaseEnd = tournament.Until,
+                GroupSize = 4,
+                LunchBreakEnd = tournament.LunchBreakEnd,
+                LunchBreakStart = tournament.LunchBreakStart,
+                PlayTimeStart = tournament.PlayTimeStart,
+                PlayTimeEnd = tournament.PlayTimeEnd
+            };
+
+            groupPhaseGenerator.AddParticipants(participants);
+
+            //var groupPhaseGenerator = new GroupPhaseGenerator(participants, groupSize);
             var matches = groupPhaseGenerator.GenerateMatches();
 
             var matchService = new MatchService(DbContext);

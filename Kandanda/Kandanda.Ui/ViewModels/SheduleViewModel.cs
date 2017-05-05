@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Kandanda.BusinessLayer.ServiceInterfaces;
 using Kandanda.Dal.Entities;
@@ -13,13 +14,64 @@ namespace Kandanda.Ui.ViewModels
     {
         private readonly IPhaseService _phaseService;
         private Phase _currentPhase;
+
         public ICommand SaveCommand { get; set; }
 
         public SheduleViewModel(IPhaseService phaseService)
         {
             Title = "Shedules";
             _phaseService = phaseService;
-            SaveCommand = new DelegateCommand(Save);
+
+            SaveCommand = new DelegateCommand(async () => await Save());
+        }
+
+        public int GameDuration
+        {
+            get
+            {
+                return CurrentTournament?.GameDuration.Minutes ?? 0;
+            }
+            set
+            {
+                CurrentTournament.GameDuration = TimeSpan.FromMinutes(value);
+            }
+        }
+
+        public int BreakBetweenGames
+        {
+            get
+            {
+                return CurrentTournament?.BreakBetweenGames.Minutes ?? 0;
+            }
+            set
+            {
+                CurrentTournament.BreakBetweenGames = TimeSpan.FromMinutes(value);
+            }
+        }
+        
+        // TODO: fix ugly workaround with TimeSpan / DateTime conversion
+        public DateTime PlayTimeStart
+        {
+            get { return DateTime.Today + (CurrentTournament?.PlayTimeStart ?? TimeSpan.Zero); }
+            set { CurrentTournament.PlayTimeStart = value - value.Date; }
+        }
+
+        public DateTime PlayTimeEnd
+        {
+            get { return DateTime.Today + (CurrentTournament?.PlayTimeEnd ?? TimeSpan.Zero); }
+            set { CurrentTournament.PlayTimeEnd = value - value.Date; }
+        }
+
+        public DateTime LunchBreakStart
+        {
+            get { return DateTime.Today + (CurrentTournament?.LunchBreakStart ?? TimeSpan.Zero); }
+            set { CurrentTournament.LunchBreakStart = value - value.Date; }
+        }
+
+        public DateTime LunchBreakEnd
+        {
+            get { return DateTime.Today + (CurrentTournament?.LunchBreakEnd ?? TimeSpan.Zero); }
+            set { CurrentTournament.LunchBreakEnd = value - value.Date; }
         }
 
         //TODO CurrentTournament should not be overwriten 
@@ -29,6 +81,7 @@ namespace Kandanda.Ui.ViewModels
             set
             {
                 base.CurrentTournament = value;
+
                 if (CurrentTournament.Id != 0)
                     SetupOnePhase(CurrentTournament.Id);
             }
@@ -41,12 +94,11 @@ namespace Kandanda.Ui.ViewModels
             set { SetProperty(ref _currentPhase, value); }
         }
 
-        public void OnNavigatedTo(NavigationContext navigationContext)
+        public async void OnNavigatedTo(NavigationContext navigationContext)
         {
-            Save();
+            await Save();
         }
-
-
+        
         public bool IsNavigationTarget(NavigationContext navigationContext)
         {
             return true;
@@ -55,9 +107,10 @@ namespace Kandanda.Ui.ViewModels
         public void OnNavigatedFrom(NavigationContext navigationContext)
         {
         }
-        private void Save()
+
+        private async Task Save()
         {
-            _phaseService.Update(CurrentPhase);
+            await _phaseService.UpdateAsync(CurrentPhase);
         }
 
         //TODO should be handled by BLL
@@ -66,6 +119,7 @@ namespace Kandanda.Ui.ViewModels
             var phases = (from p in _phaseService.GetAllPhases()
                           where p.TournamentId == tournamentId
                           select p).ToList();
+
             if (phases.Count == 0)
             {
                 var phase = _phaseService.CreateEmpty();

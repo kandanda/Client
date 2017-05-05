@@ -16,6 +16,7 @@ namespace Kandanda.BusinessLayer.ServiceInterfaces
         Task<List<Participant>> GetNotEnrolledParticipantsByTournamentAsync(Tournament tournament);
         List<Participant> GetNotEnrolledParticipantsByTournament(Tournament tournament);
         List<Tournament> GetAllTournaments();
+        Task<List<Tournament>> GetAllTournamentsAsync();
         Task<List<Phase>> GetPhasesByTournamentAsync(Tournament tournament);
         Task<List<Match>> GetMatchesByPhaseAsync(Phase phase);
         List<Phase> GetPhasesByTournament(Tournament tournament);
