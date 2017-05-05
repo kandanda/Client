@@ -1,14 +1,10 @@
-﻿using System;
-using Kandanda.BusinessLayer.ServiceInterfaces;
+﻿using Kandanda.BusinessLayer.ServiceInterfaces;
 using Kandanda.Ui.Core;
 using Prism.Commands;
 using System.Collections.ObjectModel;
 using Kandanda.Dal.Entities;
 using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
-using System.Windows.Controls;
-using System.Windows.Documents;
 
 namespace Kandanda.Ui.ViewModels
 {
@@ -16,7 +12,6 @@ namespace Kandanda.Ui.ViewModels
     {
         private readonly ITournamentService _tournamentService;
         private readonly IParticipantService _participantService;
-        //private Participant _selectedTeam;
         private string _searchParticipantsToRemove = "";
         private string _searchParticipantsToAdd = "";
 
