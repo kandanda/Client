@@ -6,7 +6,7 @@ using Kandanda.Dal.Entities;
 namespace Kandanda.Dal
 {
     [ExcludeFromCodeCoverage]
-    public class SampleDataDbInitializer : DropCreateDatabaseIfModelChanges<KandandaDbContext>
+    public class SampleDataDbInitializer : DropCreateDatabaseAlways<KandandaDbContext>
     {
         protected override void Seed(KandandaDbContext db)
         {

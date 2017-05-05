@@ -44,6 +44,7 @@ namespace Kandanda.Ui.ViewModels
         private void ResetDatabase()
         {
             _service.ResetDatabase();
+            _eventAggregator.GetEvent<KandandaDbContextChanged>().Publish();
         }
 
         public bool IsReady

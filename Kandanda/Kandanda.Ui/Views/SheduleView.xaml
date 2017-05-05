@@ -3,39 +3,40 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:prism="http://prismlibrary.com/"
              xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+             xmlns:ui="clr-namespace:Kandanda.Ui"
              prism:ViewModelLocator.AutoWireViewModel="True">
     <WrapPanel Orientation="Vertical">
         <StackPanel>
             <Label Content="Begin on" Target="{Binding ElementName=Start}" />
-            <xctk:DateTimePicker Name="Start" Value="{Binding Path=CurrentPhase.From}" />
+            <xctk:DateTimePicker Name="Start" Value="{Binding Path=CurrentPhase.From}" AutomationProperties.AutomationId="{x:Static ui:AutomationIds.TSBegin}"/>
         </StackPanel>
         <StackPanel>
             <Label Content="and end on" Target="{Binding ElementName=End}"/>
-            <xctk:DateTimePicker Name="End" Value="{Binding Path=CurrentPhase.Until}" />
+            <xctk:DateTimePicker Name="End" Value="{Binding Path=CurrentPhase.Until}" AutomationProperties.AutomationId="{x:Static ui:AutomationIds.TSEnd}"/>
         </StackPanel>
         <StackPanel>
             <Label Content="Playtimes" Target="{Binding ElementName=PlayStart}" />
             <StackPanel Orientation="Horizontal">
-                <xctk:TimePicker Name="PlayStart"/>
+                <xctk:TimePicker Name="PlayStart" AutomationProperties.AutomationId="{x:Static ui:AutomationIds.TStimeStart}"/>
                 <Label Content=" - " />
-                <xctk:TimePicker/>
+                <xctk:TimePicker AutomationProperties.AutomationId="{x:Static ui:AutomationIds.TStimeEnd}"/>
             </StackPanel>
             <Label Content="Game Duration"  Target="{Binding ElementName=GameDuration}"/>
-            <xctk:TimeSpanUpDown Name="GameDuration"/>
+            <xctk:TimeSpanUpDown Name="GameDuration" AutomationProperties.AutomationId="{x:Static ui:AutomationIds.TSduration}"/>
             <Label Content="Break between games" Target="{Binding ElementName=BreakBetweenGames}"/>
-            <xctk:TimeSpanUpDown Name="BreakBetweenGames"/>
+            <xctk:TimeSpanUpDown Name="BreakBetweenGames" AutomationProperties.AutomationId="{x:Static ui:AutomationIds.TSbreak}"/>
         </StackPanel>
         <StackPanel>
             <Label Content="Lunch break" Target="{Binding ElementName=LunchStart}" />
             <StackPanel Orientation="Horizontal">
-                <xctk:TimePicker Name="LunchStart"/>
+                <xctk:TimePicker Name="LunchStart" AutomationProperties.AutomationId="{x:Static ui:AutomationIds.TSlunchStart}"/>
                 <Label Content=" - " />
-                <xctk:TimePicker/>
+                <xctk:TimePicker AutomationProperties.AutomationId="{x:Static ui:AutomationIds.TSlunchEnd}"/>
             </StackPanel>
         </StackPanel>
         <StackPanel>
             <Label Content="Finals will begin on" Target="{Binding ElementName=StartOfFinals}" />
-            <xctk:DateTimePicker Name="StartOfFinals" />
+            <xctk:DateTimePicker Name="StartOfFinals" AutomationProperties.AutomationId="{x:Static ui:AutomationIds.TSfinalsBegin}"/>
         </StackPanel>
         <StackPanel>
             <Label Content="Match days" />

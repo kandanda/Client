@@ -1,5 +1,4 @@
 ﻿using System;
-using Effort;
 using Kandanda.BusinessLayer.PhaseGenerators;
 using Kandanda.BusinessLayer.ServiceImplementations;
 using Kandanda.Dal;
@@ -27,8 +26,11 @@ namespace Test
                     LunchBreakEnd = TimeSpan.FromHours(13)
                 };
 
+                var contextLocator = new KandandaDbContextLocator();
+                contextLocator.SetTestEnvironment();
+
                 var participantService =
-                    new ParticipantService(new KandandaDbContext(DbConnectionFactory.CreateTransient()));
+                    new ParticipantService(contextLocator);
 
                 for (var name = 'A'; name <= 'Z'; ++name)
                 {

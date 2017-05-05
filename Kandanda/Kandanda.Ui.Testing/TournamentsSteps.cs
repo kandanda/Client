@@ -1,135 +1,103 @@
-﻿using System;
+﻿using System.Linq;
+using Kandanda.Dal.Entities;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TechTalk.SpecFlow;
+using TechTalk.SpecFlow.Assist;
+using TestStack.White;
+using TestStack.White.UIItems;
+using TestStack.White.UIItems.TabItems;
+using TestStack.White.UIItems.WindowItems;
 
-namespace Kandanda.Specs
+namespace Kandanda.Ui.Testing
 {
     [Binding]
     public class TournamentsSteps
     {
-        [Given(@"I select the first tournament")]
-        public void GivenISelectTheFirstTournament()
+        private readonly Application _application;
+        private readonly Window _window;
+
+        public TournamentsSteps()
         {
-            ScenarioContext.Current.Pending();
+            _application = FeatureContext.Current.Get<Application>("app");
+            _window = _application.GetWindows().First();
         }
-        
-        [Given(@"I open the last tournament")]
-        public void GivenIOpenTheLastTournament()
+
+        [Given(@"The application is running")]
+        public void GivenTheApplicationIsRunning()
         {
-            ScenarioContext.Current.Pending();
+            Assert.IsNotNull(_application);
         }
-        
-        [Given(@"I have entered changed tournament into the tournament Name")]
-        public void GivenIHaveEnteredChangedTournamentIntoTheTournamentName()
+
+
+        [Given(@"I switch to Tournaments tab")]
+        public void GivenISwitchToTournamentsTab()
         {
-            ScenarioContext.Current.Pending();
+            var tabpage = _window.Get<TabPage>(AutomationIds.MainViewTournamentsTab);
+            tabpage.Select();
         }
-        
-        [Given(@"I doubleclick on Real Madrid within the available participants grid")]
-        public void GivenIDoubleclickOnRealMadridWithinTheAvailableParticipantsGrid()
+
+        [Given(@"I switch to Tournament information tab")]
+        public void GivenISwitchToInformationTab()
         {
-            ScenarioContext.Current.Pending();
+            var tabpage = _window.Get<TabPage>(AutomationIds.TITab);
+            tabpage.Select();
         }
-        
-        [When(@"I press New Tournament")]
-        public void WhenIPressNewTournament()
+
+        [Given(@"I switch to Tournament schedule tab")]
+        public void GivenISwitchToScheduleTab()
         {
-            ScenarioContext.Current.Pending();
+            var tabpage = _window.Get<TabPage>(AutomationIds.TSTab);
+            tabpage.Select();
         }
-        
-        [Then(@"I see some tournaments")]
-        public void ThenISeeSomeTournaments()
+
+        [Given(@"I switch to Tournament participants tab")]
+        public void GivenISwitchToParticipantsTab()
         {
-            ScenarioContext.Current.Pending();
+            var tabpage = _window.Get<TabPage>(AutomationIds.TPTab);
+            tabpage.Select();
         }
-        
-        [Then(@"I am on the edit screen and see ""(.*)"" as tournament name")]
-        public void ThenIAmOnTheEditScreenAndSeeAsTournamentName(string p0)
+
+        [Then(@"I should see (.*) tournaments")]
+        public void ThenIShouldSeeTournaments(int p0)
         {
-            ScenarioContext.Current.Pending();
+            var datagrid = _window.Get<ListView>(AutomationIds.TournamentsList);
+            Assert.AreEqual(p0, datagrid.Rows.Count);
         }
-        
-        [Then(@"The number of tournaments should decrease")]
-        public void ThenTheNumberOfTournamentsShouldDecrease()
+
+        [Given(@"I added this tournament")]
+        public void GivenIAddedThisTournament(Table table)
         {
-            ScenarioContext.Current.Pending();
+            var addNewButton = _window.Get<Button>(AutomationIds.TournamentsNewTournamentButton);
+
+            var tournament = table.CreateInstance<Tournament>();
+
+            _window.Get<TextBox>(AutomationIds.TIName).Text = tournament.Name;
+            _window.Get<TextBox>(AutomationIds.TINoPpg).Text = tournament.Name;
+            _window.Get<TextBox>(AutomationIds.TIGt).Text = tournament.Name;
+            _window.Get<TextBox>(AutomationIds.TIKoT).Text = tournament.Name;
+            _window.Get<TextBox>(AutomationIds.TIDtrd).Text = tournament.Name;
+
+
         }
-        
-        [Then(@"The name of the last tournament shoud be changed tournament")]
-        public void ThenTheNameOfTheLastTournamentShoudBeChangedTournament()
-        {
-            ScenarioContext.Current.Pending();
-        }
-        
-        [Then(@"Real Madrid is now in the list of participants")]
-        public void ThenRealMadridIsNowInTheListOfParticipants()
+
+        [Given(@"I added this schedule information:")]
+        public void GivenIAddedThisScheduleInformation(Table table)
         {
             ScenarioContext.Current.Pending();
         }
 
-        [Given(@"I press New Tournament")]
-        public void GivenIPressNewTournament()
+        [When(@"I press publish tournament")]
+        public void WhenIPressPublishTournament()
         {
-            ScenarioContext.Current.Pending();
+            _window.Get<Button>(AutomationIds.TPublishButton).Click();
         }
 
-        [Given(@"I enter the tournament information:")]
-        public void GivenIEnterTheTournamentInformation(Table table)
+        [When(@"I press close tournament")]
+        public void WhenIPressCloseTournament()
         {
-            ScenarioContext.Current.Pending();
+            _window.Get<Button>(AutomationIds.TCloseButton).Click();
         }
 
-        [Given(@"I enter ""(.*)"" into the search box")]
-        public void GivenIEnterIntoTheSearchBox(string p0)
-        {
-            ScenarioContext.Current.Pending();
-        }
-
-        [Then(@"I should see ""(.*)"" in the list of participants")]
-        public void ThenIShouldSeeInTheListOfParticipants(string p0)
-        {
-            ScenarioContext.Current.Pending();
-        }
-
-        [Given(@"I add a new Tournament:")]
-        public void GivenIAddANewTournament(Table table)
-        {
-            ScenarioContext.Current.Pending();
-        }
-
-        [Given(@"I add these schedule information:")]
-        public void GivenIAddTheseScheduleInformation(Table table)
-        {
-            ScenarioContext.Current.Pending();
-        }
-
-        [Given(@"I double click Real Madrid in the data grid")]
-        public void GivenIDoubleClickRealMadridInTheDataGrid()
-        {
-            ScenarioContext.Current.Pending();
-        }
-
-        [When(@"I press publish")]
-        public void WhenIPressPublish()
-        {
-            ScenarioContext.Current.Pending();
-        }
-
-        [Then(@"I should see an URI of the tournament")]
-        public void ThenIShouldSeeAnURIOfTheTournament()
-        {
-            ScenarioContext.Current.Pending();
-        }
-        [When(@"I doubleclick on Real Madrid within the available participants grid")]
-        public void WhenIDoubleclickOnRealMadridWithinTheAvailableParticipantsGrid()
-        {
-            ScenarioContext.Current.Pending();
-        }
-
-        [When(@"I enter ""(.*)"" into the search box")]
-        public void WhenIEnterIntoTheSearchBox(string p0)
-        {
-            ScenarioContext.Current.Pending();
-        }
 
     }
 }

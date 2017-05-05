@@ -10,7 +10,7 @@ namespace Kandanda.BusinessLayer.ServiceImplementations
 {
     public sealed class MatchService : ServiceBase, IMatchService
     {
-        public MatchService(KandandaDbContext dbContext) : base(dbContext)
+        public MatchService(KandandaDbContextLocator contextLocator) : base(contextLocator)
         {
         }
 

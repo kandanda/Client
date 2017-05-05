@@ -1,8 +1,5 @@
-using Effort;
 using Kandanda.BusinessLayer.ServiceImplementations;
-using Kandanda.BusinessLayer.ServiceInterfaces;
 using Kandanda.Dal;
-using Kandanda.Dal.Entities;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Kandanda.BusinessLayer.Testing
@@ -11,13 +8,25 @@ namespace Kandanda.BusinessLayer.Testing
     public class ParticipantServiceTest
     {
         private const string ParticipantName = "FC Thun";
-        private ParticipantService _service;
+        private ParticipantService _participantService;
+        private KandandaDbContextLocator _contextLocator;
+        private KandandaDbContext Context => _contextLocator.Current;
 
         [TestInitialize]
         public void Setup()
         {
-            _service = new ParticipantService(new KandandaDbContext(DbConnectionFactory.CreateTransient()));
-            _service.CreateEmpty(ParticipantName);
+            _contextLocator = new KandandaDbContextLocator();
+            _contextLocator.SetTestEnvironment();
+
+            _participantService = new ParticipantService(_contextLocator);
+
+            _participantService.CreateEmpty(ParticipantName);
+        }
+
+        [TestCleanup]
+        public void CleanUp()
+        {
+            Context.Dispose();
         }
 
         [TestMethod]
@@ -25,8 +34,8 @@ namespace Kandanda.BusinessLayer.Testing
         {
             const string newParticipantName = "FC Kandanda";
 
-            var createdParticipant = _service.CreateEmpty(newParticipantName);
-            var reloadedParticipant = _service.GetParticipantById(createdParticipant.Id);
+            var createdParticipant = _participantService.CreateEmpty(newParticipantName);
+            var reloadedParticipant = _participantService.GetParticipantById(createdParticipant.Id);
 
             Assert.AreEqual(createdParticipant.Id, reloadedParticipant.Id);
             Assert.AreEqual(newParticipantName, reloadedParticipant.Name);
@@ -37,8 +46,8 @@ namespace Kandanda.BusinessLayer.Testing
         {
             const string newParticipantName = "FC Kandanda";
 
-            var createdParticipant = _service.CreateEmpty(newParticipantName);
-            var reloadedParticipant = _service.GetParticipantById(createdParticipant.Id);
+            var createdParticipant = _participantService.CreateEmpty(newParticipantName);
+            var reloadedParticipant = _participantService.GetParticipantById(createdParticipant.Id);
 
             Assert.AreEqual(newParticipantName, reloadedParticipant.Name);
         }
@@ -46,29 +55,29 @@ namespace Kandanda.BusinessLayer.Testing
         [TestMethod]
         public void TestDeleteParticipant()
         {
-            var participants = _service.GetAllParticipants();
+            var participants = _participantService.GetAllParticipants();
             var participantCount = participants.Count;
 
-            var participant = _service.CreateEmpty(string.Empty);
+            var participant = _participantService.CreateEmpty(string.Empty);
 
-            participants = _service.GetAllParticipants();
+            participants = _participantService.GetAllParticipants();
             Assert.AreEqual(participantCount + 1, participants.Count);
 
-            _service.DeleteParticipant(participant);
+            _participantService.DeleteParticipant(participant);
 
-            participants = _service.GetAllParticipants();
+            participants = _participantService.GetAllParticipants();
             Assert.AreEqual(participantCount, participants.Count);
         }
 
         [TestMethod]
         public void TestGetAllParticipants()
         {
-            var participants = _service.GetAllParticipants();
+            var participants = _participantService.GetAllParticipants();
             
             Assert.AreEqual(1, participants.Count);
 
-            _service.CreateEmpty("Empty");
-            participants = _service.GetAllParticipants();
+            _participantService.CreateEmpty("Empty");
+            participants = _participantService.GetAllParticipants();
 
             Assert.AreEqual(2, participants.Count);
         }

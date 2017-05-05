@@ -2,7 +2,7 @@
 
 namespace Kandanda.Ui.Events
 {
-    public class ResetDatabaseEvent : PubSubEvent
+    public class KandandaDbContextChanged : PubSubEvent
     {
     }
 }

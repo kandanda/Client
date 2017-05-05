@@ -14,9 +14,9 @@ namespace Kandanda.BusinessLayer.ServiceImplementations
     {
         private readonly IPhaseService _phaseService;
 
-        public TournamentService(KandandaDbContext dbContext) : base(dbContext)
+        public TournamentService(KandandaDbContextLocator contextLocator) : base(contextLocator)
         {
-            _phaseService = new PhaseService(dbContext);
+            _phaseService = new PhaseService(contextLocator);
         }
 
         public Tournament CreateEmpty(string name)
@@ -71,7 +71,7 @@ namespace Kandanda.BusinessLayer.ServiceImplementations
             var groupPhaseGenerator = new GroupPhaseGenerator(participants, groupSize);
             var matches = groupPhaseGenerator.GenerateMatches();
 
-            var matchService = new MatchService(DbContext);
+            var matchService = new MatchService(KandandaDbContextLocator);
 
             var phase = GetPhasesByTournament(tournament).FirstOrDefault() ?? _phaseService.CreateEmpty();
 

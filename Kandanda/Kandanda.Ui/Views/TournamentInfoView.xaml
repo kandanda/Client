@@ -2,12 +2,13 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:prism="http://prismlibrary.com/"
-             xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+             xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit" 
+             xmlns:ui="clr-namespace:Kandanda.Ui"
              prism:ViewModelLocator.AutoWireViewModel="True">
     <WrapPanel Orientation="Vertical">
         <StackPanel>
             <Label Content="Tournament _Name" Target="{Binding ElementName=Name}" />
-            <TextBox Name="Name" Text="{Binding Path=CurrentTournament.Name, UpdateSourceTrigger=PropertyChanged}" />
+            <TextBox Name="Name" Text="{Binding Path=CurrentTournament.Name, UpdateSourceTrigger=PropertyChanged}" AutomationProperties.AutomationId="{x:Static ui:AutomationIds.TIName}" />
         </StackPanel>
         <StackPanel>
             <Label Content="Number of _Groups" Target="{Binding ElementName=NumberOfGroups}" />
@@ -19,12 +20,12 @@
         </StackPanel>
         <StackPanel>
             <Label Content="Game type" Target="{Binding ElementName=GameType}" />
-            <ComboBox Name="GameType" />
+            <ComboBox Name="GameType" AutomationProperties.AutomationId="{x:Static ui:AutomationIds.TIGt}"/>
         </StackPanel>
         <StackPanel>
             <Label Content="KO Type" Target="{Binding ElementName=KoType}" />
-            <ComboBox Name="KoType" />
+            <ComboBox Name="KoType" AutomationProperties.AutomationId="{x:Static ui:AutomationIds.TIKoT}"/>
         </StackPanel>
-        <CheckBox Content="Determine 3rd Place"/>
+        <CheckBox Content="Determine 3rd Place" AutomationProperties.AutomationId="{x:Static ui:AutomationIds.TIDtrd}"/>
     </WrapPanel>
 </UserControl>

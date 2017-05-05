@@ -37,7 +37,8 @@ namespace Kandanda.Ui
                 .RegisterViewWithRegion(RegionNames.TournamentDetailRegion, typeof(TournamentParticipantView))
                 .RegisterViewWithRegion(RegionNames.TournamentCommandRegion, typeof(TournamentCommandView))
                 .RegisterViewWithRegion(RegionNames.MainRegion, typeof(ParticipantsView))
-                .RegisterViewWithRegion(RegionNames.MenuRegion, typeof(Menubar));
+                .RegisterViewWithRegion(RegionNames.MenuRegion, typeof(Menubar))
+                .RegisterViewWithRegion(RegionNames.StatusbarRegion, typeof(Statusbar));
         }
     }
 }

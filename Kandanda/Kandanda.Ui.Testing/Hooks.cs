@@ -14,15 +14,15 @@ namespace Kandanda.Ui.Testing
                 
         private static Application _application;
 
-        [BeforeFeature]
-        public static void BeforeFeature()
+        [BeforeScenario]
+        public static void BeforeScenario()
         {
             _application = Application.Launch(SystemUnderTest);
             FeatureContext.Current.Set(_application, "app");
         }
 
-        [AfterFeature]
-        public static void AfterFeature()
+        [AfterScenario]
+        public static void AfterScenario()
         {
            _application.Close();
         }

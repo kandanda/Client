@@ -2,8 +2,9 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:prism="http://prismlibrary.com/"
+             xmlns:ui="clr-namespace:Kandanda.Ui"
              prism:ViewModelLocator.AutoWireViewModel="True">
-    <Menu>
+    <Menu AutomationProperties.AutomationId="{x:Static ui:AutomationIds.MenuRoot}">
         <MenuItem Header="_File">
             <MenuItem Header="_New" Command="{Binding CloseCommand}"/>
             <MenuItem Header="_Open" Command="{Binding CloseCommand}"/>
@@ -16,8 +17,7 @@
             <MenuItem Header="_Documentation" Command="{Binding OpenDocumentationCommand}"/>
             <MenuItem Header="_About Kandanda" Command="{Binding ShowAboutCommand}"/>
         </MenuItem>
-        <MenuItem Header="_Develop">
-            <MenuItem Header="_Reset Database" Command="{Binding ResetDatabaseCommand}"></MenuItem>
+        <MenuItem Header="_Reset Database" AutomationProperties.AutomationId="{x:Static ui:AutomationIds.MenuResetDatabase}" Command="{Binding ResetDatabaseCommand}">
         </MenuItem>
     </Menu>
 </UserControl>

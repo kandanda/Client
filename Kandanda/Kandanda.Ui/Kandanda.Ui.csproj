@@ -143,7 +143,7 @@
     <Compile Include="Events\ChangeCurrentTournamentEvent.cs" />
     <Compile Include="Events\GeneratePlanRequestEvent.cs" />
     <Compile Include="Events\PublishRequestEvent.cs" />
-    <Compile Include="Events\ResetDatabaseEvent.cs" />
+    <Compile Include="Events\KandandaDbContextChanged.cs" />
     <Compile Include="Events\StateChangeEvent.cs" />
     <Compile Include="Interactivity\IOpenUrlRequest.cs" />
     <Compile Include="Interactivity\WindowsOpenUrlRequest.cs" />
@@ -152,6 +152,7 @@
     <Compile Include="Interactivity\IVersionInfo.cs" />
     <Compile Include="Interactivity\KandandaVersionInfo.cs" />
     <Compile Include="ViewModels\ParticipantsViewModel.cs" />
+    <Compile Include="ViewModels\StatusbarViewModel.cs" />
     <Compile Include="ViewModels\TournamentMasterViewModel.cs" />
     <Compile Include="ViewModels\TournamentsViewModel.cs" />
     <Compile Include="ViewModels\TournamentDetailViewModel.cs" />
@@ -164,6 +165,9 @@
     <Compile Include="Core\ViewModelBase.cs" />
     <Compile Include="Views\ParticipantsView.xaml.cs">
       <DependentUpon>ParticipantsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Statusbar.xaml.cs">
+      <DependentUpon>Statusbar.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\TournamentMasterView.xaml.cs">
       <DependentUpon>TournamentMasterView.xaml</DependentUpon>
@@ -195,6 +199,10 @@
     <Page Include="Views\ParticipantsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Statusbar.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\TournamentMasterView.xaml">
       <SubType>Designer</SubType>

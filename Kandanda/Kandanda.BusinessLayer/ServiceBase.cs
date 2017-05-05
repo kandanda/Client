@@ -11,11 +11,12 @@ namespace Kandanda.BusinessLayer
 {
     public abstract class ServiceBase : IDisposable
     {
-        protected KandandaDbContext DbContext;
+        protected readonly KandandaDbContextLocator KandandaDbContextLocator;
+        protected KandandaDbContext DbContext => KandandaDbContextLocator.Current;
 
-        protected ServiceBase(KandandaDbContext dbContext)
+        protected ServiceBase(KandandaDbContextLocator contextLocator)
         {
-            DbContext = dbContext;
+            KandandaDbContextLocator = contextLocator;
         }
 
         protected virtual T Create<T>(T entry) where T : class, IEntity
@@ -65,12 +66,12 @@ namespace Kandanda.BusinessLayer
             var set = GetDbSet<T>(DbContext);
             return set.FirstOrDefault(entry => predicate(entry));
         }
-        
+
         protected void ExecuteDatabaseAction(Action<KandandaDbContext> action)
         {
             action(DbContext);
         }
-        
+
         private DbSet<T> GetDbSet<T>(DbContext db) where T : class
         {
             var pluralizedName = GetPluralizedName<T>();
@@ -84,12 +85,7 @@ namespace Kandanda.BusinessLayer
             var pluralizationService = new EnglishPluralizationService();
             return pluralizationService.Pluralize(className);
         }
-
-        protected void Reset()
-        {
-            DbContext.Dispose();
-            DbContext = new KandandaDbContext(new SampleDataDbInitializer()); ;
-        }
+    
 
         public void Dispose()
         {

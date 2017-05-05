@@ -30,8 +30,8 @@ namespace Kandanda.Ui.Testing
         public static void FeatureSetup(Microsoft.VisualStudio.TestTools.UnitTesting.TestContext testContext)
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner(null, 0);
-            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Participants", "\tIn order to avoid silly mistakes\r\n\tAs a math idiot\r\n\tI want to be told the sum o" +
-                    "f two numbers", ProgrammingLanguage.CSharp, ((string[])(null)));
+            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Participants", "\tTeams are sort of a database of available teams \r\n\tto participate in a tournamen" +
+                    "t.", ProgrammingLanguage.CSharp, ((string[])(null)));
             testRunner.OnFeatureStart(featureInfo);
         }
         
@@ -70,25 +70,41 @@ namespace Kandanda.Ui.Testing
         
         public virtual void FeatureBackground()
         {
+#line 5
 #line 6
-#line 7
     testRunner.Given("The application is running", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 8
+#line 7
  testRunner.And("The test database is loaded", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 9
- testRunner.And("I switch to Particpants tab", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 8
+ testRunner.And("I switch to Participants tab", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
         }
         
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute()]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Add participant")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("See existing teams")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "Participants")]
-        public virtual void AddParticipant()
+        public virtual void SeeExistingTeams()
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Add participant", ((string[])(null)));
-#line 11
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("See existing teams", ((string[])(null)));
+#line 10
 this.ScenarioSetup(scenarioInfo);
-#line 6
+#line 5
+this.FeatureBackground();
+#line 11
+ testRunner.Then("I see 8 participants", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute()]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Add a new team")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "Participants")]
+        public virtual void AddANewTeam()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Add a new team", ((string[])(null)));
+#line 13
+this.ScenarioSetup(scenarioInfo);
+#line 5
 this.FeatureBackground();
 #line hidden
             TechTalk.SpecFlow.Table table1 = new TechTalk.SpecFlow.Table(new string[] {
@@ -101,44 +117,33 @@ this.FeatureBackground();
                         "Hackie McHack",
                         "+41 44 876 65 55",
                         "hacks@hackies.ch"});
-#line 12
- testRunner.When("I add add this participant", ((string)(null)), table1, "When ");
-#line 15
- testRunner.When("I press save participants", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 16
- testRunner.Then("I should see \"FC ShellShock\" in the list of teams", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line hidden
-            this.ScenarioCleanup();
-        }
-        
-        [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute()]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("See participants overview")]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "Participants")]
-        public virtual void SeeParticipantsOverview()
-        {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("See participants overview", ((string[])(null)));
+            table1.AddRow(new string[] {
+                        "FC Rabbits",
+                        "Bunny the hopp",
+                        "+41 44 927 28 26",
+                        "bunny@rabbits.ch"});
+#line 14
+ testRunner.When("I have added this participant", ((string)(null)), table1, "When ");
 #line 18
-this.ScenarioSetup(scenarioInfo);
-#line 6
-this.FeatureBackground();
+ testRunner.And("I press save participants", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 19
- testRunner.Then("I see all participants", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.Then("I see 9 participants", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
         }
         
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute()]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Search for \"Real Madrid\"")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Search for a team")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "Participants")]
-        public virtual void SearchForRealMadrid()
+        public virtual void SearchForATeam()
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Search for \"Real Madrid\"", ((string[])(null)));
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Search for a team", ((string[])(null)));
 #line 21
 this.ScenarioSetup(scenarioInfo);
-#line 6
+#line 5
 this.FeatureBackground();
 #line 22
- testRunner.And("I enter \"Real Madrid\" into the participants search box", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.When("I enter \"Real Madrid\" into the participants search box", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 23
  testRunner.Then("I should see \"FC Real Madrid\" in the list of teams", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
@@ -146,21 +151,21 @@ this.FeatureBackground();
         }
         
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute()]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Delete a participant")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Delete an existing team")]
         [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "Participants")]
-        public virtual void DeleteAParticipant()
+        public virtual void DeleteAnExistingTeam()
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Delete a participant", ((string[])(null)));
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Delete an existing team", ((string[])(null)));
 #line 26
 this.ScenarioSetup(scenarioInfo);
-#line 6
+#line 5
 this.FeatureBackground();
 #line 27
- testRunner.And("I have selected the first participant in the list", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.Given("I have selected the first participant in the list", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 28
  testRunner.When("I press delete", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 29
- testRunner.Then("The number of participants should decrease", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.Then("I see 6 participants", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
         }

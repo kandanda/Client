@@ -7,7 +7,7 @@ namespace Kandanda.BusinessLayer.ServiceImplementations
 {
     public sealed class PhaseService : ServiceBase, IPhaseService
     {
-        public PhaseService(KandandaDbContext dbContext) : base(dbContext)
+        public PhaseService(KandandaDbContextLocator contextLocator) : base(contextLocator)
         {
         }
 

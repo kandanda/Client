@@ -18,15 +18,10 @@ namespace Kandanda.BusinessLayer
             _container = container;
         }
 
-        public KandandaDbContext BuildKandandaContext()
-        {
-            return new KandandaDbContext(new SampleDataDbInitializer());
-        }
-
         public void Initialize()
         {
             _container
-                .RegisterInstance(BuildKandandaContext())
+                .RegisterInstance(new KandandaDbContextLocator())
                 .RegisterType<IMatchService, MatchService>(new ContainerControlledLifetimeManager())
                 .RegisterType<ITournamentService, TournamentService>(new ContainerControlledLifetimeManager())
                 .RegisterType<IParticipantService, ParticipantService>(new ContainerControlledLifetimeManager())

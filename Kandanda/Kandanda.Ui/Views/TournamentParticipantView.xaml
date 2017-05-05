@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:prism="http://prismlibrary.com/"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:ui="clr-namespace:Kandanda.Ui"
              prism:ViewModelLocator.AutoWireViewModel="True">
     <Grid>
         <Grid.ColumnDefinitions>
@@ -25,9 +26,9 @@
                     <RowDefinition />
                     <RowDefinition Height="8*" />
                 </Grid.RowDefinitions>
-                    <TextBox Text="{Binding Path=SearchParticipantsToRemove, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                <TextBox Text="{Binding Path=SearchParticipantsToRemove, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" AutomationProperties.AutomationId="{x:Static ui:AutomationIds.TPparticipatingSearch}"/>
                     <DataGrid Name="ParticipantsToRemoveGrid" Grid.Row="1" ItemsSource="{Binding Participants, Mode=OneWay}" 
-                          AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Extended" >
+                          AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Extended" AutomationProperties.AutomationId="{x:Static ui:AutomationIds.TPparticipatingTable}">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="SelectionChanged">
                             <i:InvokeCommandAction Command="{Binding ParticipantsToRemoveCommand}" CommandParameter="{Binding SelectedItems, ElementName=ParticipantsToRemoveGrid}" />
@@ -43,8 +44,8 @@
                 </DataGrid>
             </Grid>
         </GroupBox>
-        <Button Grid.Column="1" Grid.Row="1" Command="{Binding EnrollParticipantCommand}">&lt;</Button>
-        <Button Grid.Column="1" Grid.Row="2" Command="{Binding DeregisterParticipantCommand}">&gt;</Button>
+        <Button Grid.Column="1" Grid.Row="1" Command="{Binding EnrollParticipantCommand}" AutomationProperties.AutomationId="{x:Static ui:AutomationIds.TPenroll}">&lt;</Button>
+        <Button Grid.Column="1" Grid.Row="2" Command="{Binding DeregisterParticipantCommand}" AutomationProperties.AutomationId="{x:Static ui:AutomationIds.TPexpell}">&gt;</Button>
         <GroupBox Header="Not enrolled teams" Grid.Column="2" Grid.RowSpan="4">
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -55,9 +56,9 @@
                     <RowDefinition />
                     <RowDefinition Height="8*"  />
                 </Grid.RowDefinitions>
-                <TextBox Text="{Binding Path=SearchParticipantsToAdd, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  Grid.ColumnSpan="2" Margin="5,3,4.6,5.8" />
+                <TextBox Text="{Binding Path=SearchParticipantsToAdd, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  Grid.ColumnSpan="2" Margin="5,3,4.6,5.8" AutomationProperties.AutomationId="{x:Static ui:AutomationIds.TPavailableSearch}"/>
                 <DataGrid Name="ParticipantsToAddGrid"  Grid.Row="1" ItemsSource="{Binding AvailableTeams, Mode=OneWay}"
-                          AutoGenerateColumns="False" IsReadOnly="true" SelectionMode="Extended" Grid.ColumnSpan="2" Margin="0,0.2,-0.4,0.2" >
+                          AutoGenerateColumns="False" IsReadOnly="true" SelectionMode="Extended" Grid.ColumnSpan="2" Margin="0,0.2,-0.4,0.2" AutomationProperties.AutomationId="{x:Static ui:AutomationIds.TPavailableTable}">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="SelectionChanged">
                             <i:InvokeCommandAction Command="{Binding ParticipantsToAddCommand}" CommandParameter="{Binding SelectedItems, ElementName=ParticipantsToAddGrid}" />
