@@ -12,6 +12,7 @@ namespace Kandanda.Ui.ViewModels
     public class ScheduleViewModel : TournamentViewModelBase, INavigationAware
     {
         private readonly IPhaseService _phaseService;
+
         private Phase _currentPhase;
         public ICommand SaveCommand { get; set; }
 
@@ -29,6 +30,7 @@ namespace Kandanda.Ui.ViewModels
             set
             {
                 base.CurrentTournament = value;
+
                 if (CurrentTournament.Id != 0)
                     SetupOnePhase(CurrentTournament.Id);
             }

@@ -5,7 +5,10 @@
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              prism:ViewModelLocator.AutoWireViewModel="True">
     <StackPanel>
-        <Button Content="New Tournament" Command="{Binding CreateTournamentCommand}" HorizontalAlignment="Left"/>
+        <StackPanel Orientation="Horizontal">
+            <Button Content="New Tournament" Command="{Binding CreateTournamentCommand}" HorizontalAlignment="Left"/>
+            <Button Content="Delete Tournament" Command="{Binding DeleteTournamentCommand}" />
+        </StackPanel>
         <ListView ItemsSource="{Binding Tournaments}" DisplayMemberPath="Name" SelectedItem="{Binding CurrentTournament}">
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="MouseDoubleClick">

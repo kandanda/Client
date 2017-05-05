@@ -27,13 +27,13 @@ namespace Kandanda.Ui
                 .RegisterTypeForNavigation<TournamentMasterView>()
                 .RegisterTypeForNavigation<TournamentDetailView>()
                 .RegisterTypeForNavigation<TournamentInfoView>()
-                .RegisterTypeForNavigation<SheduleView>()
+                .RegisterTypeForNavigation<ScheduleView>()
                 .RegisterTypeForNavigation<TournamentParticipantView>();
             _regionManager
                 .RegisterViewWithRegion(RegionNames.MainRegion, typeof(TournamentsView))
                 .RegisterViewWithRegion(RegionNames.TournamentsRegion, typeof(TournamentMasterView))
                 .RegisterViewWithRegion(RegionNames.TournamentDetailRegion, typeof(TournamentInfoView))
-                .RegisterViewWithRegion(RegionNames.TournamentDetailRegion, typeof(SheduleView))
+                .RegisterViewWithRegion(RegionNames.TournamentDetailRegion, typeof(ScheduleView))
                 .RegisterViewWithRegion(RegionNames.TournamentDetailRegion, typeof(TournamentParticipantView))
                 .RegisterViewWithRegion(RegionNames.TournamentCommandRegion, typeof(TournamentCommandView))
                 .RegisterViewWithRegion(RegionNames.MainRegion, typeof(ParticipantsView))
