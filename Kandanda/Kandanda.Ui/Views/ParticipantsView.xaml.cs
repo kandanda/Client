@@ -1,4 +1,5 @@
 ﻿using System.Windows.Controls;
+using Kandanda.Ui.ViewModels;
 
 namespace Kandanda.Ui.Views
 {
@@ -10,6 +11,12 @@ namespace Kandanda.Ui.Views
         public ParticipantsView()
         {
             InitializeComponent();
+        }
+
+        private void DataGrid_OnCellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
+        {
+            var viewModel = DataContext as ParticipantsViewModel;
+            viewModel?.SaveAllCommand.Execute(null);
         }
     }
 }

@@ -11,5 +11,6 @@ namespace Kandanda.BusinessLayer.ServiceInterfaces
         List<Participant> GetAllParticipants();
         Participant GetParticipantById(int id);
         void Update(Participant participant);
+        Participant Save(Participant participant);
     }
 }
