@@ -6,10 +6,14 @@
              xmlns:ui="clr-namespace:Kandanda.Ui"
              prism:ViewModelLocator.AutoWireViewModel="True">
     <StackPanel>
-        <Button Content="New Tournament"
-                Command="{Binding CreateTournamentCommand}"
-                HorizontalAlignment="Left" 
-                AutomationProperties.AutomationId="{x:Static ui:AutomationIds.TournamentsNewTournamentButton}"/>
+        <StackPanel Orientation="Horizontal">
+            <Button Content="New Tournament" 
+                    Command="{Binding CreateTournamentCommand}" 
+                    HorizontalAlignment="Left"
+                    AutomationProperties.AutomationId="{x:Static ui:AutomationIds.TournamentsNewTournamentButton}"/>
+            <Button Content="Delete Tournament" 
+                    Command="{Binding DeleteTournamentCommand}"/>
+		</StackPanel>
         <DataGrid ItemsSource="{Binding Tournaments}"
                   IsReadOnly="True"
                   SelectionMode="Single"

@@ -19,6 +19,7 @@ namespace Kandanda.Ui.ViewModels
         public ObservableCollection<Tournament> Tournaments { get; } = new ObservableCollection<Tournament>();
         public ICommand OpenTournamentCommand { get; set; }
         public ICommand CreateTournamentCommand { get; set; }
+        public ICommand DeleteTournamentCommand { get; set; }
 
         public TournamentMasterViewModel(IRegionManager regionManager, ITournamentService tournamentService, IEventAggregator eventAggregator)
         {
@@ -27,8 +28,10 @@ namespace Kandanda.Ui.ViewModels
             _eventAggregator = eventAggregator;
             CreateTournamentCommand = new DelegateCommand(NavigateToNewTournament);
             OpenTournamentCommand = new DelegateCommand(NavigateToTournament);
-            RefreshData();
+            DeleteTournamentCommand = new DelegateCommand(DeleteTournament);
             eventAggregator.GetEvent<KandandaDbContextChanged>().Subscribe(RefreshData);
+
+            RefreshData();
         }
 
         private void RefreshData()
@@ -36,6 +39,16 @@ namespace Kandanda.Ui.ViewModels
             Tournaments.Clear();
             foreach (var tournament in _tournamentService.GetAllTournaments())
                 Tournaments.Add(tournament);
+        }
+
+        private void DeleteTournament()
+        {
+            if (CurrentTournament != null)
+            {
+                _tournamentService.DeleteTournament(CurrentTournament);
+                Tournaments.Remove(CurrentTournament);
+                CurrentTournament = null;
+            }
         }
 
         private void NavigateToNewTournament()
