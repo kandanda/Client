@@ -64,7 +64,7 @@ namespace Kandanda.BusinessLayer.PhaseGenerators
 
         private Participant[] GetShuffledParticipants()
         {
-            const int ShuffleIterationsPerTeam = 555;
+            const int shuffleIterationsPerTeam = 555;
 
             var shuffledParticipants = new Participant[_participants.Count];
             _participants.CopyTo(shuffledParticipants);
@@ -72,7 +72,7 @@ namespace Kandanda.BusinessLayer.PhaseGenerators
             var random = new Random();
             var participantCount = _participants.Count;
 
-            var shuffleIterations = ShuffleIterationsPerTeam * participantCount;
+            var shuffleIterations = shuffleIterationsPerTeam * participantCount;
 
             for (var iteration = 0; iteration < shuffleIterations; ++iteration)
             {

@@ -12,7 +12,11 @@ namespace Kandanda.BusinessLayer
     public abstract class ServiceBase : IDisposable
     {
         protected readonly KandandaDbContextLocator KandandaDbContextLocator;
-        protected KandandaDbContext DbContext => KandandaDbContextLocator.Current;
+        protected KandandaDbContext DbContext
+        {
+            get { return KandandaDbContextLocator.Current; }
+            set { KandandaDbContextLocator.Current = value; }
+        }
 
         protected ServiceBase(KandandaDbContextLocator contextLocator)
         {

@@ -1,0 +1,78 @@
+﻿<UserControl x:Class="Kandanda.Ui.Views.TournamentSheduleView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:prism="http://prismlibrary.com/"
+             xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+             xmlns:ui="clr-namespace:Kandanda.Ui"
+             prism:ViewModelLocator.AutoWireViewModel="True">
+    <WrapPanel Orientation="Vertical">
+        <StackPanel>
+            <Label Content="Begin on" Target="{Binding ElementName=Start}" />
+            <xctk:DateTimePicker Name="Start" 
+                                 Value="{Binding Path=CurrentTournament.From}" 
+                                 Format="Custom"
+                                 FormatString="dd.MM.yyyy HH:mm"
+                                 AutomationProperties.AutomationId="{x:Static ui:AutomationIds.TournamentScheduleBegin}"/>
+        </StackPanel>
+        <StackPanel>
+            <Label Content="and end on" Target="{Binding ElementName=End}"/>
+            <xctk:DateTimePicker Name="End" 
+                                 Value="{Binding Path=CurrentTournament.Until}"  
+                                 Format="Custom"
+                                 FormatString="dd.MM.yyyy HH:mm"
+                                 AutomationProperties.AutomationId="{x:Static ui:AutomationIds.TournamentScheduleUntil}"/>
+        </StackPanel>
+        <StackPanel>
+            <Label Content="Playtimes" Target="{Binding ElementName=PlayStart}" />
+            <StackPanel Orientation="Horizontal">
+                <xctk:TimePicker Name="PlayStart" 
+                                 Value="{Binding PlayTimeStart}" 
+                                 AutomationProperties.AutomationId="{x:Static ui:AutomationIds.TournamentScheduleTimeStart}"/>
+                <Label Content=" - " />
+                <xctk:TimePicker Name="PlayEnd" 
+                                 Value="{Binding PlayTimeEnd}" 
+                                 AutomationProperties.AutomationId="{x:Static ui:AutomationIds.TournamentScheduleTimeEnd}"/>
+            </StackPanel>
+            <Label Content="Game Duration" Target="{Binding ElementName=GameDuration}"/>
+            <xctk:IntegerUpDown Name="GameDuration" 
+                                Value="{Binding GameDuration}"
+                                Minimum="1" 
+                                AutomationProperties.AutomationId="{x:Static ui:AutomationIds.TournamentScheduleDuration}"/>
+            <Label Content="Break between games" Target="{Binding ElementName=BreakBetweenGames}"/>
+            <xctk:IntegerUpDown Name="BreakBetweenGames" 
+                                Value="{Binding BreakBetweenGames}" 
+                                Minimum="0" 
+                                AutomationProperties.AutomationId="{x:Static ui:AutomationIds.TournamentScheduleBreak}"/>
+        </StackPanel>
+        <StackPanel>
+            <Label Content="Lunch break" Target="{Binding ElementName=LunchStart}" />
+            <StackPanel Orientation="Horizontal">
+                <xctk:TimePicker Name="LunchStart" 
+                                 Value="{Binding LunchBreakStart}" 
+                                 AutomationProperties.AutomationId="{x:Static ui:AutomationIds.TournamentScheduleLunchStart}"/>
+                <Label Content=" - " />
+                <xctk:TimePicker Name="LunchEnd" 
+                                 Value="{Binding LunchBreakEnd}" 
+                                 AutomationProperties.AutomationId="{x:Static ui:AutomationIds.TournamentScheduleLunchEnd}"/>
+            </StackPanel>
+        </StackPanel>
+        <StackPanel>
+            <Label Content="Finals will begin on" Target="{Binding StartOfFinals}" />
+            <xctk:DateTimePicker Name="StartOfFinals" 
+                                 Format="Custom"
+                                 FormatString="dd.MM.yyyy HH:mm"
+                                 Value="{Binding FinalsFrom}"
+                                 AutomationProperties.AutomationId="{x:Static ui:AutomationIds.TournamentScheduleFinalsBegin}" />
+        </StackPanel>
+        <StackPanel>
+            <Label Content="Match days" />
+            <CheckBox Content="Monday" IsChecked="{Binding Path=CurrentTournament.Monday}" AutomationProperties.AutomationId="{x:Static ui:AutomationIds.TournamentScheduleOnMonday}"/>
+            <CheckBox Content="Tuesday" IsChecked="{Binding Path=CurrentTournament.Tuesday}" AutomationProperties.AutomationId="{x:Static ui:AutomationIds.TournamentScheduleOnTuesday}"/>
+            <CheckBox Content="Wednesday" IsChecked="{Binding Path=CurrentTournament.Wednesday}" AutomationProperties.AutomationId="{x:Static ui:AutomationIds.TournamentScheduleOnWednesday}"/>
+            <CheckBox Content="Thursday" IsChecked="{Binding Path=CurrentTournament.Thursday}" AutomationProperties.AutomationId="{x:Static ui:AutomationIds.TournamentScheduleOnThursday}"/>
+            <CheckBox Content="Friday" IsChecked="{Binding Path=CurrentTournament.Friday}" AutomationProperties.AutomationId="{x:Static ui:AutomationIds.TournamentScheduleOnFriday}"/>
+            <CheckBox Content="Saturday" IsChecked="{Binding Path=CurrentTournament.Saturday}" AutomationProperties.AutomationId="{x:Static ui:AutomationIds.TournamentScheduleOnSaturday}"/>
+            <CheckBox Content="Sunday" IsChecked="{Binding Path=CurrentTournament.Sunday}" AutomationProperties.AutomationId="{x:Static ui:AutomationIds.TournamentScheduleOnSunday}"/>
+        </StackPanel>
+    </WrapPanel>
+</UserControl>

@@ -10,12 +10,12 @@ using Prism.Events;
 
 namespace Kandanda.Ui.ViewModels
 {
-    public class ParticipantsViewModel : ViewModelBase
+    public class TeamsViewModel : ViewModelBase
     {
-        public ParticipantsViewModel(IParticipantService service, IEventAggregator eventAggregator)
+        public TeamsViewModel(IParticipantService service, IEventAggregator eventAggregator)
         {
             _participantService = service;
-            Title = "Participants";
+            Title = "Teams";
             SaveAllCommand = new DelegateCommand(SaveAllParticipants, CanSaveParticipants);
             AddNewTeamCommand = new DelegateCommand(AddNewTeam);
             DeleteTeamCommand = new DelegateCommand(DeleteTeam);

@@ -91,7 +91,7 @@ this.ScenarioSetup(scenarioInfo);
 #line 5
 this.FeatureBackground();
 #line 11
- testRunner.Then("I see 8 participants", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.Then("I see 7 participants", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
         }

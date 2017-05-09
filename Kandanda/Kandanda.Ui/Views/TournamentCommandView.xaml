@@ -9,7 +9,7 @@
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
-        <Button Content="Close" HorizontalAlignment="Left" Command="{Binding CloseCommand}" AutomationProperties.AutomationId="{x:Static ui:AutomationIds.TCloseButton}"/>
-        <Button Grid.Column="1" Content="Publish" HorizontalAlignment="Right" Command="{Binding PublishCommand}" AutomationProperties.AutomationId="{x:Static ui:AutomationIds.TPublishButton}"/>
+        <Button Content="Close" HorizontalAlignment="Left" Command="{Binding CloseCommand}" AutomationProperties.AutomationId="{x:Static ui:AutomationIds.TournamentCloseButton}"/>
+        <Button Grid.Column="1" Content="Publish" HorizontalAlignment="Right" Command="{Binding PublishCommand}" AutomationProperties.AutomationId="{x:Static ui:AutomationIds.TournamentPublishButton}"/>
     </Grid>
 </UserControl>

@@ -1,17 +1,13 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using Kandanda.Dal.Entities;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TechTalk.SpecFlow;
 using TechTalk.SpecFlow.Assist;
 using TestStack.White;
 using TestStack.White.UIItems;
-using TestStack.White.UIItems.Finders;
 using TestStack.White.UIItems.MenuItems;
 using TestStack.White.UIItems.TabItems;
 using TestStack.White.UIItems.WindowItems;
-using TestStack.White.UIItems.WindowStripControls;
-using TestStack.White.WindowsAPI;
 
 namespace Kandanda.Ui.Testing
 {
@@ -82,6 +78,7 @@ namespace Kandanda.Ui.Testing
                 addNewButton.Click();
                 var lastRow = datagrid.Rows[datagrid.Rows.Count - 1];
 
+                //TODO: This is somewhat strange but it works! needs investigation
                 lastRow.Cells[0].Click();
                 lastRow.Cells[0].Enter(participant.Name);
                 lastRow.Cells[0].Click();

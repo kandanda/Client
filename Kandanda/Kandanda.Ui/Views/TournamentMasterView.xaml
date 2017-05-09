@@ -6,13 +6,25 @@
              xmlns:ui="clr-namespace:Kandanda.Ui"
              prism:ViewModelLocator.AutoWireViewModel="True">
     <StackPanel>
-        <Button Content="New Tournament" Command="{Binding CreateTournamentCommand}" HorizontalAlignment="Left" AutomationProperties.AutomationId="{x:Static ui:AutomationIds.TournamentsNewTournamentButton}"/>
-        <ListView ItemsSource="{Binding Tournaments}" DisplayMemberPath="Name" SelectedItem="{Binding CurrentTournament}" AutomationProperties.AutomationId="{x:Static ui:AutomationIds.TournamentsList}">
+        <Button Content="New Tournament"
+                Command="{Binding CreateTournamentCommand}"
+                HorizontalAlignment="Left" 
+                AutomationProperties.AutomationId="{x:Static ui:AutomationIds.TournamentsNewTournamentButton}"/>
+        <DataGrid ItemsSource="{Binding Tournaments}"
+                  IsReadOnly="True"
+                  SelectionMode="Single"
+                  AutoGenerateColumns="False"
+                  DisplayMemberPath="Name"
+                  SelectedItem="{Binding CurrentTournament}" 
+                  AutomationProperties.AutomationId="{x:Static ui:AutomationIds.TournamentsList}">
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="MouseDoubleClick">
                     <i:InvokeCommandAction Command="{Binding OpenTournamentCommand}" />
                 </i:EventTrigger>
             </i:Interaction.Triggers>
-        </ListView>
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Tournament Name" Binding="{Binding Name}"></DataGridTextColumn>
+            </DataGrid.Columns>
+        </DataGrid>
     </StackPanel>
 </UserControl>

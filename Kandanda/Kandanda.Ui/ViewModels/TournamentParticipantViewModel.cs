@@ -11,8 +11,6 @@ namespace Kandanda.Ui.ViewModels
     public class TournamentParticipantViewModel: TournamentViewModelBase
     {
         private readonly ITournamentService _tournamentService;
-        private readonly IParticipantService _participantService;
-        //private Participant _selectedTeam;
         private string _searchParticipantsToRemove = "";
         private string _searchParticipantsToAdd = "";
 
@@ -47,10 +45,9 @@ namespace Kandanda.Ui.ViewModels
             }
         }
 
-        public TournamentParticipantViewModel(ITournamentService tournamentService, IParticipantService participantService)
+        public TournamentParticipantViewModel(ITournamentService tournamentService)
         {
             _tournamentService = tournamentService;
-            _participantService = participantService;
             ParticipantListToRemove = new ObservableCollection<Participant>();
             ParticipantListToAdd = new ObservableCollection<Participant>();
             ParticipantListToRemove.CollectionChanged += ParticipantListToRemove_CollectionChanged;

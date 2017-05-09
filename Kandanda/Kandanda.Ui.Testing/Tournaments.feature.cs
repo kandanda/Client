@@ -72,10 +72,8 @@ namespace Kandanda.Ui.Testing
         {
 #line 5
 #line 6
-    testRunner.Given("The application is running", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+    testRunner.Given("The test database is loaded", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 7
- testRunner.And("The test database is loaded", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 8
  testRunner.And("I switch to Tournaments tab", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
         }
@@ -86,12 +84,12 @@ namespace Kandanda.Ui.Testing
         public virtual void SeeExistingTournaments()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("See existing tournaments", ((string[])(null)));
-#line 10
+#line 9
 this.ScenarioSetup(scenarioInfo);
 #line 5
 this.FeatureBackground();
-#line 11
- testRunner.Then("I should see 5 tournaments", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 10
+ testRunner.Then("I should see 6 tournaments", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
         }
@@ -102,10 +100,14 @@ this.FeatureBackground();
         public virtual void AddNewTournament()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Add new tournament", ((string[])(null)));
-#line 13
+#line 12
 this.ScenarioSetup(scenarioInfo);
 #line 5
 this.FeatureBackground();
+#line 13
+ testRunner.And("I created a new tournament", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 14
+ testRunner.And("I switch to Tournament information tab", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             TechTalk.SpecFlow.Table table1 = new TechTalk.SpecFlow.Table(new string[] {
                         "Key",
@@ -114,19 +116,16 @@ this.FeatureBackground();
                         "Name",
                         "My test tournament"});
             table1.AddRow(new string[] {
-                        "Participants",
+                        "GroupSize",
                         "4"});
             table1.AddRow(new string[] {
-                        "GameType",
-                        ""});
-            table1.AddRow(new string[] {
                         "KOType",
-                        ""});
+                        "0"});
             table1.AddRow(new string[] {
                         "DetermineThird",
-                        "no"});
-#line 14
- testRunner.And("I added this tournament", ((string)(null)), table1, "And ");
+                        "false"});
+#line 15
+ testRunner.And("I entered this tournament information", ((string)(null)), table1, "And ");
 #line 21
  testRunner.And("I switch to Tournament schedule tab", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
@@ -135,10 +134,10 @@ this.FeatureBackground();
                         "Value"});
             table2.AddRow(new string[] {
                         "From",
-                        "01.07.2017"});
+                        "01.JULY.2017"});
             table2.AddRow(new string[] {
                         "Until",
-                        "02.07.2017"});
+                        "02.JULY.2017"});
             table2.AddRow(new string[] {
                         "PlayTimeStart",
                         "10:00"});
@@ -158,7 +157,7 @@ this.FeatureBackground();
                         "LunchBreakEnd",
                         "13:00"});
             table2.AddRow(new string[] {
-                        "finalsBegin",
+                        "FinalsFrom",
                         "02.07.2017 15:00"});
             table2.AddRow(new string[] {
                         "Saturday",
@@ -167,11 +166,11 @@ this.FeatureBackground();
                         "Sunday",
                         "true"});
 #line 22
- testRunner.And("I added this schedule information:", ((string)(null)), table2, "And ");
+ testRunner.And("I entered this schedule information", ((string)(null)), table2, "And ");
 #line 35
  testRunner.When("I press close tournament", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 36
- testRunner.Then("I should see 6 tournaments", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.Then("I should see 7 tournaments", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
         }

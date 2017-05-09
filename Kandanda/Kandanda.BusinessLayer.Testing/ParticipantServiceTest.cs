@@ -15,6 +15,7 @@ namespace Kandanda.BusinessLayer.Testing
         [TestInitialize]
         public void Setup()
         {
+            
             _contextLocator = new KandandaDbContextLocator();
             _contextLocator.SetTestEnvironment();
 

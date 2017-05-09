@@ -5,6 +5,7 @@ using TechTalk.SpecFlow;
 using TechTalk.SpecFlow.Assist;
 using TestStack.White;
 using TestStack.White.UIItems;
+using TestStack.White.UIItems.Finders;
 using TestStack.White.UIItems.TabItems;
 using TestStack.White.UIItems.WindowItems;
 
@@ -22,13 +23,6 @@ namespace Kandanda.Ui.Testing
             _window = _application.GetWindows().First();
         }
 
-        [Given(@"The application is running")]
-        public void GivenTheApplicationIsRunning()
-        {
-            Assert.IsNotNull(_application);
-        }
-
-
         [Given(@"I switch to Tournaments tab")]
         public void GivenISwitchToTournamentsTab()
         {
@@ -39,21 +33,21 @@ namespace Kandanda.Ui.Testing
         [Given(@"I switch to Tournament information tab")]
         public void GivenISwitchToInformationTab()
         {
-            var tabpage = _window.Get<TabPage>(AutomationIds.TITab);
+            var tabpage = _window.Get<TabPage>(AutomationIds.TournamentInformationTab);
             tabpage.Select();
         }
 
         [Given(@"I switch to Tournament schedule tab")]
         public void GivenISwitchToScheduleTab()
         {
-            var tabpage = _window.Get<TabPage>(AutomationIds.TSTab);
+            var tabpage = _window.Get<TabPage>(AutomationIds.TournamentScheduleTab);
             tabpage.Select();
         }
 
         [Given(@"I switch to Tournament participants tab")]
         public void GivenISwitchToParticipantsTab()
         {
-            var tabpage = _window.Get<TabPage>(AutomationIds.TPTab);
+            var tabpage = _window.Get<TabPage>(AutomationIds.TournamentParticipantsTab);
             tabpage.Select();
         }
 
@@ -63,39 +57,90 @@ namespace Kandanda.Ui.Testing
             var datagrid = _window.Get<ListView>(AutomationIds.TournamentsList);
             Assert.AreEqual(p0, datagrid.Rows.Count);
         }
-
-        [Given(@"I added this tournament")]
-        public void GivenIAddedThisTournament(Table table)
+        [Given(@"I created a new tournament")]
+        public void GivenICreatedANewTournament()
         {
-            var addNewButton = _window.Get<Button>(AutomationIds.TournamentsNewTournamentButton);
-
-            var tournament = table.CreateInstance<Tournament>();
-
-            _window.Get<TextBox>(AutomationIds.TIName).Text = tournament.Name;
-            _window.Get<TextBox>(AutomationIds.TINoPpg).Text = tournament.Name;
-            _window.Get<TextBox>(AutomationIds.TIGt).Text = tournament.Name;
-            _window.Get<TextBox>(AutomationIds.TIKoT).Text = tournament.Name;
-            _window.Get<TextBox>(AutomationIds.TIDtrd).Text = tournament.Name;
-
-
+            _window.Get<Button>(AutomationIds.TournamentsNewTournamentButton).Click();
         }
 
-        [Given(@"I added this schedule information:")]
-        public void GivenIAddedThisScheduleInformation(Table table)
+        [Given(@"I entered this tournament information")]
+        public void GivenIEnteredThisTournament(Table table)
         {
-            ScenarioContext.Current.Pending();
+            var tournament = table.CreateInstance<Tournament>();
+            var datepickeritems = _window.GetMultiple(SearchCriteria.ByAutomationId("AutoSelectTextBox"));
+
+
+            _window.Get<TextBox>(AutomationIds.TournamentInfoName).Text = tournament.Name;
+
+            var textBox = datepickeritems[0] as TextBox;
+            if (textBox != null)
+                textBox.BulkText = $"{tournament.GroupSize}";
+
+            _window.Get<CheckBox>(AutomationIds.TournamentInfoDetermineThird).SetValue(tournament.DetermineThird);
+        }
+
+        [Given(@"I entered this schedule information")]
+        public void GivenIEnteredThisScheduleInformation(Table table)
+        {
+            var tournament = table.CreateInstance<Tournament>();
+            var datepickeritems = _window.GetMultiple(SearchCriteria.ByAutomationId("AutoSelectTextBox"));
+
+            var textBox = datepickeritems[0] as TextBox;
+            if (textBox != null)
+                textBox.BulkText = tournament.From.ToString("dd.MM.yyyy HH:mm");
+            
+            textBox = datepickeritems[1] as TextBox;
+            if (textBox != null)
+                    textBox.BulkText = tournament.Until.ToString("dd.MM.yyyy HH:mm");
+
+            textBox = datepickeritems[2] as TextBox;
+            if (textBox != null)
+                textBox.BulkText = $"{tournament.PlayTimeStart.Hours}:{tournament.PlayTimeStart.Minutes}";
+
+            textBox = datepickeritems[3] as TextBox;
+            if (textBox != null)
+                textBox.BulkText = $"{tournament.PlayTimeEnd.Hours}:{tournament.PlayTimeEnd.Minutes}";
+
+            textBox = datepickeritems[4] as TextBox;
+            if (textBox != null)
+                textBox.BulkText = $"{tournament.GameDuration.TotalMinutes}";
+
+            textBox = datepickeritems[5] as TextBox;
+            if (textBox != null)
+                textBox.BulkText = $"{tournament.BreakBetweenGames.TotalMinutes}";
+
+            textBox = datepickeritems[6] as TextBox;
+            if (textBox != null)
+                textBox.BulkText = $"{tournament.LunchBreakStart.Hours}:{tournament.LunchBreakStart.Minutes}";
+
+            textBox = datepickeritems[7] as TextBox;
+            if (textBox != null)
+                textBox.BulkText = $"{tournament.LunchBreakEnd.Hours}:{tournament.LunchBreakEnd.Minutes}";
+
+            textBox = datepickeritems[8] as TextBox;
+            if (textBox != null)
+                textBox.BulkText = tournament.FinalsFrom.ToString("dd.MM.yyyy HH:mm");
+
+            _window.Get<CheckBox>(AutomationIds.TournamentScheduleOnMonday).SetValue(tournament.Monday);
+            _window.Get<CheckBox>(AutomationIds.TournamentScheduleOnTuesday).SetValue(tournament.Tuesday);
+            _window.Get<CheckBox>(AutomationIds.TournamentScheduleOnWednesday).SetValue(tournament.Wednesday);
+            _window.Get<CheckBox>(AutomationIds.TournamentScheduleOnThursday).SetValue(tournament.Thursday);
+            _window.Get<CheckBox>(AutomationIds.TournamentScheduleOnFriday).SetValue(tournament.Friday);
+            _window.Get<CheckBox>(AutomationIds.TournamentScheduleOnSaturday).SetValue(tournament.Saturday);
+            _window.Get<CheckBox>(AutomationIds.TournamentScheduleOnSunday).SetValue(tournament.Sunday);
         }
 
         [When(@"I press publish tournament")]
         public void WhenIPressPublishTournament()
         {
-            _window.Get<Button>(AutomationIds.TPublishButton).Click();
+            _window.Get<Button>(AutomationIds.TournamentPublishButton).Click();
         }
 
         [When(@"I press close tournament")]
         public void WhenIPressCloseTournament()
         {
-            _window.Get<Button>(AutomationIds.TCloseButton).Click();
+            _window.Get<Button>(AutomationIds.TournamentCloseButton).Click();
+            _application.GetWindows()[1].Get<Button>(SearchCriteria.ByText("OK")).Click();
         }
 
 

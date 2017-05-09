@@ -8,7 +8,7 @@ Background:
 	And I switch to Participants tab
 
 Scenario: See existing teams
-	Then I see 8 participants
+	Then I see 7 participants
 
 Scenario: Add a new team
 	When I have added this participant

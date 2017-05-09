@@ -6,7 +6,7 @@ namespace Kandanda.Ui.Views
     /// <summary>
     /// Interaction logic for SignInPopupView
     /// </summary>
-    public partial class SignInPopupView : UserControl
+    public partial class SignInPopupView
     {
         private PasswordBox _passwordBox;
 
@@ -21,7 +21,7 @@ namespace Kandanda.Ui.Views
             var viewModel = DataContext as dynamic;
             if (viewModel != null && _passwordBox != null)
             {
-                viewModel.PasswordChanged(_passwordBox.Password);
+                viewModel?.PasswordChanged(_passwordBox?.Password);
             }
         }
     }

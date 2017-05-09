@@ -7,6 +7,7 @@ namespace Kandanda.Dal
     {
         public KandandaDbContextLocator()
         {
+            Effort.Provider.EffortProviderConfiguration.RegisterProvider();
             Current = new KandandaDbContext(new DbInitializer());
         }
         
@@ -22,6 +23,7 @@ namespace Kandanda.Dal
 
         public void SetTestEnvironment()
         {
+            Current.Database.Delete();
             Current.Dispose();
             Current = new KandandaDbContext(DbConnectionFactory.CreateTransient());
             Current.Database.Initialize(true);

@@ -1,11 +1,9 @@
-﻿using System.Windows.Controls;
-
-namespace Kandanda.Ui.Views
+﻿namespace Kandanda.Ui.Views
 {
     /// <summary>
     /// Interaction logic for Menubar
     /// </summary>
-    public partial class Menubar : UserControl
+    public partial class Menubar
     {
         public Menubar()
         {

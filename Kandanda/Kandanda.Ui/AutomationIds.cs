@@ -1,54 +1,59 @@
 ﻿namespace Kandanda.Ui
 {
-    public class AutomationIds
+    public static class AutomationIds
     {
-        public static string MainViewParticipantsTab = "MainViewParticipantsTab";
-        public static string MainViewTournamentsTab = "MainViewTournamentsTab";
+        public const string MainViewParticipantsTab = "MainViewParticipantsTab";
+        public const string MainViewTournamentsTab = "MainViewTournamentsTab";
 
-        public static string MenuResetDatabase = "MenuResetDatabase";
-        public static string MenuRoot = "MenuRoot";
+        public const string MenuResetDatabase = "MenuResetDatabase";
+        public const string MenuRoot = "MenuRoot";
 
-        public static string TournamentsNewTournamentButton = "TournamentsNewTournamentButton";
-        public static string TournamentsList = "TournamentsList";
+        public const string TournamentsNewTournamentButton = "TournamentsNewTournamentButton";
+        public const string TournamentsList = "TournamentsList";
 
-        public static string TCloseButton = "TCloseButton";
-        public static string TPublishButton = "TPublishButton";
+        public const string TournamentCloseButton = "TournamentCloseButton";
+        public const string TournamentPublishButton = "TournamentPublishButton";
 
-        public static string TITab = "TITab";
-        public static string TSTab = "TSTab";
-        public static string TPTab = "TPTab";
+        public const string TournamentInformationTab = "TournamentInformationTab";
+        public const string TournamentScheduleTab = "TournamentScheduleTab";
+        public const string TournamentParticipantsTab = "TournamentParticipantsTab";
 
-        public static string TIName = "TIName";
-        public static string TINoPpg = "TINoPpg";
-        public static string TIGt = "TIGt";
-        public static string TIKoT = "TIKoT";
-        public static string TIDtrd = "TIDtrd";
+        public const string TournamentInfoName = "TournamentInfoName";
+        public const string TournamentInfoGroupSize = "TournamentInfoGroupSize";
+        public const string TournamentInfoKoType = "TournamentInfoKoType";
+        public const string TournamentInfoDetermineThird = "TournamentInfoDetermineThird";
 
-        public static string TSBegin = "TSBegin";
-        public static string TSEnd = "TSEnd";
-        public static string TStimeStart = "TStimeStart";
-        public static string TStimeEnd = "TStimeEnd";
-        public static string TSduration = "TSduration";
-        public static string TSbreak = "TSbreak";
-        public static string TSlunchStart = "TSlunchStart";
-        public static string TSlunchEnd = "TSlunchEnd";
-        public static string TSfinalsBegin = "TSfinalsBegin";
+        public const string TournamentScheduleBegin = "TournamentScheduleBegin";
+        public const string TournamentScheduleUntil = "TournamentScheduleUntil";
+        public const string TournamentScheduleTimeStart = "TournamentScheduleTimeStart";
+        public const string TournamentScheduleTimeEnd = "TournamentScheduleTimeEnd";
+        public const string TournamentScheduleDuration = "TournamentScheduleDuration";
+        public const string TournamentScheduleBreak = "TournamentScheduleBreak";
+        public const string TournamentScheduleLunchStart = "TournamentScheduleLunchStart";
+        public const string TournamentScheduleLunchEnd = "TournamentScheduleLunchEnd";
+        public const string TournamentScheduleFinalsBegin = "TournamentScheduleFinalsBegin";
 
-        public static string TPparticipatingSearch = "TPparticipatingSearch";
-        public static string TPparticipatingTable = "TPparticipatingTable";
-        public static string TPavailableSearch = "TPavailableSearch";
-        public static string TPavailableTable = "TPavailableTable";
-        public static string TPenroll = "TPenroll";
-        public static string TPexpell = "TPexpell";
-
-
-        public static string ParticipantsSaveButton = "ParticipantsSaveButton";
-        public static string ParticipantsDataGrid = "ParticipantsDataGrid";
-        public static string ParticipantsSearchBox = "ParticipantsSearchBox";
-        public static string ParticipantsAddNewButton = "ParticipantsAddNewButton";
-        public static string ParticipantsDeleteButton = "ParticipantsDeleteButton";
+        public const string TournamentScheduleOnMonday = "TournamentScheduleOnMonday";
+        public const string TournamentScheduleOnTuesday = "TournamentScheduleOnTuesday";
+        public const string TournamentScheduleOnWednesday = "TournamentScheduleOnWednesday";
+        public const string TournamentScheduleOnThursday = "TournamentScheduleOnThursday";
+        public const string TournamentScheduleOnFriday = "TournamentScheduleOnFriday";
+        public const string TournamentScheduleOnSaturday = "TournamentScheduleOnSaturday";
+        public const string TournamentScheduleOnSunday = "TournamentScheduleOnSunday";
 
 
+        public const string TournamentParticipantsParticipatingSearch = "TournamentParticipantsParticipatingSearch";
+        public const string TournamentParticipantsParticipatingTable = "TournamentParticipantsParticipatingTable";
+        public const string TournamentParticipantsAvailableSearch = "TournamentParticipantsAvailableSearch";
+        public const string TournamentParticipantsAvailableTable = "TournamentParticipantsAvailableTable";
+        public const string TournamentParticipantsEnrollButton = "TournamentParticipantsEnrollButton";
+        public const string TournamentParticipantsExpellButton = "TournamentParticipantsExpellButton";
 
+
+        public const string ParticipantsSaveButton = "ParticipantsSaveButton";
+        public const string ParticipantsDataGrid = "ParticipantsDataGrid";
+        public const string ParticipantsSearchBox = "ParticipantsSearchBox";
+        public const string ParticipantsAddNewButton = "ParticipantsAddNewButton";
+        public const string ParticipantsDeleteButton = "ParticipantsDeleteButton";
     }
 }
