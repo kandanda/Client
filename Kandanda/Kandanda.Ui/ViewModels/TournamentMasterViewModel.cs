@@ -57,8 +57,11 @@ namespace Kandanda.Ui.ViewModels
             _regionManager.RequestNavigate(RegionNames.TournamentsRegion, "/TournamentDetailView");
         }
 
-        public void OnNavigatedTo(NavigationContext navigationContext)
+        public async void OnNavigatedTo(NavigationContext navigationContext)
         {
+            Tournaments.Clear();
+            var tournaments = await _tournamentService.GetAllTournamentsAsync();
+            Tournaments.AddRange(tournaments);
         }
 
         public bool IsNavigationTarget(NavigationContext navigationContext)
@@ -68,8 +71,6 @@ namespace Kandanda.Ui.ViewModels
 
         public void OnNavigatedFrom(NavigationContext navigationContext)
         {
-            Tournaments.Clear();
-            Tournaments.AddRange(_tournamentService.GetAllTournaments());
         }
     }
 }

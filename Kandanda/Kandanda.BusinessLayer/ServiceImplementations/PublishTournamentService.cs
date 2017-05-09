@@ -73,6 +73,7 @@ namespace Kandanda.BusinessLayer.ServiceImplementations
             {
                 Content = new StringContent(payload, Encoding.UTF8, "application/json")
             };
+
             request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", authToken);
 
             using (var response = await _client.SendAsync(request, cancellationToken))

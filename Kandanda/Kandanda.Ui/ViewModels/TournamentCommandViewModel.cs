@@ -11,6 +11,7 @@ namespace Kandanda.Ui.ViewModels
     {
         private readonly IEventAggregator _eventAggregator;
         private readonly IRegionManager _regionManager;
+
         public ICommand CloseCommand { get; }
         public ICommand PublishCommand { get; }
 
@@ -18,6 +19,7 @@ namespace Kandanda.Ui.ViewModels
         {
             _eventAggregator = eventAggregator;
             _regionManager = regionManager;
+
             CloseCommand = new DelegateCommand(Close);
             PublishCommand = new DelegateCommand(Publish);
         }

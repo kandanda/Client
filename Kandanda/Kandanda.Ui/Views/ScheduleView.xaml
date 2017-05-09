@@ -7,45 +7,45 @@
     <WrapPanel Orientation="Vertical">
         <StackPanel>
             <Label Content="Begin on" Target="{Binding ElementName=Start}" />
-            <xctk:DateTimePicker Name="Start" Value="{Binding Path=CurrentPhase.From}" />
+            <xctk:DateTimePicker Name="Start" Value="{Binding Path=CurrentTournament.From}" />
         </StackPanel>
         <StackPanel>
             <Label Content="and end on" Target="{Binding ElementName=End}"/>
-            <xctk:DateTimePicker Name="End" Value="{Binding Path=CurrentPhase.Until}" />
+            <xctk:DateTimePicker Name="End" Value="{Binding Path=CurrentTournament.Until}" />
         </StackPanel>
         <StackPanel>
             <Label Content="Playtimes" Target="{Binding ElementName=PlayStart}" />
             <StackPanel Orientation="Horizontal">
-                <xctk:TimePicker Name="PlayStart"/>
+                <xctk:TimePicker Name="PlayStart" Value="{Binding PlayTimeStart}" />
                 <Label Content=" - " />
-                <xctk:TimePicker/>
+                <xctk:TimePicker Name="PlayEnd" Value="{Binding PlayTimeEnd}" />
             </StackPanel>
-            <Label Content="Game Duration"  Target="{Binding ElementName=GameDuration}"/>
-            <xctk:TimeSpanUpDown Name="GameDuration"/>
+            <Label Content="Game Duration" Target="{Binding ElementName=GameDuration}"/>
+            <xctk:IntegerUpDown Name="GameDuration" Value="{Binding GameDuration}" Minimum="1" />
             <Label Content="Break between games" Target="{Binding ElementName=BreakBetweenGames}"/>
-            <xctk:TimeSpanUpDown Name="BreakBetweenGames"/>
+            <xctk:IntegerUpDown Name="BreakBetweenGames" Value="{Binding BreakBetweenGames}" Minimum="0" />
         </StackPanel>
         <StackPanel>
             <Label Content="Lunch break" Target="{Binding ElementName=LunchStart}" />
             <StackPanel Orientation="Horizontal">
-                <xctk:TimePicker Name="LunchStart"/>
+                <xctk:TimePicker Name="LunchStart" Value="{Binding LunchBreakStart}" />
                 <Label Content=" - " />
-                <xctk:TimePicker/>
+                <xctk:TimePicker Name="LunchEnd" Value="{Binding LunchBreakEnd}" />
             </StackPanel>
         </StackPanel>
         <StackPanel>
-            <Label Content="Finals will begin on" Target="{Binding ElementName=StartOfFinals}" />
+            <Label Content="Finals will begin on" Target="{Binding StartOfFinals}" />
             <xctk:DateTimePicker Name="StartOfFinals" />
         </StackPanel>
         <StackPanel>
             <Label Content="Match days" />
-            <CheckBox Content="Monday" />
-            <CheckBox Content="Tuesday" />
-            <CheckBox Content="Wednesday" />
-            <CheckBox Content="Thursday" />
-            <CheckBox Content="Friday" />
-            <CheckBox Content="Saturday" />
-            <CheckBox Content="Sunday" />
+            <CheckBox Content="Monday" IsChecked="{Binding Path=CurrentTournament.Monday}" />
+            <CheckBox Content="Tuesday" IsChecked="{Binding Path=CurrentTournament.Tuesday}" />
+            <CheckBox Content="Wednesday" IsChecked="{Binding Path=CurrentTournament.Wednesday}" />
+            <CheckBox Content="Thursday" IsChecked="{Binding Path=CurrentTournament.Thursday}" />
+            <CheckBox Content="Friday" IsChecked="{Binding Path=CurrentTournament.Friday}" />
+            <CheckBox Content="Saturday" IsChecked="{Binding Path=CurrentTournament.Saturday}" />
+            <CheckBox Content="Sunday" IsChecked="{Binding Path=CurrentTournament.Sunday}" />
         </StackPanel>
     </WrapPanel>
 </UserControl>
