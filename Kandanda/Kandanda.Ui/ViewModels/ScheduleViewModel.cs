@@ -10,14 +10,15 @@ using Prism.Regions;
 
 namespace Kandanda.Ui.ViewModels
 {
-    public class SheduleViewModel : TournamentViewModelBase, INavigationAware
+    public class ScheduleViewModel : TournamentViewModelBase, INavigationAware
     {
         private readonly IPhaseService _phaseService;
+
         private Phase _currentPhase;
 
         public ICommand SaveCommand { get; set; }
 
-        public SheduleViewModel(IPhaseService phaseService)
+        public ScheduleViewModel(IPhaseService phaseService)
         {
             Title = "Shedules";
             _phaseService = phaseService;

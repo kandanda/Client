@@ -20,15 +20,29 @@ namespace Kandanda.Ui.ViewModels
 
         public ICommand OpenTournamentCommand { get; set; }
         public ICommand CreateTournamentCommand { get; set; }
+        public ICommand DeleteTournamentCommand { get; set; }
 
         public TournamentMasterViewModel(IRegionManager regionManager, ITournamentService tournamentService, IEventAggregator eventAggregator)
         {
             _regionManager = regionManager;
             _tournamentService = tournamentService;
             _eventAggregator = eventAggregator;
+
             CreateTournamentCommand = new DelegateCommand(NavigateToNewTournament);
             OpenTournamentCommand = new DelegateCommand(NavigateToTournament);
+            DeleteTournamentCommand = new DelegateCommand(DeleteTournament);
+
             Tournaments = new ObservableCollection<Tournament>(tournamentService.GetAllTournaments());
+        }
+
+        private void DeleteTournament()
+        {
+            if (CurrentTournament != null)
+            {
+                _tournamentService.DeleteTournament(CurrentTournament);
+                Tournaments.Remove(CurrentTournament);
+                CurrentTournament = null;
+            }
         }
 
         private void NavigateToNewTournament()

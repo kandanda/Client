@@ -1,5 +1,4 @@
-﻿using System.Windows.Controls;
-using Kandanda.Dal.Entities;
+﻿using Kandanda.Dal.Entities;
 using Kandanda.Ui.Core;
 using Prism.Regions;
 
@@ -8,9 +7,9 @@ namespace Kandanda.Ui.Views
     /// <summary>
     /// Interaction logic for SheduleView
     /// </summary>
-    public partial class SheduleView : UserControl
+    public partial class ScheduleView
     {
-        public SheduleView()
+        public ScheduleView()
         {
             InitializeComponent();
             RegionContext.GetObservableContext(this).PropertyChanged += (s, e)

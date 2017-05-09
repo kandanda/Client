@@ -1,8 +1,6 @@
 using Effort;
 using Kandanda.BusinessLayer.ServiceImplementations;
-using Kandanda.BusinessLayer.ServiceInterfaces;
 using Kandanda.Dal;
-using Kandanda.Dal.Entities;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Kandanda.BusinessLayer.Testing
