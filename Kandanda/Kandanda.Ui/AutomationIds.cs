@@ -9,7 +9,8 @@
         public const string MenuRoot = "MenuRoot";
 
         public const string TournamentsNewTournamentButton = "TournamentsNewTournamentButton";
-        public const string TournamentsList = "TournamentsList";
+        public const string TournamentsDeleteTournamentButton = "TournamentsDeleteTournamentButton";
+        public const string TournamentsDataGrid = "TournamentsDataGrid";
 
         public const string TournamentCloseButton = "TournamentCloseButton";
         public const string TournamentPublishButton = "TournamentPublishButton";

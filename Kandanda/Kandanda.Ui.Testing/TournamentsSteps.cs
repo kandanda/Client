@@ -54,7 +54,7 @@ namespace Kandanda.Ui.Testing
         [Then(@"I should see (.*) tournaments")]
         public void ThenIShouldSeeTournaments(int p0)
         {
-            var datagrid = _window.Get<ListView>(AutomationIds.TournamentsList);
+            var datagrid = _window.Get<ListView>(AutomationIds.TournamentsDataGrid);
             Assert.AreEqual(p0, datagrid.Rows.Count);
         }
         [Given(@"I created a new tournament")]
@@ -142,6 +142,22 @@ namespace Kandanda.Ui.Testing
             _window.Get<Button>(AutomationIds.TournamentCloseButton).Click();
             _application.GetWindows()[1].Get<Button>(SearchCriteria.ByText("OK")).Click();
         }
+
+        [Given(@"I have selected the first tournament in the list")]
+        public void GivenIHaveSelectedTheFirstTournamentInTheList()
+        {
+            _window.Get<ListView>(AutomationIds.TournamentsDataGrid).Focus();
+            _window.Get<ListView>(AutomationIds.TournamentsDataGrid).Rows[1].Focus();
+            _window.Get<ListView>(AutomationIds.TournamentsDataGrid).Rows[1].Select();
+            _window.Get<ListView>(AutomationIds.TournamentsDataGrid).Rows[1].Cells[0].Focus();
+        }
+
+        [When(@"I press delete tournament")]
+        public void WhenIPressDeleteTournament()
+        {
+            _window.Get<Button>(AutomationIds.TournamentsDeleteTournamentButton).Click();
+        }
+
 
 
     }

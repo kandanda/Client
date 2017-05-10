@@ -34,3 +34,8 @@ Scenario: Add new tournament
 		| Sunday            | true             |
 	When I press close tournament
 	Then I should see 7 tournaments
+
+#Scenario: Delete an existing tournament
+#	Given I have selected the first tournament in the list
+#	When I press delete tournament
+#	Then I should see 5 tournaments

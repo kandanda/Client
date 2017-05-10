@@ -12,15 +12,16 @@
                     HorizontalAlignment="Left"
                     AutomationProperties.AutomationId="{x:Static ui:AutomationIds.TournamentsNewTournamentButton}"/>
             <Button Content="Delete Tournament" 
-                    Command="{Binding DeleteTournamentCommand}"/>
-		</StackPanel>
+                    Command="{Binding DeleteTournamentCommand}"
+                    AutomationProperties.AutomationId="{x:Static ui:AutomationIds.TournamentsDeleteTournamentButton}"/>
+        </StackPanel>
         <DataGrid ItemsSource="{Binding Tournaments}"
                   IsReadOnly="True"
                   SelectionMode="Single"
                   AutoGenerateColumns="False"
                   DisplayMemberPath="Name"
                   SelectedItem="{Binding CurrentTournament}" 
-                  AutomationProperties.AutomationId="{x:Static ui:AutomationIds.TournamentsList}">
+                  AutomationProperties.AutomationId="{x:Static ui:AutomationIds.TournamentsDataGrid}">
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="MouseDoubleClick">
                     <i:InvokeCommandAction Command="{Binding OpenTournamentCommand}" />
