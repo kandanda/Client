@@ -2,14 +2,15 @@
 
 namespace Kandanda.Ui.ViewModels
 {
-    public class TournamentInfoViewModel : TournamentViewModelBase
+    public class TournamentInformationViewModel : TournamentViewModelBase
     {
         private int _numberOfGroups;
         private int _participantsPerGroup;
 
-        public TournamentInfoViewModel()
+        public TournamentInformationViewModel()
         {
             Title = "Information";
+            AutomationId = AutomationIds.TournamentInformationTab;
         }
 
         public int NumberOfGroups

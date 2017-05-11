@@ -1,7 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Kandanda.Dal.Entities
 {
+    [ExcludeFromCodeCoverage]
     public class Organizer : IEntity
     {
         [Key]
@@ -12,6 +14,9 @@ namespace Kandanda.Dal.Entities
 
         [StringLength(32)]
         public string Password { get; set; }
+
+        [StringLength(255)]
+        public string LoginToken { get; set; }
 
         [Timestamp]
         public byte[] RowVersion { get; set; }

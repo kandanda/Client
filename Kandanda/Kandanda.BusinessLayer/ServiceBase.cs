@@ -9,13 +9,18 @@ using Kandanda.Dal.Entities;
 
 namespace Kandanda.BusinessLayer
 {
-    public abstract class ServiceBase
+    public abstract class ServiceBase : IDisposable
     {
-        protected readonly KandandaDbContext DbContext;
-
-        protected ServiceBase(KandandaDbContext dbContext)
+        protected readonly KandandaDbContextLocator KandandaDbContextLocator;
+        protected KandandaDbContext DbContext
         {
-            DbContext = dbContext;
+            get { return KandandaDbContextLocator.Current; }
+            set { KandandaDbContextLocator.Current = value; }
+        }
+
+        protected ServiceBase(KandandaDbContextLocator contextLocator)
+        {
+            KandandaDbContextLocator = contextLocator;
         }
 
         protected virtual T Create<T>(T entry) where T : class, IEntity
@@ -33,6 +38,14 @@ namespace Kandanda.BusinessLayer
             set.Attach(entry);
             DbContext.Entry(entry).State = EntityState.Modified;
             DbContext.SaveChanges();
+        }
+
+        protected virtual async Task<int> UpdateAsync<T>(T entry) where T : class, IEntity
+        {
+            var set = GetDbSet<T>(DbContext);
+            set.Attach(entry);
+            DbContext.Entry(entry).State = EntityState.Modified;
+            return await DbContext.SaveChangesAsync();
         }
 
         protected virtual void Delete<T>(T entry) where T : class, IEntity
@@ -59,23 +72,23 @@ namespace Kandanda.BusinessLayer
         {
             return GetDbSet<T>(DbContext).ToList();
         }
-
+        
         protected virtual T GetEntry<T>(Predicate<T> predicate) where T : class, IEntity
         {
             var set = GetDbSet<T>(DbContext);
             return set.FirstOrDefault(entry => predicate(entry));
         }
-        
+
         protected void ExecuteDatabaseAction(Action<KandandaDbContext> action)
         {
             action(DbContext);
         }
-        
+
         private DbSet<T> GetDbSet<T>(DbContext db) where T : class
         {
             var pluralizedName = GetPluralizedName<T>();
             var propertyInfo = db.GetType().GetProperty(pluralizedName);
-            return (DbSet<T>) propertyInfo.GetValue(db);
+            return (DbSet<T>) propertyInfo?.GetValue(db);
         }
 
         private string GetPluralizedName<T>()
@@ -83,6 +96,12 @@ namespace Kandanda.BusinessLayer
             var className = typeof(T).Name;
             var pluralizationService = new EnglishPluralizationService();
             return pluralizationService.Pluralize(className);
+        }
+    
+
+        public void Dispose()
+        {
+            DbContext.Dispose();
         }
     }
 }

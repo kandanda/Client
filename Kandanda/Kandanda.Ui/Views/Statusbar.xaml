@@ -6,6 +6,9 @@
     <Grid>
         <StatusBar>
             <StatusBarItem>
+                <TextBlock Text="{Binding KandandaDbContextInformation}"/>
+            </StatusBarItem>
+            <StatusBarItem HorizontalAlignment="Right">
                 <TextBlock Text="{Binding ApplicationState}"/>
             </StatusBarItem>
         </StatusBar>

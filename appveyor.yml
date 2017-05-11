@@ -2,7 +2,8 @@
   branches:
     only:
       - master
-  version: 1.0.0-prototype
+  version: 1.0.0-alpha
+  skip_non_tags: true
   configuration: Release
   assembly_info:
     patch: true
@@ -15,6 +16,7 @@
   build:
     project: Kandanda\Kandanda.sln
     verbosity: minimal
+  test: off
   after_build:
     - 7z a Kandanda.zip %APPVEYOR_BUILD_FOLDER%\Kandanda\Kandanda.Ui\bin\%CONFIGURATION%\*
   artifacts:
@@ -35,7 +37,7 @@
   branches:
     only:
       - /release*/
-  version: 1.0.0.{build}-prototype-pre
+  version: 1.0.0.{build}-alpha
   skip_tags: true
   configuration: Release
   assembly_info:
@@ -45,10 +47,12 @@
     assembly_file_version: "{version}"
     assembly_informational_version: "{version}"
   install:
-    - nuget restore Kandanda\Kandanda.sln
+    - cmd: nuget restore .\Kandanda\Kandanda.sln
   build:
     project: Kandanda\Kandanda.sln
     verbosity: minimal
+  test_script:
+    - vstest.console /logger:Appveyor "%APPVEYOR_BUILD_FOLDER%\Kandanda\Kandanda.BusinessLayer.Testing\bin\%CONFIGURATION%\Kandanda.BusinessLayer.Testing.dll"
   after_build:
     - 7z a Kandanda.zip %APPVEYOR_BUILD_FOLDER%\Kandanda\Kandanda.Ui\bin\%CONFIGURATION%\*
   artifacts:
@@ -58,7 +62,7 @@
   branches:
     only:
       - develop
-  version: 1.0.0.{build}-prototype
+  version: 1.0.0.{build}-alpha
   configuration: Debug
   assembly_info:
     patch: true
@@ -81,14 +85,12 @@
     project: .\Kandanda\Kandanda.sln
     verbosity: minimal
   test_script:
-    - vstest.console /logger:Appveyor ".\Kandanda.Ui.Testing\bin\%CONFIGURATION%\Kandanda.Ui.Testing.dll"
-    - vstest.console /logger:Appveyor ".\Kandanda.BusinessLayer.Testing\bin\%CONFIGURATION%\Kandanda.BusinessLayer.Testing.dll"
+    - vstest.console /logger:Appveyor "%APPVEYOR_BUILD_FOLDER%\Kandanda\Kandanda.BusinessLayer.Testing\bin\%CONFIGURATION%\Kandanda.BusinessLayer.Testing.dll"
   after_test:
-    - .\OpenCover\tools\OpenCover.Console.exe -register:user -filter:"+[*]*" -target:"vstest.console.exe" -targetargs:".\Kandanda.Ui.Testing\bin\%CONFIGURATION%\Kandanda.Ui.Testing.dll"  -excludebyattribute:*.ExcludeFromCodeCoverage* -hideskipped:All -output:coverage.xml
-    - .\OpenCover\tools\OpenCover.Console.exe -register:user -filter:"+[*]*" -target:"vstest.console.exe" -targetargs:".\Kandanda.BusinessLayer.Testing\bin\%CONFIGURATION%\Kandanda.BusinessLayer.Testing.dll"  -excludebyattribute:*.ExcludeFromCodeCoverage* -hideskipped:All -output:coverage.xml -mergeoutput
+    - .\OpenCover\tools\OpenCover.Console.exe -register:user -filter:"+[*]*" -target:"vstest.console.exe" -targetargs:"%APPVEYOR_BUILD_FOLDER%\Kandanda\Kandanda.BusinessLayer.Testing\bin\%CONFIGURATION%\Kandanda.BusinessLayer.Testing.dll"  -excludebyattribute:*.ExcludeFromCodeCoverage* -hideskipped:All -output:coverage.xml -mergeoutput
     - .\coveralls.io\tools\coveralls.net.exe --opencover coverage.xml
   after_build:
-    - 7z a Kandanda.zip %APPVEYOR_BUILD_FOLDER%\Kandanda\Kandanda.Ui\bin\%CONFIGURATION%\*
+    - 7z a ..\Kandanda.zip %APPVEYOR_BUILD_FOLDER%\Kandanda\Kandanda.Ui\bin\%CONFIGURATION%\*
   artifacts:
     - path: Kandanda.zip
       name: Kandanda
@@ -96,7 +98,7 @@
   branches:
     only:
       - analyze
-  version: 1.0.0.{build}-analyze
+  version: 1.0.0.{build}-alpha
   configuration: Debug
   assembly_info:
     patch: true

@@ -7,7 +7,7 @@ namespace Kandanda.BusinessLayer.ServiceImplementations
 {
     public sealed class ParticipantService : ServiceBase, IParticipantService
     {
-        public ParticipantService(KandandaDbContext dbContext) : base(dbContext)
+        public ParticipantService(KandandaDbContextLocator contextLocator) : base(contextLocator)
         {
         }
 

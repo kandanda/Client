@@ -16,9 +16,10 @@ namespace Kandanda.Ui.ViewModels
         private readonly ITournamentService _tournamentService;
         private readonly IEventAggregator _eventAggregator;
 
-        public ObservableCollection<Tournament> Tournaments { get; }
+        public ObservableCollection<Tournament> Tournaments { get; } = new ObservableCollection<Tournament>();
         public ICommand OpenTournamentCommand { get; set; }
         public ICommand CreateTournamentCommand { get; set; }
+        public ICommand DeleteTournamentCommand { get; set; }
 
         public TournamentMasterViewModel(IRegionManager regionManager, ITournamentService tournamentService, IEventAggregator eventAggregator)
         {
@@ -27,7 +28,27 @@ namespace Kandanda.Ui.ViewModels
             _eventAggregator = eventAggregator;
             CreateTournamentCommand = new DelegateCommand(NavigateToNewTournament);
             OpenTournamentCommand = new DelegateCommand(NavigateToTournament);
-            Tournaments = new ObservableCollection<Tournament>(tournamentService.GetAllTournaments());
+            DeleteTournamentCommand = new DelegateCommand(DeleteTournament);
+            eventAggregator.GetEvent<KandandaDbContextChanged>().Subscribe(RefreshData);
+
+            RefreshData();
+        }
+
+        private void RefreshData()
+        {
+            Tournaments.Clear();
+            foreach (var tournament in _tournamentService.GetAllTournaments())
+                Tournaments.Add(tournament);
+        }
+
+        private void DeleteTournament()
+        {
+            if (CurrentTournament != null)
+            {
+                _tournamentService.DeleteTournament(CurrentTournament);
+                Tournaments.Remove(CurrentTournament);
+                CurrentTournament = null;
+            }
         }
 
         private void NavigateToNewTournament()
@@ -42,8 +63,11 @@ namespace Kandanda.Ui.ViewModels
             _regionManager.RequestNavigate(RegionNames.TournamentsRegion, "/TournamentDetailView");
         }
 
-        public void OnNavigatedTo(NavigationContext navigationContext)
+        public async void OnNavigatedTo(NavigationContext navigationContext)
         {
+            Tournaments.Clear();
+            var tournaments = await _tournamentService.GetAllTournamentsAsync();
+            Tournaments.AddRange(tournaments);
         }
 
         public bool IsNavigationTarget(NavigationContext navigationContext)
@@ -53,8 +77,6 @@ namespace Kandanda.Ui.ViewModels
 
         public void OnNavigatedFrom(NavigationContext navigationContext)
         {
-            Tournaments.Clear();
-            Tournaments.AddRange(_tournamentService.GetAllTournaments());
         }
     }
 }

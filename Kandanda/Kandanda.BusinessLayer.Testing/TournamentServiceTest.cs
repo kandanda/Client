@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Effort;
+﻿using System;
 using Kandanda.BusinessLayer.ServiceImplementations;
 using Kandanda.BusinessLayer.ServiceInterfaces;
 using Kandanda.Dal;
@@ -20,14 +19,17 @@ namespace Kandanda.BusinessLayer.Testing
         private Tournament _initialTournament;
         private ITournamentService _tournamentService;
         private IParticipantService _participantService;
-        private KandandaDbContext _context;
+        private KandandaDbContextLocator _contextLocator;
+        private KandandaDbContext Context => _contextLocator.Current;
 
         [TestInitialize]
         public void Setup()
         {
-            _context = new KandandaDbContext(DbConnectionFactory.CreateTransient());
-            _tournamentService = new TournamentService(_context);
-            _participantService = new ParticipantService(_context);
+            _contextLocator = new KandandaDbContextLocator();
+            _contextLocator.SetTestEnvironment();
+
+            _tournamentService = new TournamentService(_contextLocator);
+            _participantService = new ParticipantService(_contextLocator);
             
             _participant1 = _participantService.CreateEmpty(ParticipantName1);
             _participant2 = _participantService.CreateEmpty(ParticipantName2);
@@ -37,7 +39,7 @@ namespace Kandanda.BusinessLayer.Testing
         [TestCleanup]
         public void CleanUp()
         {
-            _context.Dispose();
+            Context.Dispose();
         }
 
         [TestMethod]
@@ -53,6 +55,34 @@ namespace Kandanda.BusinessLayer.Testing
             var reloadedTournament = _tournamentService.GetTournamentById(tournament.Id);
 
             Assert.AreEqual(tournament.Name, reloadedTournament.Name);
+        }
+
+        [TestMethod]
+        public void TestUpdateScheduleInformation()
+        {
+            const string tournamentName = "SwissCup";
+            var tournament = _tournamentService.CreateEmpty(tournamentName);
+
+            tournament.Name = "Meister";
+            tournament.PlayTimeStart = TimeSpan.FromHours(8);
+            tournament.PlayTimeEnd = TimeSpan.FromHours(12);
+            tournament.GameDuration = TimeSpan.FromMinutes(12);
+            tournament.BreakBetweenGames = TimeSpan.FromMinutes(10);
+            tournament.Monday = true;
+            tournament.Wednesday = true;
+            tournament.Friday = false;
+            tournament.SharedLink = "https://test.ch";
+            
+            _tournamentService.Update(tournament);
+
+            var reloadedTournament = _tournamentService.GetTournamentById(tournament.Id);
+
+            Assert.AreEqual(tournament.Name, reloadedTournament.Name);
+            Assert.AreEqual(tournament.PlayTimeStart, reloadedTournament.PlayTimeStart);
+            Assert.AreEqual(tournament.BreakBetweenGames, reloadedTournament.BreakBetweenGames);
+            Assert.AreEqual(tournament.Monday, reloadedTournament.Monday);
+            Assert.AreEqual(tournament.Friday, reloadedTournament.Friday);
+            Assert.AreEqual(tournament.SharedLink, reloadedTournament.SharedLink);
         }
         
         [TestMethod]
@@ -119,34 +149,6 @@ namespace Kandanda.BusinessLayer.Testing
             tournaments = _tournamentService.GetAllTournaments();
 
             Assert.AreEqual(tournamentCount, tournaments.Count);
-        }
-
-        [TestMethod]
-        public void TestGenerateTournament()
-        {
-            var tournament = _tournamentService.CreateEmpty("FIFA WM");
-            var participantNameList = new List<string>
-            {
-                "FC St. Gallen", "Young Boys", "GC", "FC Zürich",
-                "FC Vaduz", "FC Basel", "FC Bayern München", "SC Brühl"
-            };
-
-            foreach (var participantName in participantNameList)
-            {
-                var participant = _participantService.CreateEmpty(participantName);
-                _tournamentService.EnrolParticipant(tournament, participant);
-            }
-
-            _tournamentService.GetParticipantsByTournament(tournament);
-            _tournamentService.GeneratePhase(tournament, 4);
-            
-            var phaseList = _tournamentService.GetPhasesByTournament(tournament);
-            Assert.AreEqual(1, phaseList.Count);
-
-            var phase = phaseList[0];
-            var phaseMatchList = _tournamentService.GetMatchesByPhase(phase);
-
-            Assert.AreEqual(12, phaseMatchList.Count);
         }
     }
 }
