@@ -1,5 +1,4 @@
 ﻿using System;
-using Effort;
 using Kandanda.BusinessLayer.ServiceImplementations;
 using Kandanda.BusinessLayer.ServiceInterfaces;
 using Kandanda.Dal;
@@ -12,13 +11,23 @@ namespace Kandanda.BusinessLayer.Testing
     {
         private IMatchService _matchService;
         private IParticipantService _participantService;
-        
+        private KandandaDbContextLocator _contextLocator;
+        private KandandaDbContext Context => _contextLocator.Current;
+
         [TestInitialize]
         public void Setup()
         {
-            var dbContext = new KandandaDbContext(DbConnectionFactory.CreateTransient());
-            _matchService = new MatchService(dbContext);
-            _participantService = new ParticipantService(dbContext);
+            _contextLocator = new KandandaDbContextLocator();
+            _contextLocator.SetTestEnvironment();
+            
+            _matchService = new MatchService(_contextLocator);
+            _participantService = new ParticipantService(_contextLocator);
+        }
+
+        [TestCleanup]
+        public void CleanUp()
+        {
+            Context.Dispose();
         }
 
         [TestMethod]

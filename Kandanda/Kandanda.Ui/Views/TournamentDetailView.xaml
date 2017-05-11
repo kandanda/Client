@@ -9,6 +9,7 @@
     <UserControl.Resources>
         <Style TargetType="TabItem">
             <Setter Property="Header" Value="{Binding DataContext.Title}" />
+            <Setter Property="AutomationProperties.AutomationId" Value="{Binding DataContext.AutomationId}" />
         </Style>
     </UserControl.Resources>
     <i:Interaction.Triggers>

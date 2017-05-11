@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Kandanda.Dal.Entities;
 
 namespace Kandanda.BusinessLayer.PhaseGenerators
@@ -7,7 +8,7 @@ namespace Kandanda.BusinessLayer.PhaseGenerators
     {
         public IEnumerable<Match> GenerateMatches()
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
     }
 }

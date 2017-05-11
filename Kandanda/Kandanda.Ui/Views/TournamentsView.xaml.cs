@@ -1,11 +1,9 @@
-﻿using System.Windows.Controls;
-
-namespace Kandanda.Ui.Views
+﻿namespace Kandanda.Ui.Views
 {
     /// <summary>
     /// Interaction logic for TournamentsView
     /// </summary>
-    public partial class TournamentsView : UserControl
+    public partial class TournamentsView
     {
         public TournamentsView()
         {

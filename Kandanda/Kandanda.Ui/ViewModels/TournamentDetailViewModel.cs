@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 using Kandanda.BusinessLayer.ServiceInterfaces;
-using Kandanda.Dal.Entities;
 using Kandanda.Ui.Core;
 using Kandanda.Ui.Events;
 using Kandanda.Ui.Interactivity;
@@ -90,8 +90,15 @@ namespace Kandanda.Ui.ViewModels
 
         private void GeneratePlan()
         {
-            // TODO: Fix Generate Plan
-            _tournamentService.GeneratePhase(CurrentTournament, 4);
+            // TODO: better exception handling approach
+            try
+            {
+                _tournamentService.GeneratePhase(CurrentTournament, 4);
+            }
+            catch (Exception exception)
+            {
+                MessageBox.Show(exception.Message);
+            }
         }
     }
 }

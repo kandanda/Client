@@ -14,9 +14,9 @@ namespace Kandanda.BusinessLayer.ServiceImplementations
     {
         private readonly IPhaseService _phaseService;
 
-        public TournamentService(KandandaDbContext dbContext) : base(dbContext)
+        public TournamentService(KandandaDbContextLocator contextLocator) : base(contextLocator)
         {
-            _phaseService = new PhaseService(dbContext);
+            _phaseService = new PhaseService(contextLocator);
         }
 
         public Tournament CreateEmpty(string name)
@@ -27,6 +27,11 @@ namespace Kandanda.BusinessLayer.ServiceImplementations
             });
         }
 
+        public Task<List<Tournament>> GetAllTournamentsAsync()
+        {
+            return GetAllAsync<Tournament>();
+        }
+        
         public async Task<List<Phase>> GetPhasesByTournamentAsync(Tournament tournament)
         {
             return await GetPhasesByTournamentQueryable(tournament).ToListAsync();
@@ -59,8 +64,7 @@ namespace Kandanda.BusinessLayer.ServiceImplementations
             return DbContext.Matches
                 .Where(match => match.PhaseId == phase.Id);
         }
-
-        //TODO We should have a regenerate phase
+        
         public Phase GeneratePhase(Tournament tournament, int groupSize)
         {
             if (tournament == null)
@@ -68,10 +72,25 @@ namespace Kandanda.BusinessLayer.ServiceImplementations
 
             var participants = GetParticipantsByTournament(tournament);
 
-            var groupPhaseGenerator = new GroupPhaseGenerator(participants, groupSize);
+            var groupPhaseGenerator = new IntelligentGroupPhaseGenerator
+            {
+                BreakBetweenGames = tournament.BreakBetweenGames,
+                GameDuration = tournament.GameDuration,
+                GroupPhaseStart = tournament.From,
+                GroupPhaseEnd = tournament.Until,
+                GroupSize = 4,
+                LunchBreakEnd = tournament.LunchBreakEnd,
+                LunchBreakStart = tournament.LunchBreakStart,
+                PlayTimeStart = tournament.PlayTimeStart,
+                PlayTimeEnd = tournament.PlayTimeEnd
+            };
+
+            groupPhaseGenerator.AddParticipants(participants);
+
+            //var groupPhaseGenerator = new GroupPhaseGenerator(participants, groupSize);
             var matches = groupPhaseGenerator.GenerateMatches();
 
-            var matchService = new MatchService(DbContext);
+            var matchService = new MatchService(KandandaDbContextLocator);
 
             var phase = GetPhasesByTournament(tournament).FirstOrDefault() ?? _phaseService.CreateEmpty();
 
@@ -128,6 +147,28 @@ namespace Kandanda.BusinessLayer.ServiceImplementations
             }
         }
 
+        public void EnrolParticipant(Tournament tournament, IEnumerable<Participant> participantList)
+        {
+            ExecuteDatabaseAction(db =>
+            {
+                foreach (var participant in participantList)
+                {
+                    var alreadyExists =
+                        DbContext.TournamentParticipants.Any(item => item.TournamentId == tournament.Id &&
+                                                                     item.ParticipantId == participant.Id);
+
+                    if (!alreadyExists)
+                    {
+                        Create(new TournamentParticipant
+                        {
+                            TournamentId = tournament.Id,
+                            ParticipantId = participant.Id
+                        });
+                    }
+                }
+            });
+        }
+
         public void DeregisterParticipant(Tournament tournament, Participant participant)
         {
             ExecuteDatabaseAction(db =>
@@ -141,6 +182,26 @@ namespace Kandanda.BusinessLayer.ServiceImplementations
                 {
                     db.TournamentParticipants.Remove(tournamentParticipant);
                     db.SaveChanges();
+                }
+            });
+        }
+
+        public void DeregisterParticipant(Tournament tournament, IEnumerable<Participant> participantList)
+        {
+            ExecuteDatabaseAction(db =>
+            {
+                foreach (var participant in participantList)
+                {
+                    var tournamentParticipant = (from entry in db.TournamentParticipants
+                                                 where (entry.ParticipantId == participant.Id) &&
+                                                       (entry.TournamentId == tournament.Id)
+                                                 select entry).FirstOrDefault();
+
+                    if (tournamentParticipant != null)
+                    {
+                        db.TournamentParticipants.Remove(tournamentParticipant);
+                        db.SaveChanges();
+                    }
                 }
             });
         }

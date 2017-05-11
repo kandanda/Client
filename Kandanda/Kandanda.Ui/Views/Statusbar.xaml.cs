@@ -1,11 +1,9 @@
-﻿using System.Windows.Controls;
-
-namespace Kandanda.Ui.Views
+﻿namespace Kandanda.Ui.Views
 {
     /// <summary>
     /// Interaction logic for Statusbar
     /// </summary>
-    public partial class Statusbar : UserControl
+    public partial class Statusbar
     {
         public Statusbar()
         {

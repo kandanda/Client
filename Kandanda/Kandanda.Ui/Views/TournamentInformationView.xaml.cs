@@ -1,5 +1,4 @@
-﻿using System.Windows.Controls;
-using Kandanda.Dal.Entities;
+﻿using Kandanda.Dal.Entities;
 using Kandanda.Ui.Core;
 using Prism.Regions;
 
@@ -8,9 +7,9 @@ namespace Kandanda.Ui.Views
     /// <summary>
     /// Interaction logic for TournamentView
     /// </summary>
-    public partial class TournamentInfoView : UserControl
+    public partial class TournamentInformationView
     {
-        public TournamentInfoView()
+        public TournamentInformationView()
         {
             InitializeComponent();
 

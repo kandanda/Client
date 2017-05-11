@@ -1,7 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Kandanda.Dal.Entities
 {
+    [ExcludeFromCodeCoverage]
     public class TournamentParticipant : IEntity
     {
         [Key]

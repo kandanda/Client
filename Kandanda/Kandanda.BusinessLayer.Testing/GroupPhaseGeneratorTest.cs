@@ -1,6 +1,4 @@
 using System;
-using System.Collections.Generic;
-using Effort;
 using Kandanda.BusinessLayer.ServiceImplementations;
 using Kandanda.BusinessLayer.ServiceInterfaces;
 using Kandanda.Dal;
@@ -13,65 +11,25 @@ namespace Kandanda.BusinessLayer.Testing
     {
         private IParticipantService _participantService;
         private ITournamentService _tournamentService;
-        private KandandaDbContext _context;
+        private KandandaDbContextLocator _contextLocator;
+        private KandandaDbContext Context => _contextLocator.Current;
 
         [TestInitialize]
         public void Setup()
         {
-            _context = new KandandaDbContext(DbConnectionFactory.CreateTransient());
-            _participantService = new ParticipantService(_context);
-            _tournamentService = new TournamentService(_context);
+            _contextLocator = new KandandaDbContextLocator();
+            _contextLocator.SetTestEnvironment();
+
+            _participantService = new ParticipantService(_contextLocator);
+            _tournamentService = new TournamentService(_contextLocator);
         }
 
-        [TestMethod]
-        public void TestGroupPhaseGeneration()
+        [TestCleanup]
+        public void CleanUp()
         {
-            const int groupSize = 4;
-            var tournament = _tournamentService.CreateEmpty("SwissCup");
-
-            var participants = new List<string>
-            {
-                "FC St. Gallen", "FC Thun", "FC Solothurn", "FC Zürich",
-                "Young Boys", "FC Vaduz", "GC Zürich", "FC Basel"
-            };
-
-            foreach (var participantName in participants)
-            {
-                var participant = _participantService.CreateEmpty(participantName);
-                _tournamentService.EnrolParticipant(tournament, participant);
-            }
-
-            var phase = _tournamentService.GeneratePhase(tournament, groupSize);
-            var matchList = _tournamentService.GetMatchesByPhase(phase);
-            
-            Assert.AreEqual(12, matchList.Count);
+            Context.Dispose();
         }
-
-        [TestMethod]
-        public void TestDifferentGroupSizes()
-        {
-            const int groupSize = 5;
-            var tournament = _tournamentService.CreateEmpty("SwissCup");
-
-            var participants = new List<string>
-            {
-                "Berlin", "Hamburg", "Wuppertal", "Essen",
-                "München", "Bonn", "Leipzig", "Stuttgart",
-                "Salzburg"
-            };
-
-            foreach (var participantName in participants)
-            {
-                var participant = _participantService.CreateEmpty(participantName);
-                _tournamentService.EnrolParticipant(tournament, participant);
-            }
-
-            var phase = _tournamentService.GeneratePhase(tournament, groupSize);
-            var matchList = _tournamentService.GetMatchesByPhase(phase);
-
-            Assert.AreEqual(16, matchList.Count);
-        }
-
+        
         [TestMethod]
         [ExpectedException(typeof(ArgumentException))]
         public void TestEmptyGroup()
