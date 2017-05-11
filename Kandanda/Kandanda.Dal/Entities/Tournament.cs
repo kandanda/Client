@@ -14,6 +14,12 @@ namespace Kandanda.Dal.Entities
         [StringLength(50)]
         public string Name { get; set; }
         
+        public int GroupSize { get; set; }
+
+        public int KoType { get; set; }
+
+        public bool DetermineThird { get; set; }
+
         [Column(TypeName = "datetime2")]
         public DateTime From { get; set; }
 
@@ -36,6 +42,8 @@ namespace Kandanda.Dal.Entities
         public TimeSpan LunchBreakStart { get; set; }
 
         public TimeSpan LunchBreakEnd { get; set; }
+        [Column(TypeName = "datetime2")]
+        public DateTime FinalsFrom { get; set; }
 
         public bool Monday { get; set; }
 

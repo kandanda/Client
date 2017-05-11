@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Effort;
 using Kandanda.BusinessLayer.PhaseGenerators;
 using Kandanda.BusinessLayer.ServiceImplementations;
 using Kandanda.BusinessLayer.ServiceInterfaces;
@@ -17,11 +16,16 @@ namespace Kandanda.BusinessLayer.Testing
         private IntelligentGroupPhaseGenerator _phaseGenerator;
         private readonly DateTime _tournamentDate = new DateTime(2014, 1, 1);
         private IParticipantService _participantService;
+        private KandandaDbContextLocator _contextLocator;
+        private KandandaDbContext Context => _contextLocator.Current;
 
         [TestInitialize]
         public void Setup()
         {
-            _participantService = new ParticipantService(new KandandaDbContext(DbConnectionFactory.CreateTransient()));
+            _contextLocator = new KandandaDbContextLocator();
+            _contextLocator.SetTestEnvironment();
+
+            _participantService = new ParticipantService(_contextLocator);
 
             _phaseGenerator = new IntelligentGroupPhaseGenerator
             {
@@ -36,7 +40,13 @@ namespace Kandanda.BusinessLayer.Testing
                 GroupSize = 4
             };
         }
-        
+
+        [TestCleanup]
+        public void CleanUp()
+        {
+            Context.Dispose();
+        }
+
         [TestMethod]
         [ExpectedException(typeof(ArgumentException))]
         public void TestTooLessTimeslotCount()

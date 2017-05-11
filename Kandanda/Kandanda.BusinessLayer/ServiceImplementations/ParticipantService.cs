@@ -7,7 +7,7 @@ namespace Kandanda.BusinessLayer.ServiceImplementations
 {
     public sealed class ParticipantService : ServiceBase, IParticipantService
     {
-        public ParticipantService(KandandaDbContext dbContext) : base(dbContext)
+        public ParticipantService(KandandaDbContextLocator contextLocator) : base(contextLocator)
         {
         }
 
@@ -45,16 +45,6 @@ namespace Kandanda.BusinessLayer.ServiceImplementations
         public void Update(Participant participant)
         {
             Update<Participant>(participant);
-        }
-
-        public Participant Save(Participant participant)
-        {
-            if (participant.Id != 0)
-            {
-                Update(participant);
-                return participant;
-            }
-            return Create(participant);
         }
     }
 }

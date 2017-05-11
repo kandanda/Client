@@ -2,19 +2,34 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:prism="http://prismlibrary.com/"
-             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" 
+             xmlns:ui="clr-namespace:Kandanda.Ui"
              prism:ViewModelLocator.AutoWireViewModel="True">
     <StackPanel>
         <StackPanel Orientation="Horizontal">
-            <Button Content="New Tournament" Command="{Binding CreateTournamentCommand}" HorizontalAlignment="Left"/>
-            <Button Content="Delete Tournament" Command="{Binding DeleteTournamentCommand}" />
+            <Button Content="New Tournament" 
+                    Command="{Binding CreateTournamentCommand}" 
+                    HorizontalAlignment="Left"
+                    AutomationProperties.AutomationId="{x:Static ui:AutomationIds.TournamentsNewTournamentButton}"/>
+            <Button Content="Delete Tournament" 
+                    Command="{Binding DeleteTournamentCommand}"
+                    AutomationProperties.AutomationId="{x:Static ui:AutomationIds.TournamentsDeleteTournamentButton}"/>
         </StackPanel>
-        <ListView ItemsSource="{Binding Tournaments}" DisplayMemberPath="Name" SelectedItem="{Binding CurrentTournament}">
+        <DataGrid ItemsSource="{Binding Tournaments}"
+                  IsReadOnly="True"
+                  SelectionMode="Single"
+                  AutoGenerateColumns="False"
+                  DisplayMemberPath="Name"
+                  SelectedItem="{Binding CurrentTournament}" 
+                  AutomationProperties.AutomationId="{x:Static ui:AutomationIds.TournamentsDataGrid}">
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="MouseDoubleClick">
                     <i:InvokeCommandAction Command="{Binding OpenTournamentCommand}" />
                 </i:EventTrigger>
             </i:Interaction.Triggers>
-        </ListView>
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Tournament Name" Binding="{Binding Name}"></DataGridTextColumn>
+            </DataGrid.Columns>
+        </DataGrid>
     </StackPanel>
 </UserControl>
