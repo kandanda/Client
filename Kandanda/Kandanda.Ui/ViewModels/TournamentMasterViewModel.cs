@@ -20,7 +20,6 @@ namespace Kandanda.Ui.ViewModels
 
         public ICommand OpenTournamentCommand { get; set; }
         public ICommand CreateTournamentCommand { get; set; }
-        public ICommand DeleteTournamentCommand { get; set; }
 
         public TournamentMasterViewModel(IRegionManager regionManager, ITournamentService tournamentService, IEventAggregator eventAggregator)
         {
@@ -30,7 +29,7 @@ namespace Kandanda.Ui.ViewModels
 
             CreateTournamentCommand = new DelegateCommand(NavigateToNewTournament);
             OpenTournamentCommand = new DelegateCommand(NavigateToTournament);
-            DeleteTournamentCommand = new DelegateCommand(DeleteTournament);
+            DeleteTournamentCommand = new DelegateCommand(DeleteTournament, () => CurrentTournament != null);
 
             Tournaments = new ObservableCollection<Tournament>(tournamentService.GetAllTournaments());
         }
