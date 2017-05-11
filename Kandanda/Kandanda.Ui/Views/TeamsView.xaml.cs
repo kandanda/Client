@@ -6,16 +6,16 @@ namespace Kandanda.Ui.Views
     /// <summary>
     /// Interaction logic for TeamsView
     /// </summary>
-    public partial class ParticipantsView : UserControl
+    public partial class TeamsView
     {
-        public ParticipantsView()
+        public TeamsView()
         {
             InitializeComponent();
         }
 
         private void DataGrid_OnCellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
         {
-            var viewModel = DataContext as ParticipantsViewModel;
+            var viewModel = DataContext as TeamsViewModel;
             viewModel?.SaveAllCommand.Execute(null);
         }
     }

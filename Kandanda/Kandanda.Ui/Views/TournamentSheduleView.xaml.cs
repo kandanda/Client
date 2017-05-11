@@ -1,20 +1,17 @@
-﻿using System.Windows.Controls;
-using Kandanda.Dal.Entities;
+﻿using Kandanda.Dal.Entities;
 using Kandanda.Ui.Core;
 using Prism.Regions;
 
 namespace Kandanda.Ui.Views
 {
     /// <summary>
-    /// Interaction logic for TournamentView
+    /// Interaction logic for TournamentSheduleView
     /// </summary>
-    public partial class TournamentInfoView : UserControl
+    public partial class TournamentSheduleView
     {
-        public TournamentInfoView()
+        public TournamentSheduleView()
         {
             InitializeComponent();
-
-            //TODO: Fix duplicated code
             RegionContext.GetObservableContext(this).PropertyChanged += (s, e)
                                                                         =>
             {

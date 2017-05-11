@@ -82,10 +82,8 @@
     project: .\Kandanda\Kandanda.sln
     verbosity: minimal
   test_script:
-    - vstest.console /logger:Appveyor ".\Kandanda.Ui.Testing\bin\%CONFIGURATION%\Kandanda.Ui.Testing.dll"
     - vstest.console /logger:Appveyor ".\Kandanda.BusinessLayer.Testing\bin\%CONFIGURATION%\Kandanda.BusinessLayer.Testing.dll"
   after_test:
-    - .\OpenCover\tools\OpenCover.Console.exe -register:user -filter:"+[*]*" -target:"vstest.console.exe" -targetargs:".\Kandanda.Ui.Testing\bin\%CONFIGURATION%\Kandanda.Ui.Testing.dll"  -excludebyattribute:*.ExcludeFromCodeCoverage* -hideskipped:All -output:coverage.xml
     - .\OpenCover\tools\OpenCover.Console.exe -register:user -filter:"+[*]*" -target:"vstest.console.exe" -targetargs:".\Kandanda.BusinessLayer.Testing\bin\%CONFIGURATION%\Kandanda.BusinessLayer.Testing.dll"  -excludebyattribute:*.ExcludeFromCodeCoverage* -hideskipped:All -output:coverage.xml -mergeoutput
     - .\coveralls.io\tools\coveralls.net.exe --opencover coverage.xml
   after_build:

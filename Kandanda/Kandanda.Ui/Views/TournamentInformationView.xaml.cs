@@ -5,13 +5,15 @@ using Prism.Regions;
 namespace Kandanda.Ui.Views
 {
     /// <summary>
-    /// Interaction logic for SheduleView
+    /// Interaction logic for TournamentView
     /// </summary>
-    public partial class ScheduleView
+    public partial class TournamentInformationView
     {
-        public ScheduleView()
+        public TournamentInformationView()
         {
             InitializeComponent();
+
+            //TODO: Fix duplicated code
             RegionContext.GetObservableContext(this).PropertyChanged += (s, e)
                                                                         =>
             {

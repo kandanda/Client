@@ -11,5 +11,13 @@ namespace Kandanda.Ui.Core
             get { return _title; }
             set { SetProperty(ref _title, value); }
         }
+
+        private string _automationId;
+
+        public string AutomationId
+        {
+            get { return _automationId; }
+            set { SetProperty(ref _automationId, value); }
+        }
     }
 }
