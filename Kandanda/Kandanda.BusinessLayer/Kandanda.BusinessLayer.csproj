@@ -92,6 +92,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataAccessException.cs" />
+    <Compile Include="FileLogger.cs" />
     <Compile Include="ModuleKandandaServices.cs" />
     <Compile Include="PhaseGenerators\GroupPhaseGenerator.cs" />
     <Compile Include="PhaseGenerators\IntelligentGroupPhaseGenerator.cs" />
