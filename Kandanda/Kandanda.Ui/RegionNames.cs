@@ -8,5 +8,6 @@
         public const string TournamentCommandRegion = "TournamentCommandRegion";
         public const string MenuRegion = "MenuRegion";
         public const string StatusbarRegion = "StatusbarRegion";
+        public const string ActiveTournamentRegion = "ActiveTournamentRegion";
     }
 }

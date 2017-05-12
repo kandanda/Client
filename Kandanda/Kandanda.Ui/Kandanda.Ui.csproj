@@ -169,6 +169,9 @@
     <Compile Include="Views\Statusbar.xaml.cs">
       <DependentUpon>Statusbar.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\ActiveTournamentScheduleView.xaml.cs">
+      <DependentUpon>ActiveTournamentScheduleView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\TournamentMasterView.xaml.cs">
       <DependentUpon>TournamentMasterView.xaml</DependentUpon>
     </Compile>
@@ -201,6 +204,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Statusbar.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ActiveTournamentScheduleView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
