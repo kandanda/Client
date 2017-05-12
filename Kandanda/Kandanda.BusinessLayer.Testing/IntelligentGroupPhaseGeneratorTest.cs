@@ -56,7 +56,8 @@ namespace Kandanda.BusinessLayer.Testing
             _phaseGenerator.GroupSize = 5;
             _phaseGenerator.AddParticipants(participants);
 
-            _phaseGenerator.GenerateMatches();
+            var groups = _phaseGenerator.GenerateGroups();
+            _phaseGenerator.GenerateMatches(groups);
         }
 
         [TestMethod]
@@ -69,7 +70,8 @@ namespace Kandanda.BusinessLayer.Testing
             _phaseGenerator.PlayTimeStart = TimeSpan.FromHours(8);
             _phaseGenerator.AddParticipants(participants);
 
-            var matchList = _phaseGenerator.GenerateMatches().ToList();
+            var groups = _phaseGenerator.GenerateGroups();
+            var matchList = _phaseGenerator.GenerateMatches(groups).ToList();
 
             Assert.AreEqual(40, matchList.Count);
             Assert.AreEqual(matchList[0].From, new DateTime(2014, 1, 1, 8, 0, 0));
@@ -89,7 +91,8 @@ namespace Kandanda.BusinessLayer.Testing
             _phaseGenerator.PlayTimeStart = TimeSpan.FromHours(8);
             _phaseGenerator.GroupPhaseEnd = new DateTime(2014, 1, 3);
 
-            var matchList = _phaseGenerator.GenerateMatches().ToList();
+            var groups = _phaseGenerator.GenerateGroups();
+            var matchList = _phaseGenerator.GenerateMatches(groups).ToList();
 
             Assert.AreEqual(66, matchList.Count);
             Assert.AreEqual(matchList[0].From, new DateTime(2014, 1, 1, 8, 0, 0));
@@ -99,8 +102,9 @@ namespace Kandanda.BusinessLayer.Testing
         [ExpectedException(typeof(ArgumentException))]
         public void TestInvalidGroupSize()
         {
+            var groups = _phaseGenerator.GenerateGroups();
             _phaseGenerator.GroupSize = 12;
-            _phaseGenerator.GenerateMatches();
+            _phaseGenerator.GenerateMatches(groups);
         }
 
         [TestMethod]
@@ -114,7 +118,8 @@ namespace Kandanda.BusinessLayer.Testing
             _phaseGenerator.GroupSize = 4;
             _phaseGenerator.AddParticipants(participants);
 
-            var matchList = _phaseGenerator.GenerateMatches().ToList();
+            var groups = _phaseGenerator.GenerateGroups();
+            var matchList = _phaseGenerator.GenerateMatches(groups).ToList();
 
             Assert.AreEqual(24, matchList.Count);
         }
@@ -131,7 +136,8 @@ namespace Kandanda.BusinessLayer.Testing
             _phaseGenerator.GroupPhaseEnd = new DateTime(2014, 1, 2);
             _phaseGenerator.AddParticipants(participants);
 
-            var matchList = _phaseGenerator.GenerateMatches().ToList();
+            var groups = _phaseGenerator.GenerateGroups();
+            var matchList = _phaseGenerator.GenerateMatches(groups).ToList();
 
             Assert.AreEqual(48, matchList.Count);
         }
