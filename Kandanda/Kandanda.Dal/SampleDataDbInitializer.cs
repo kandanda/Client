@@ -48,13 +48,19 @@ namespace Kandanda.Dal
                 {
                     Name = tournament,
                     From = DateTime.Now,
-                    Until = DateTime.Now.AddDays(1),
+                    Until = DateTime.Now.AddDays(2),
                     BreakBetweenGames                    = TimeSpan.FromMinutes(5),
                     DetermineThird = true,
                     FinalsFrom = DateTime.Now.AddDays(1).AddHours(-4),
+                    Monday = true,
+                    Tuesday = true,
+                    Wednesday = true,
+                    Thursday = true,
                     Friday = true,
+                    Saturday = true,
+                    Sunday = true,
                     GameDuration = TimeSpan.FromMinutes(15),
-                    GroupSize = 2
+                    GroupSize = 4
                 });
             }
 
@@ -132,6 +138,26 @@ namespace Kandanda.Dal
             db.TournamentParticipants.Add(new TournamentParticipant
             {
                 ParticipantId = 12,
+                TournamentId = 1
+            });
+            db.TournamentParticipants.Add(new TournamentParticipant
+            {
+                ParticipantId = 13,
+                TournamentId = 1
+            });
+            db.TournamentParticipants.Add(new TournamentParticipant
+            {
+                ParticipantId = 14,
+                TournamentId = 1
+            });
+            db.TournamentParticipants.Add(new TournamentParticipant
+            {
+                ParticipantId = 15,
+                TournamentId = 1
+            });
+            db.TournamentParticipants.Add(new TournamentParticipant
+            {
+                ParticipantId = 16,
                 TournamentId = 1
             });
 

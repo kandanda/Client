@@ -14,7 +14,7 @@
         </StackPanel>
         <StackPanel>
             <Label Content="Group Size" Target="{Binding ElementName=GroupSize}" />
-            <xctk:IntegerUpDown Name="GroupSize" Value="{Binding Path=CurrentTournament.Monday}" AutomationProperties.AutomationId="{x:Static ui:AutomationIds.TournamentInfoGroupSize}" />
+            <xctk:IntegerUpDown Name="GroupSize" Value="{Binding Path=CurrentTournament.GroupSize}" AutomationProperties.AutomationId="{x:Static ui:AutomationIds.TournamentInfoGroupSize}" />
         </StackPanel>
         <StackPanel>
             <Label Content="KO Type" Target="{Binding ElementName=KoType}" />
