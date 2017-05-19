@@ -4,7 +4,7 @@ using Kandanda.Dal.Entities;
 
 namespace Kandanda.BusinessLayer.PhaseGenerators
 {
-    internal sealed class KnockoutPhaseGenerator : IPhaseGenerator
+    internal sealed class KnockoutPhaseGenerator
     {
         public IEnumerable<Match> GenerateMatches()
         {

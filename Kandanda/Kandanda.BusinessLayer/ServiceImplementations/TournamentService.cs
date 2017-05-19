@@ -27,6 +27,45 @@ namespace Kandanda.BusinessLayer.ServiceImplementations
             });
         }
 
+        public void GenerateGroups(Tournament tournament)
+        {
+            var participants = GetParticipantsByTournament(tournament);
+
+            var groupPhaseGenerator = CreateGroupPhaseGenerator(tournament);
+            groupPhaseGenerator.AddParticipants(participants);
+
+            var groupMap = groupPhaseGenerator.GenerateGroups();
+
+            foreach (var group in groupMap)
+            {
+                var groupName = group.Key;
+
+                foreach (var participant in group.Value)
+                {
+                    var tournamentParticipant = (from entry in DbContext.TournamentParticipants
+                        where entry.TournamentId == tournament.Id &&
+                              entry.ParticipantId == participant.Id
+                        select entry).FirstOrDefault();
+
+                    if (tournamentParticipant != null)
+                    {
+                        tournamentParticipant.GroupName = groupName;
+
+                        DbContext.Entry(tournamentParticipant).State = EntityState.Modified;
+                        DbContext.SaveChanges();
+                    }
+                }
+            }
+        }
+
+        public string GetGroupByParticipant(Tournament tournament, Participant participant)
+        {
+            return (from tournamentParticipant in DbContext.TournamentParticipants
+                    where tournamentParticipant.ParticipantId == participant.Id &&
+                    tournamentParticipant.TournamentId == tournament.Id
+                    select tournamentParticipant.GroupName).FirstOrDefault();
+        }
+
         public Task<List<Tournament>> GetAllTournamentsAsync()
         {
             return GetAllAsync<Tournament>();
@@ -72,23 +111,12 @@ namespace Kandanda.BusinessLayer.ServiceImplementations
 
             var participants = GetParticipantsByTournament(tournament);
 
-            var groupPhaseGenerator = new IntelligentGroupPhaseGenerator
-            {
-                BreakBetweenGames = tournament.BreakBetweenGames,
-                GameDuration = tournament.GameDuration,
-                GroupPhaseStart = tournament.From,
-                GroupPhaseEnd = tournament.Until,
-                GroupSize = tournament.GroupSize,
-                LunchBreakEnd = tournament.LunchBreakEnd,
-                LunchBreakStart = tournament.LunchBreakStart,
-                PlayTimeStart = tournament.PlayTimeStart,
-                PlayTimeEnd = tournament.PlayTimeEnd
-            };
+            var groupPhaseGenerator = CreateGroupPhaseGenerator(tournament);
 
             groupPhaseGenerator.AddParticipants(participants);
 
-            //var groupPhaseGenerator = new GroupPhaseGenerator(participants, groupSize);
-            var matches = groupPhaseGenerator.GenerateMatches();
+            var groups = groupPhaseGenerator.GenerateGroups();
+            var matches = groupPhaseGenerator.GenerateMatches(groups);
 
             var matchService = new MatchService(KandandaDbContextLocator);
 
@@ -233,6 +261,22 @@ namespace Kandanda.BusinessLayer.ServiceImplementations
         public async Task<List<Participant>> GetParticipantsByTournamentAsync(Tournament tournament)
         {
             return await GetParticipantByTournamentEnumerable(tournament).ToListAsync();
+        }
+
+        private IntelligentGroupPhaseGenerator CreateGroupPhaseGenerator(Tournament tournament)
+        {
+            return new IntelligentGroupPhaseGenerator
+            {
+                BreakBetweenGames = tournament.BreakBetweenGames,
+                GameDuration = tournament.GameDuration,
+                GroupPhaseStart = tournament.From,
+                GroupPhaseEnd = tournament.Until,
+                GroupSize = tournament.GroupSize,
+                LunchBreakEnd = tournament.LunchBreakEnd,
+                LunchBreakStart = tournament.LunchBreakStart,
+                PlayTimeStart = tournament.PlayTimeStart,
+                PlayTimeEnd = tournament.PlayTimeEnd
+            };
         }
 
         private IQueryable<Participant> GetParticipantByTournamentEnumerable(Tournament tournament)

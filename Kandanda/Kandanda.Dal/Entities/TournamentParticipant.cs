@@ -13,6 +13,8 @@ namespace Kandanda.Dal.Entities
 
         public int ParticipantId { get; set; }
 
+        public string GroupName { get; set; }
+
         [Timestamp]
         public byte[] RowVersion { get; set; }
     }

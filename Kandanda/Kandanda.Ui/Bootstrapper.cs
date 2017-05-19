@@ -1,8 +1,10 @@
-﻿using Microsoft.Practices.Unity;
+﻿using System.Configuration;
+using Microsoft.Practices.Unity;
 using Prism.Unity;
 using Kandanda.Ui.Views;
 using System.Windows;
 using Kandanda.BusinessLayer;
+using Prism.Logging;
 using Prism.Modularity;
 
 namespace Kandanda.Ui
@@ -36,6 +38,16 @@ namespace Kandanda.Ui
                 ModuleType = moduleKandanda.AssemblyQualifiedName,
                 InitializationMode = InitializationMode.WhenAvailable
             });
+        }
+
+        protected override ILoggerFacade CreateLogger()
+        {
+            return new FileLogger(ConfigurationManager.AppSettings["LogFile"]);
+        }
+
+        public ILoggerFacade GetLogger()
+        {
+            return Logger;
         }
     }
 }
