@@ -65,7 +65,7 @@ namespace Kandanda.BusinessLayer.ServiceImplementations
                 .Where(match => match.PhaseId == phase.Id);
         }
         
-        public Phase GeneratePhase(Tournament tournament, int groupSize)
+        public Phase GeneratePhase(Tournament tournament)
         {
             if (tournament == null)
                 throw new ArgumentException("Phase generation tournament");
@@ -78,7 +78,7 @@ namespace Kandanda.BusinessLayer.ServiceImplementations
                 GameDuration = tournament.GameDuration,
                 GroupPhaseStart = tournament.From,
                 GroupPhaseEnd = tournament.Until,
-                GroupSize = 4,
+                GroupSize = tournament.GroupSize,
                 LunchBreakEnd = tournament.LunchBreakEnd,
                 LunchBreakStart = tournament.LunchBreakStart,
                 PlayTimeStart = tournament.PlayTimeStart,
@@ -102,6 +102,10 @@ namespace Kandanda.BusinessLayer.ServiceImplementations
 
             phase.TournamentId = tournament.Id;
             _phaseService.Update(phase);
+
+
+            tournament.IsActive = true;
+            Update(tournament);
 
             return phase;
         }

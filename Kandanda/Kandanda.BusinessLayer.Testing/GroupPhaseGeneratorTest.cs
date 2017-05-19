@@ -35,7 +35,8 @@ namespace Kandanda.BusinessLayer.Testing
         public void TestEmptyGroup()
         {
             var tournament = _tournamentService.CreateEmpty("Test");
-            _tournamentService.GeneratePhase(tournament, 0);
+            tournament.GroupSize = 0;
+            _tournamentService.GeneratePhase(tournament);
         }
 
         [TestMethod]
@@ -47,14 +48,15 @@ namespace Kandanda.BusinessLayer.Testing
 
             _tournamentService.EnrolParticipant(tournament, participant);
 
-            _tournamentService.GeneratePhase(tournament, 0);
+            tournament.GroupSize = 0;
+            _tournamentService.GeneratePhase(tournament);
         }
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentException))]
         public void TestNullTournament()
         {
-            _tournamentService.GeneratePhase(null, 10);
+            _tournamentService.GeneratePhase(null);
         }
     }
 }

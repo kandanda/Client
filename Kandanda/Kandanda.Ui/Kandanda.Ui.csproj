@@ -142,7 +142,9 @@
     <Compile Include="Core\TournamentViewModelBase.cs" />
     <Compile Include="Events\ChangeCurrentTournamentEvent.cs" />
     <Compile Include="Events\GeneratePlanRequestEvent.cs" />
-    <Compile Include="Events\PublishRequestEvent.cs" />
+    <Compile Include="Events\GeneratePlanEvent.cs" />
+    <Compile Include="Events\TryUnpublishEvent.cs" />
+    <Compile Include="Events\TryPublishEvent.cs" />
     <Compile Include="Events\KandandaDbContextChanged.cs" />
     <Compile Include="Events\StateChangeEvent.cs" />
     <Compile Include="Interactivity\IOpenUrlRequest.cs" />
@@ -153,6 +155,9 @@
     <Compile Include="Interactivity\KandandaVersionInfo.cs" />
     <Compile Include="ViewModels\TeamsViewModel.cs" />
     <Compile Include="ViewModels\StatusbarViewModel.cs" />
+    <Compile Include="ViewModels\ActiveTournamentCommandViewModel.cs" />
+    <Compile Include="ViewModels\ActiveTournamentViewModel.cs" />
+    <Compile Include="ViewModels\ActiveTournamentScheduleViewModel.cs" />
     <Compile Include="ViewModels\TournamentMasterViewModel.cs" />
     <Compile Include="ViewModels\TournamentsViewModel.cs" />
     <Compile Include="ViewModels\TournamentDetailViewModel.cs" />
@@ -172,11 +177,17 @@
     <Compile Include="Views\ActiveTournamentScheduleView.xaml.cs">
       <DependentUpon>ActiveTournamentScheduleView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\TournamentMasterView.xaml.cs">
-      <DependentUpon>TournamentMasterView.xaml</DependentUpon>
+    <Compile Include="Views\ActiveTournamentCommandView.xaml.cs">
+      <DependentUpon>ActiveTournamentCommandView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\TournamentDetailView.xaml.cs">
       <DependentUpon>TournamentDetailView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\TournamentMasterView.xaml.cs">
+      <DependentUpon>TournamentMasterView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ActiveTournamentView.xaml.cs">
+      <DependentUpon>ActiveTournamentView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Menubar.xaml.cs">
       <DependentUpon>Menubar.xaml</DependentUpon>
@@ -211,11 +222,19 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Views\ActiveTournamentCommandView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\TournamentDetailView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\TournamentMasterView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\TournamentDetailView.xaml">
+    <Page Include="Views\ActiveTournamentView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

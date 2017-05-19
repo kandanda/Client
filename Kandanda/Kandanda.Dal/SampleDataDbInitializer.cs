@@ -21,15 +21,25 @@ namespace Kandanda.Dal
                 "Challenge League"
             };
 
-            var participants = new List<List<string>>
+            var participants = new List<string>
             {
-                new List<string>{"FC Thun","Warren","(916) 178-0733","malesuada.vel@ipsum.edu"},
-                new List<string>{"FC St. Gallen","Ramona","(842) 545-0136","libero.at@elit.ca"},
-                new List<string>{"FC Real Madrid","Kylee","(331) 478-3654","vitae.orci@DuisgravidaPraesent.co.uk"},
-                new List<string> {"FC Barcelona","Kelsey","(892) 392-9176","Curae.Donec@magna.co.uk"},
-                new List<string>{"FC Kandanda","Joelle","(498) 115-2834","consectetuer.cursus.et@Curabiturut.org"},
-                new List<string>{"GC Zürich","Rama","(893) 568-2097","ipsum.Curabitur@Nulla.ca"},
-                new List<string>{"FC Zürich","Amethyst","(645) 953-2475","eu.nibh@eumetus.co.uk"}
+                "A1",
+                "A2",
+                "A3",
+                "A4",
+                "B1",
+                "B2",
+                "B3",
+                "B4",
+                "C1",
+                "C2",
+                "C3",
+                "C4",
+                "D1",
+                "D2",
+                "D3",
+                "D4"
+
             };
             
             foreach (var tournament in tournaments)
@@ -38,7 +48,13 @@ namespace Kandanda.Dal
                 {
                     Name = tournament,
                     From = DateTime.Now,
-                    Until = DateTime.Now.AddDays(1)
+                    Until = DateTime.Now.AddDays(1),
+                    BreakBetweenGames                    = TimeSpan.FromMinutes(5),
+                    DetermineThird = true,
+                    FinalsFrom = DateTime.Now.AddDays(1).AddHours(-4),
+                    Friday = true,
+                    GameDuration = TimeSpan.FromMinutes(15),
+                    GroupSize = 2
                 });
             }
 
@@ -46,10 +62,7 @@ namespace Kandanda.Dal
             {
                 db.Participants.Add(new Participant
                 {
-                    Name = participant[0],
-                    Captain = participant[1],
-                    Phone = participant[2],
-                    Email = participant[3]
+                    Name = participant
                 });
             }
 
@@ -74,6 +87,51 @@ namespace Kandanda.Dal
             db.TournamentParticipants.Add(new TournamentParticipant
             {
                 ParticipantId = 3,
+                TournamentId = 1
+            });
+            db.TournamentParticipants.Add(new TournamentParticipant
+            {
+                ParticipantId = 4,
+                TournamentId = 1
+            });
+            db.TournamentParticipants.Add(new TournamentParticipant
+            {
+                ParticipantId = 5,
+                TournamentId = 1
+            });
+            db.TournamentParticipants.Add(new TournamentParticipant
+            {
+                ParticipantId = 6,
+                TournamentId = 1
+            });
+            db.TournamentParticipants.Add(new TournamentParticipant
+            {
+                ParticipantId = 7,
+                TournamentId = 1
+            });
+            db.TournamentParticipants.Add(new TournamentParticipant
+            {
+                ParticipantId = 8,
+                TournamentId = 1
+            });
+            db.TournamentParticipants.Add(new TournamentParticipant
+            {
+                ParticipantId = 9,
+                TournamentId = 1
+            });
+            db.TournamentParticipants.Add(new TournamentParticipant
+            {
+                ParticipantId = 10,
+                TournamentId = 1
+            });
+            db.TournamentParticipants.Add(new TournamentParticipant
+            {
+                ParticipantId = 11,
+                TournamentId = 1
+            });
+            db.TournamentParticipants.Add(new TournamentParticipant
+            {
+                ParticipantId = 12,
                 TournamentId = 1
             });
 

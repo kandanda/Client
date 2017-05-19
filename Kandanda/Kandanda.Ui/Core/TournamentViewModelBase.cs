@@ -1,5 +1,4 @@
 ﻿using Kandanda.Dal.Entities;
-using Prism.Commands;
 
 namespace Kandanda.Ui.Core
 {

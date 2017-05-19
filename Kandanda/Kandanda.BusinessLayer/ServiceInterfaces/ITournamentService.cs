@@ -8,7 +8,7 @@ namespace Kandanda.BusinessLayer.ServiceInterfaces
     {
         Tournament CreateEmpty(string name);
         Tournament GetTournamentById(int id);
-        Phase GeneratePhase(Tournament tournament, int groupSize);
+        Phase GeneratePhase(Tournament tournament);
         void EnrolParticipant(Tournament tournament, Participant participant);
         void EnrolParticipant(Tournament tournament, IEnumerable<Participant> participantList);
         void DeregisterParticipant(Tournament tournament, Participant participant);

@@ -26,21 +26,21 @@
             <Label Content="Playtimes" Target="{Binding ElementName=PlayStart}" />
             <StackPanel Orientation="Horizontal">
                 <xctk:TimePicker Name="PlayStart" 
-                                 Value="{Binding PlayTimeStart}" 
+                                 Value="{Binding Path=CurrentTournament.PlayTimeStart}" 
                                  AutomationProperties.AutomationId="{x:Static ui:AutomationIds.TournamentScheduleTimeStart}"/>
                 <Label Content=" - " />
                 <xctk:TimePicker Name="PlayEnd" 
-                                 Value="{Binding PlayTimeEnd}" 
+                                 Value="{Binding Path=CurrentTournament.PlayTimeEnd}" 
                                  AutomationProperties.AutomationId="{x:Static ui:AutomationIds.TournamentScheduleTimeEnd}"/>
             </StackPanel>
             <Label Content="Game Duration" Target="{Binding ElementName=GameDuration}"/>
             <xctk:IntegerUpDown Name="GameDuration" 
-                                Value="{Binding GameDuration}"
+                                Value="{Binding Path=CurrentTournament.GameDuration}"
                                 Minimum="1" 
                                 AutomationProperties.AutomationId="{x:Static ui:AutomationIds.TournamentScheduleDuration}"/>
             <Label Content="Break between games" Target="{Binding ElementName=BreakBetweenGames}"/>
             <xctk:IntegerUpDown Name="BreakBetweenGames" 
-                                Value="{Binding BreakBetweenGames}" 
+                                Value="{Binding Path=CurrentTournament.BreakBetweenGames}" 
                                 Minimum="0" 
                                 AutomationProperties.AutomationId="{x:Static ui:AutomationIds.TournamentScheduleBreak}"/>
         </StackPanel>
@@ -48,11 +48,11 @@
             <Label Content="Lunch break" Target="{Binding ElementName=LunchStart}" />
             <StackPanel Orientation="Horizontal">
                 <xctk:TimePicker Name="LunchStart" 
-                                 Value="{Binding LunchBreakStart}" 
+                                 Value="{Binding Path=CurrentTournament.LunchBreakStart}" 
                                  AutomationProperties.AutomationId="{x:Static ui:AutomationIds.TournamentScheduleLunchStart}"/>
                 <Label Content=" - " />
                 <xctk:TimePicker Name="LunchEnd" 
-                                 Value="{Binding LunchBreakEnd}" 
+                                 Value="{Binding Path=CurrentTournament.LunchBreakEnd}" 
                                  AutomationProperties.AutomationId="{x:Static ui:AutomationIds.TournamentScheduleLunchEnd}"/>
             </StackPanel>
         </StackPanel>
@@ -61,7 +61,7 @@
             <xctk:DateTimePicker Name="StartOfFinals" 
                                  Format="Custom"
                                  FormatString="dd.MM.yyyy HH:mm"
-                                 Value="{Binding FinalsFrom}"
+                                 Value="{Binding Path=CurrentTournament.FinalsFrom}"
                                  AutomationProperties.AutomationId="{x:Static ui:AutomationIds.TournamentScheduleFinalsBegin}" />
         </StackPanel>
         <StackPanel>

@@ -10,6 +10,6 @@
             <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
         <Button Content="Close" HorizontalAlignment="Left" Command="{Binding CloseCommand}" AutomationProperties.AutomationId="{x:Static ui:AutomationIds.TournamentCloseButton}"/>
-        <Button Grid.Column="1" Content="Publish" HorizontalAlignment="Right" Command="{Binding PublishCommand}" AutomationProperties.AutomationId="{x:Static ui:AutomationIds.TournamentPublishButton}"/>
+        <Button Grid.Column="1" Content="Generate" HorizontalAlignment="Right" Command="{Binding GenerateCommand}" AutomationProperties.AutomationId="{x:Static ui:AutomationIds.TournamentGenerateButton}"/>
     </Grid>
 </UserControl>

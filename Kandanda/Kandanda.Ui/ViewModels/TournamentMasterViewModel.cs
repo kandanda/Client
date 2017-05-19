@@ -65,7 +65,15 @@ namespace Kandanda.Ui.ViewModels
         private void NavigateToTournament()
         {
             _eventAggregator.GetEvent<ChangeCurrentTournamentEvent>().Publish(CurrentTournament.Id);
-            _regionManager.RequestNavigate(RegionNames.TournamentsRegion, "/TournamentDetailView");
+            if (CurrentTournament.IsActive)
+            {
+                _regionManager.RequestNavigate(RegionNames.TournamentsRegion, "/ActiveTournamentView");
+            }
+            else
+            {
+                _regionManager.RequestNavigate(RegionNames.TournamentsRegion, "/TournamentDetailView");
+            }
+            
         }
 
         public async void OnNavigatedTo(NavigationContext navigationContext)

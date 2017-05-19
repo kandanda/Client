@@ -18,21 +18,22 @@ namespace Kandanda.Ui.ViewModels
     {
         private readonly IPublishTournamentService _publishTournamentService;
         private readonly IOpenUrlRequest _openUrlRequest;
+        private readonly IRegionManager _regionManager;
         private readonly ITournamentService _tournamentService;
         public InteractionRequest<IConfirmation> ConfirmationRequest { get; }
-        public InteractionRequest<SignInPopupViewModel> SignInRequest { get; }
         public ICommand SaveCommand { get; set; }
         public bool IsReady { get; set; }
 
         public TournamentDetailViewModel(IEventAggregator eventAggregator, ITournamentService tournamentService, 
-            IPublishTournamentService publishTournamentService, IOpenUrlRequest openUrlRequest)
+            IPublishTournamentService publishTournamentService, IOpenUrlRequest openUrlRequest, IRegionManager regionManager)
         {
             _tournamentService = tournamentService;
+            _regionManager = regionManager;
+
             _publishTournamentService = publishTournamentService;
             _openUrlRequest = openUrlRequest;
             ConfirmationRequest = new InteractionRequest<IConfirmation>();
-            SignInRequest = new InteractionRequest<SignInPopupViewModel>();
-            eventAggregator.GetEvent<PublishRequestEvent>().Subscribe(SignInAsync);
+            eventAggregator.GetEvent<GeneratePlanEvent>().Subscribe(GeneratePlan);
             SaveCommand = new DelegateCommand(Save);
         }
 
@@ -51,16 +52,20 @@ namespace Kandanda.Ui.ViewModels
 
         public void ConfirmNavigationRequest(NavigationContext navigationContext, Action<bool> continuationCallback)
         {
-            ConfirmationRequest.Raise(
-                new Confirmation {Title = $"Save {CurrentTournament.Name}", Content = "Close this Tournament?"},
-                c =>
-                {
-                    if (c.Confirmed)
+            if (navigationContext.Uri.ToString().Equals("/TournamentMasterView"))
+            {
+                ConfirmationRequest.Raise(
+                    new Confirmation { Title = $"Save {CurrentTournament.Name}", Content = "Close this Tournament?" },
+                    c =>
                     {
-                        Save(); 
-                    }
-                    continuationCallback(c.Confirmed);
-                });
+                        if (c.Confirmed)
+                        {
+                            Save();
+                        }
+                        continuationCallback(c.Confirmed);
+                    });
+            }
+           
         }
 
         private void Save()
@@ -68,37 +73,20 @@ namespace Kandanda.Ui.ViewModels
             _tournamentService.Update(CurrentTournament);
         }
 
-        private void SignInAsync()
-        {
-            IsReady = false;
-            GeneratePlan();
-            var signInViewModel = new SignInPopupViewModel(_publishTournamentService);
-            SignInRequest.Raise(signInViewModel, async c =>
-            {
-                if (!c.Confirmed)
-                    return;
-                await PublishAsync(signInViewModel.AuthToken);
-                IsReady = true;
-            });
-        }
-
-        private async Task PublishAsync(string authToken)
-        {
-            var response = await _publishTournamentService.PostTournamentAsync(CurrentTournament, authToken, CancellationToken.None);
-            _openUrlRequest.Open(response.Link);
-        }
-
         private void GeneratePlan()
         {
-            // TODO: better exception handling approach
             try
             {
-                _tournamentService.GeneratePhase(CurrentTournament, 4);
+                _tournamentService.GeneratePhase(CurrentTournament);
+                CurrentTournament.IsActive = true;
+                _tournamentService.Update(CurrentTournament);
+                _regionManager.RequestNavigate(RegionNames.TournamentsRegion, "/ActiveTournamentView");
             }
             catch (Exception exception)
             {
                 MessageBox.Show(exception.Message);
             }
         }
+        
     }
 }

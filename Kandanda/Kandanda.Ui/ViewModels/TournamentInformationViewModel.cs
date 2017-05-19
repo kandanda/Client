@@ -1,28 +1,36 @@
-﻿using Kandanda.Ui.Core;
+﻿using Kandanda.BusinessLayer.ServiceInterfaces;
+using Kandanda.Ui.Core;
+using Prism.Regions;
 
 namespace Kandanda.Ui.ViewModels
 {
-    public class TournamentInformationViewModel : TournamentViewModelBase
+    public class TournamentInformationViewModel : TournamentViewModelBase, INavigationAware
     {
-        private int _numberOfGroups;
-        private int _participantsPerGroup;
+        private readonly ITournamentService _tournamentService;
 
-        public TournamentInformationViewModel()
+
+        public TournamentInformationViewModel(ITournamentService tournamentService)
         {
             Title = "Information";
-            AutomationId = AutomationIds.TournamentInformationTab;
+            AutomationId = AutomationIds.TournamentScheduleTab;
+            _tournamentService = tournamentService;
         }
 
-        public int NumberOfGroups
+        public void OnNavigatedTo(NavigationContext navigationContext)
         {
-            get { return _numberOfGroups; }
-            set { SetProperty(ref _numberOfGroups, value); }
+            Save();
         }
 
-        public int ParticipantsPerGroup
+        public bool IsNavigationTarget(NavigationContext navigationContext)
         {
-            get { return _participantsPerGroup; }
-            set { SetProperty(ref _participantsPerGroup, value); }
+            return true;
+        }
+
+        public void OnNavigatedFrom(NavigationContext navigationContext) { }
+
+        private void Save()
+        {
+            _tournamentService.Update(CurrentTournament);
         }
     }
 }

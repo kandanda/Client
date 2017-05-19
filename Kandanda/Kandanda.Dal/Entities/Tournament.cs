@@ -63,5 +63,7 @@ namespace Kandanda.Dal.Entities
 
         [Timestamp]
         public byte[] RowVersion { get; set; }
+
+        public bool IsActive { get; set; }
     }
 }

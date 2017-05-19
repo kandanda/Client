@@ -13,7 +13,7 @@
         public const string TournamentsDataGrid = "TournamentsDataGrid";
 
         public const string TournamentCloseButton = "TournamentCloseButton";
-        public const string TournamentPublishButton = "TournamentPublishButton";
+        public const string TournamentGenerateButton = "TournamentGenerateButton";
 
         public const string TournamentInformationTab = "TournamentInformationTab";
         public const string TournamentScheduleTab = "TournamentScheduleTab";
@@ -56,5 +56,10 @@
         public const string ParticipantsSearchBox = "ParticipantsSearchBox";
         public const string ParticipantsAddNewButton = "ParticipantsAddNewButton";
         public const string ParticipantsDeleteButton = "ParticipantsDeleteButton";
+
+        public const string ActiveTournamentPublishButton = "ActiveTournamentPublishButton";
+        public const string ActiveTournamentDiscardButton = "ActiveTournamentDiscardButton";
+        public const string ActiveTournamentScheduleTab = "ActiveTournamentScheduleTab";
+        public const string ActiveTournamentCloseButton = "ActiveTournamentCloseButton";
     }
 }

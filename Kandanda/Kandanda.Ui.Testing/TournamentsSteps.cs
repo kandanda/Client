@@ -133,7 +133,7 @@ namespace Kandanda.Ui.Testing
         [When(@"I press publish tournament")]
         public void WhenIPressPublishTournament()
         {
-            _window.Get<Button>(AutomationIds.TournamentPublishButton).Click();
+            _window.Get<Button>(AutomationIds.TournamentGenerateButton).Click();
         }
 
         [When(@"I press close tournament")]

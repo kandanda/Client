@@ -29,7 +29,7 @@ namespace Kandanda.Ui.ViewModels
             _eventAggregator = eventAggregator;
             _regionManager = regionManager;
             _openUrlRequest = openUrlRequest;
-            GeneratePlanCommand = new DelegateCommand(RequestGeneratePlan).ObservesCanExecute(() => IsReady);
+            GeneratePlanCommand = new DelegateCommand(GeneratePlan).ObservesCanExecute(() => IsReady);
             OpenDocumentationCommand = new DelegateCommand(OpenDocumentation);
             CloseCommand = new DelegateCommand(GoToControlPanel);
             ShowAboutCommand = new DelegateCommand(ShowAboutRequest);
@@ -63,9 +63,9 @@ namespace Kandanda.Ui.ViewModels
             _regionManager.RequestNavigate(RegionNames.TournamentsRegion, "/TournamentMasterView");
         }
 
-        private void RequestGeneratePlan()
+        private void GeneratePlan()
         {
-            _eventAggregator.GetEvent<PublishRequestEvent>().Publish();
+            _eventAggregator.GetEvent<GeneratePlanEvent>().Publish();
         }
     }
 }

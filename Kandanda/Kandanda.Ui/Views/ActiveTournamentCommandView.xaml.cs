@@ -5,11 +5,11 @@ using Prism.Regions;
 namespace Kandanda.Ui.Views
 {
     /// <summary>
-    /// Interaction logic for ControlPanelView
+    /// Interaction logic for Toolbar
     /// </summary>
-    public partial class ActiveTournamentScheduleView
+    public partial class ActiveTournamentCommandView
     {
-        public ActiveTournamentScheduleView()
+        public ActiveTournamentCommandView()
         {
             InitializeComponent();
 

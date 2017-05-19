@@ -2,7 +2,7 @@
 
 namespace Kandanda.Ui.Events
 {
-    public class PublishRequestEvent: PubSubEvent
+    public class TryUnpublishEvent:PubSubEvent
     {
     }
 }

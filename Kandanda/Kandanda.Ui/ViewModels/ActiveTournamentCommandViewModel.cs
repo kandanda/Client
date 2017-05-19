@@ -7,21 +7,28 @@ using Prism.Regions;
 
 namespace Kandanda.Ui.ViewModels
 {
-    public class TournamentCommandViewModel : BindableBase
+    public class ActiveTournamentCommandViewModel : BindableBase
     {
         private readonly IEventAggregator _eventAggregator;
         private readonly IRegionManager _regionManager;
 
         public ICommand CloseCommand { get; }
-        public ICommand GenerateCommand { get; }
+        public ICommand PublishCommand { get; }
+        public ICommand DiscardPlanCommand { get; }
 
-        public TournamentCommandViewModel(IEventAggregator eventAggregator, IRegionManager regionManager)
+        public ActiveTournamentCommandViewModel(IEventAggregator eventAggregator, IRegionManager regionManager)
         {
             _eventAggregator = eventAggregator;
             _regionManager = regionManager;
 
             CloseCommand = new DelegateCommand(Close);
-            GenerateCommand = new DelegateCommand(Generate);
+            PublishCommand = new DelegateCommand(Publish);
+            DiscardPlanCommand = new DelegateCommand(DiscardPlan);
+        }
+
+        private void DiscardPlan()
+        {
+            _eventAggregator.GetEvent<TryUnpublishEvent>().Publish();
         }
 
         private void Close()
@@ -29,9 +36,9 @@ namespace Kandanda.Ui.ViewModels
             _regionManager.RequestNavigate(RegionNames.TournamentsRegion, "/TournamentMasterView");
         }
 
-        private void Generate()
+        private void Publish()
         {
-            _eventAggregator.GetEvent<GeneratePlanEvent>().Publish();
+            _eventAggregator.GetEvent<TryPublishEvent>().Publish();
         }
     }
 }
