@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Windows;
-using Microsoft.Practices.Unity;
 using Prism.Logging;
 
 namespace Kandanda.Ui
