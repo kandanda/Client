@@ -5,16 +5,35 @@
              xmlns:ui="clr-namespace:Kandanda.Ui"
              prism:ViewModelLocator.AutoWireViewModel="True">
     <StackPanel>
-        <DataGrid ItemsSource="{Binding Schedule}"
-                  IsReadOnly="True"
-                  SelectionMode="Single"
-                  AutoGenerateColumns="False"
-                  DisplayMemberPath="Name"
-                  SelectedItem="{Binding CurrentTournament}" 
-                  AutomationProperties.AutomationId="{x:Static ui:AutomationIds.TournamentsDataGrid}">
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="Tournament Name" Binding="{Binding Name}"></DataGridTextColumn>
-            </DataGrid.Columns>
-        </DataGrid>
+        <TextBlock Text="Test Hello"></TextBlock>
+        <ItemsControl ItemsSource="{Binding Path=MatchesCollection}">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel>
+                        <TextBlock Text="{Binding Path=Item1.Name}" />
+                        <TextBlock Text="{Binding Path=Item1.From}" />
+                        <TextBlock Text="{Binding Path=Item1.Until}" />
+
+                        <DataGrid ItemsSource="{Binding Path=Item2}" 
+                                  ScrollViewer.CanContentScroll="True" 
+                                  CanUserAddRows="False"
+                                  CanUserDeleteRows="False"
+                                  ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                  ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                                  IsReadOnly="True"
+                                  SelectionMode="Single"
+                                  AutoGenerateColumns="False">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Home" Binding="{Binding FirstParticipantId}"/>
+                                <DataGridTextColumn Header="Away" Binding="{Binding SecondParticipantId}"/>
+                                <DataGridTextColumn Header="Phone" Binding="{Binding From}"/>
+                                <DataGridTextColumn Header="Email" Binding="{Binding Until}"/>
+                                <DataGridTextColumn Header="Email" Binding="{Binding PlaceId}"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </StackPanel>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
     </StackPanel>
 </UserControl>

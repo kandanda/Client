@@ -12,8 +12,7 @@ namespace Kandanda.Ui.Views
         public ActiveTournamentScheduleView()
         {
             InitializeComponent();
-
-            //TODO: Fix duplicated code
+            
             RegionContext.GetObservableContext(this).PropertyChanged += (s, e)
                                                                         =>
             {
