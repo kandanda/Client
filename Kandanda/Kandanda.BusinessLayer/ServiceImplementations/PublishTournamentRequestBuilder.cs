@@ -51,9 +51,7 @@ namespace Kandanda.BusinessLayer.ServiceImplementations
                 matches
             };
         }
-
-        // TODO: Do not hardcode place name
-        // TODO: Do not hardcode from and until
+        
         private object BuildJsonMatchAsync(Match match)
         {
             var participant1 = DbContext.Participants.Find(match.FirstParticipantId);
@@ -62,10 +60,8 @@ namespace Kandanda.BusinessLayer.ServiceImplementations
 
             return new
             {
-                //from = match.From,
-                //until = match.Until,
-                from = DateTime.Today,
-                until = DateTime.Today.AddDays(1),
+                from = match.From,
+                until = match.Until,
                 place = place == null? "Main Hall": place.Name,
                 participants = new[]
                 {
