@@ -9,17 +9,17 @@
         <StackPanel>
             <Label Content="Tournament _Name" Target="{Binding ElementName=Name}" />
             <TextBox Name="Name" 
-                     Text="{Binding Path=CurrentTournament.Name, UpdateSourceTrigger=PropertyChanged}" 
+                     Text="{Binding Path=CurrentTournament.Name}" 
                      AutomationProperties.AutomationId="{x:Static ui:AutomationIds.TournamentInfoName}" />
         </StackPanel>
         <StackPanel>
-            <Label Content="Number of Participants per Group" Target="{Binding ElementName=ParticipantsPerGroup}" />
-            <xctk:IntegerUpDown Name="ParticipantsPerGroup" Value="{Binding ParticipantsPerGroup}" AutomationProperties.AutomationId="{x:Static ui:AutomationIds.TournamentInfoGroupSize}" />
+            <Label Content="Group Size" Target="{Binding ElementName=GroupSize}" />
+            <xctk:IntegerUpDown Name="GroupSize" Value="{Binding Path=CurrentTournament.GroupSize}" AutomationProperties.AutomationId="{x:Static ui:AutomationIds.TournamentInfoGroupSize}" />
         </StackPanel>
         <StackPanel>
             <Label Content="KO Type" Target="{Binding ElementName=KoType}" />
             <ComboBox Name="KoType" AutomationProperties.AutomationId="{x:Static ui:AutomationIds.TournamentInfoKoType}"/>
         </StackPanel>
-        <CheckBox Content="Determine 3rd Place" AutomationProperties.AutomationId="{x:Static ui:AutomationIds.TournamentInfoDetermineThird}"/>
+        <CheckBox Content="Determine 3rd Place" IsChecked="{Binding Path=CurrentTournament.DetermineThird}" AutomationProperties.AutomationId="{x:Static ui:AutomationIds.TournamentInfoDetermineThird}"/>
     </WrapPanel>
 </UserControl>
