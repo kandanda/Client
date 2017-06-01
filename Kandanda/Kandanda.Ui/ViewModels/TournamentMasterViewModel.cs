@@ -10,7 +10,7 @@ using Prism.Regions;
 
 namespace Kandanda.Ui.ViewModels
 {
-    public class TournamentMasterViewModel: TournamentViewModelBase, INavigationAware
+    public class TournamentMasterViewModel : TournamentViewModelBase, INavigationAware
     {
         private readonly IRegionManager _regionManager;
         private readonly ITournamentService _tournamentService;
@@ -28,10 +28,15 @@ namespace Kandanda.Ui.ViewModels
             _eventAggregator = eventAggregator;
             CreateTournamentCommand = new DelegateCommand(NavigateToNewTournament);
             OpenTournamentCommand = new DelegateCommand(NavigateToTournament);
-            DeleteTournamentCommand = new DelegateCommand(DeleteTournament);
+            DeleteTournamentCommand = new DelegateCommand(DeleteTournament, CurrentTournamentIsSet).ObservesProperty((() => CurrentTournament));
             eventAggregator.GetEvent<KandandaDbContextChanged>().Subscribe(RefreshData);
 
             RefreshData();
+        }
+
+        private bool CurrentTournamentIsSet()
+        {
+            return CurrentTournament != null;
         }
 
         private void RefreshData()

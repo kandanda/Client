@@ -89,6 +89,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
@@ -139,6 +140,8 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="AutomationIds.cs" />
+    <Compile Include="Converters\TimeSpanToDateTimeConverter.cs" />
+    <Compile Include="Converters\TimeSpanToDoubleConverter.cs" />
     <Compile Include="Core\TournamentViewModelBase.cs" />
     <Compile Include="Events\ChangeCurrentTournamentEvent.cs" />
     <Compile Include="Events\GeneratePlanRequestEvent.cs" />

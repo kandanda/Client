@@ -5,7 +5,7 @@ using Kandanda.Dal.Entities;
 
 namespace Kandanda.BusinessLayer.PhaseGenerators
 {
-    public sealed class IntelligentGroupPhaseGenerator : IPhaseGenerator
+    public sealed class IntelligentGroupPhaseGenerator
     {
         private const int MinimumGroupSize = 3;
         private const int MaximumGroupSize = 7;
@@ -45,22 +45,43 @@ namespace Kandanda.BusinessLayer.PhaseGenerators
             _participants.AddRange(participants);
         }
 
-        public IEnumerable<Match> GenerateMatches()
+        public Dictionary<string, List<Participant>> GenerateGroups()
         {
-            CheckGameDuration();
-            CheckGroupSize();
-
             int groupCount;
 
             if (!CalculateGroupCount(out groupCount))
             {
                 throw new ArgumentException($"Cannot generate schedule with group size {GroupSize} and number of teams {_participants.Count}");
             }
-            
+
             var groups = GenerateGroups(groupCount).ToList();
 
+            var groupMap = new Dictionary<string, List<Participant>>();
+
+            for (var groupIndex = 0; groupIndex < groups.Count; ++groupIndex)
+            {
+                var groupName = Convert.ToChar(groupIndex + 'A').ToString();
+
+                groupMap[groupName] = new List<Participant>();
+
+                foreach (var participant in groups[groupIndex])
+                {
+                    groupMap[groupName].Add(participant);
+                }
+            }
+
+            return groupMap;
+        }
+        
+        public IEnumerable<Match> GenerateMatches(Dictionary<string, List<Participant>> groupMap)
+        {
+            CheckGameDuration();
+            CheckGroupSize();
+
+            var groupes = groupMap.Select(group => group.Value).ToList();
+
             var timeslots = GenerateTimeslots().ToList();
-            var matches = GetAllMatches(groups).ToList();
+            var matches = GetAllMatches(groupes).ToList();
 
             if (timeslots.Count < matches.Count)
             {

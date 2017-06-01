@@ -49,8 +49,6 @@ namespace Kandanda.Ui.ViewModels
                 CurrentTournament.BreakBetweenGames = TimeSpan.FromMinutes(value);
             }
         }
-        
-        // TODO: fix ugly workaround with TimeSpan / DateTime conversion
         public DateTime PlayTimeStart
         {
             get { return DateTime.Today + (CurrentTournament?.PlayTimeStart ?? TimeSpan.Zero); }
@@ -75,7 +73,6 @@ namespace Kandanda.Ui.ViewModels
             set { CurrentTournament.LunchBreakEnd = value - value.Date; }
         }
 
-        //TODO CurrentTournament should not be overwriten 
         public override Tournament CurrentTournament
         {
             get { return base.CurrentTournament; }
@@ -87,8 +84,7 @@ namespace Kandanda.Ui.ViewModels
                     SetupOnePhase(CurrentTournament.Id);
             }
         }
-
-        //TODO Refactor for more Phases
+        
         public Phase CurrentPhase
         {
             get { return _currentPhase; }
@@ -113,8 +109,7 @@ namespace Kandanda.Ui.ViewModels
         {
             await _phaseService.UpdateAsync(CurrentPhase);
         }
-
-        //TODO should be handled by BLL
+        
         private void SetupOnePhase(int tournamentId)
         {
             var phases = (from p in _phaseService.GetAllPhases()
