@@ -38,7 +38,7 @@ namespace Kandanda.Ui.ViewModels
 
         private void ShowAboutRequest()
         {
-            //TODO : implement Show About Request
+            
         }
 
         private void ResetDatabase()

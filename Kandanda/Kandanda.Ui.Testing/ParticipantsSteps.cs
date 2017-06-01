@@ -77,8 +77,7 @@ namespace Kandanda.Ui.Testing
             {
                 addNewButton.Click();
                 var lastRow = datagrid.Rows[datagrid.Rows.Count - 1];
-
-                //TODO: This is somewhat strange but it works! needs investigation
+                
                 lastRow.Cells[0].Click();
                 lastRow.Cells[0].Enter(participant.Name);
                 lastRow.Cells[0].Click();

@@ -121,6 +121,8 @@ namespace Kandanda.BusinessLayer.ServiceImplementations
             var matchService = new MatchService(KandandaDbContextLocator);
 
             var phase = GetPhasesByTournament(tournament).FirstOrDefault() ?? _phaseService.CreateEmpty();
+            phase.From = tournament.From;
+            phase.Until = tournament.Until;
 
             foreach (var match in matches)
             {
