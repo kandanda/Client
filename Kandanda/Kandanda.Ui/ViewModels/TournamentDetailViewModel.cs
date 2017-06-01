@@ -90,7 +90,6 @@ namespace Kandanda.Ui.ViewModels
 
         private void GeneratePlan()
         {
-            // TODO: better exception handling approach
             try
             {
                 _tournamentService.GeneratePhase(CurrentTournament, 4);
