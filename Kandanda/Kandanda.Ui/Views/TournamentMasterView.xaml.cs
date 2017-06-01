@@ -12,8 +12,7 @@ namespace Kandanda.Ui.Views
         public TournamentMasterView()
         {
             InitializeComponent();
-
-            //TODO: Fix duplicated code
+            
             RegionContext.GetObservableContext(this).PropertyChanged += (s, e)
                                                                         =>
             {

@@ -93,8 +93,6 @@ namespace Kandanda.Ui.ViewModels
             var tournaments = await _tournamentService.GetParticipantsByTournamentAsync(CurrentTournament);
             Participants.AddRange(tournaments.Where(search => search.Name.ToLower().Contains(SearchParticipantsToRemove.ToLower())));
         }
-
-        //TODO CurrentTournament should not be overwriten 
         public override Tournament CurrentTournament
         {
             get { return base.CurrentTournament; }

@@ -7,7 +7,6 @@ using Newtonsoft.Json.Linq;
 
 namespace Kandanda.BusinessLayer.ServiceImplementations
 {
-    //TODO: Make Class Methods Async
     public class PublishTournamentRequestBuilder : ServiceBase, IPublishTournamentRequestBuilder
     {
         public PublishTournamentRequestBuilder(KandandaDbContextLocator contextLocator) : base(contextLocator)
@@ -35,8 +34,7 @@ namespace Kandanda.BusinessLayer.ServiceImplementations
                 }
             };
         }
-
-        //TODO: Do not hardcode phase name
+        
         private object BuildJsonPhasesAsync(Phase phase)
         {
             var matches = (from m in DbContext.Matches

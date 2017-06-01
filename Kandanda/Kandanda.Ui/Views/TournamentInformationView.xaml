@@ -7,8 +7,8 @@
              prism:ViewModelLocator.AutoWireViewModel="True">
     <WrapPanel Orientation="Vertical">
         <StackPanel>
-            <Label Content="Tournament _Name" Target="{Binding ElementName=Name}" />
-            <TextBox Name="Name" 
+            <Label Content="Tournament _Name" Target="{Binding ElementName=TournamentName}" />
+            <TextBox Name="TournamentName" 
                      Text="{Binding Path=CurrentTournament.Name}" 
                      AutomationProperties.AutomationId="{x:Static ui:AutomationIds.TournamentInfoName}" />
         </StackPanel>
